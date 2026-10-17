@@ -416,7 +416,7 @@ def report(root):
         if pending or counts.get("访问受阻") or counts.get("失败")
         else "本批范围已全部处理。",
         "",
-        f"范围：{len(results)}个model_id；已处理{len(results) - pending}组，未处理{pending}组；已验证URL共{summary['images']}个。",
+        f"范围：{len(results)}个model_id；已处理{len(results) - pending}组，未处理{pending}组；已提取URL共{summary['images']}个。",
         "",
         "| 结果 | 分组数 |",
         "|---|---:|",
@@ -424,6 +424,7 @@ def report(root):
     lines += [
         f"| {status} | {counts.get(status, 0)} |"
         for status in ("满15张", "不足15张", "无匹配官图", "失败", "访问受阻", "未处理")
+        if not (source_only and status == "无匹配官图")
     ]
     if source_only:
         categories = Counter(p.get("category", "官图") for r in results for p in r["images"])
