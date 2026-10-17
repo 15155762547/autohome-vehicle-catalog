@@ -7,7 +7,7 @@ from collections import Counter
 from datetime import datetime
 from pathlib import Path
 
-from .parse import numeric_cell, parse_parameters, render_cell
+from .parse import cell_text, numeric_cell, parse_parameters, render_cell
 from .storage import assert_external, save_json
 
 MODEL_FIELDS = [
@@ -40,6 +40,10 @@ def key_of(field):
     return field["group"], field["section"], field["item_id"], field["name"]
 
 
+def raw_column(field):
+    return "原文｜" + field["column"]
+
+
 def load_dictionary(path: Path | None = None):
     if path is None:
         path = Path(__file__).resolve().parents[2] / "schema/fields.json"
@@ -56,6 +60,12 @@ def assert_dictionary(fields):
     if len({f["column"] for f in fields}) != len(fields):
         raise ValueError("Duplicate output column names")
     counts = Counter(f["table"] for f in fields)
+    counts.update(f["table"] for f in fields if f["kind"] == "number")
+    all_columns = [f["column"] for f in fields] + [
+        raw_column(f) for f in fields if f["kind"] == "number"
+    ]
+    if len(all_columns) != len(set(all_columns)):
+        raise ValueError("Duplicate numeric raw/output column names")
     if any(table not in {"trims", "equipment"} for table in counts):
         raise ValueError("Only configuration tables can contain parameters")
     if (
@@ -112,6 +122,8 @@ def expand_packet(packet: dict, dictionary: list[dict]):
         for field in dictionary:
             target = trim if field["table"] == "trims" else equipment
             target[field["column"]] = None
+            if field["kind"] == "number":
+                target[raw_column(field)] = None
         for key, cell in cells.items():
             result["evidence"].append(
                 {
@@ -136,6 +148,8 @@ def expand_packet(packet: dict, dictionary: list[dict]):
             field = fields_by_key[key]
             display = render_cell(cell)
             if field["kind"] == "number":
+                target = trim if field["table"] == "trims" else equipment
+                target[raw_column(field)] = cell_text(cell) or None
                 value = numeric_cell(cell)
                 if value is None and display not in ("", "-", "—", "暂无数据", "暂无报价"):
                     issues.append(
@@ -181,6 +195,9 @@ def export_run(root: Path, dictionary_path: Path | None = None):
             raw = (root / source["file"]).read_bytes()
             if hashlib.sha256(raw).hexdigest() != source["sha256"]:
                 raise ValueError(f"Source evidence hash mismatch: {source['file']}")
+        parameter_raw = (root / packet["parameter_source"]["file"]).read_bytes()
+        if json.loads(parameter_raw).get("result") != packet["payload"]:
+            raise ValueError("Normalized parameter payload differs from its captured source")
         expanded, packet_issues = expand_packet(packet, dictionary)
         for table in desired:
             desired[table].extend(expanded[table])

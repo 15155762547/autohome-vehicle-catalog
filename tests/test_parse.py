@@ -93,7 +93,7 @@ def test_in_sale_plus_explicit_presale_does_not_include_all_state_10():
     ]
     chosen, review = choose_series(rows, {4})
     assert {x["seriesid"] for x in chosen} == {1, 4}
-    assert {x["seriesid"] for x in review} == {5}
+    assert {x["seriesid"] for x in review} == {3, 5}
 
 
 def test_in_sale_variants_include_state_30_and_presale_override_cannot_revive_discontinued():

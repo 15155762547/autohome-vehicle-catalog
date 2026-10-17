@@ -34,10 +34,16 @@ def assert_run_allowed(root: Path):
         (root / "PAUSED.json").exists()
         or (root / "STOP").exists()
         or (root.parent / "ACCESS_PAUSED.json").exists()
+        or access_pause_path().exists()
     ):
         raise ValueError(
             "Run is paused; inspect the persistent pause before further source requests"
         )
+
+
+def access_pause_path() -> Path:
+    mount = Path(os.environ.get("AUTOHOME_EXTERNAL_MOUNT", "/Volumes/奥睿科1TB"))
+    return mount / ".autohome-catalog-control" / "ACCESS_PAUSED.json"
 
 
 def validate_request_url(url: str):
@@ -57,6 +63,17 @@ def guard_response(status: int, raw: bytes, content_type: str):
         raise ValueError(f"Unexpected binary content: {content_type}")
     # Match actual challenge page titles/forms, not news text mentioning verification.
     text = raw.decode("utf-8", errors="replace")
+    if "json" in content_type.lower():
+        try:
+            envelope = json.loads(text)
+        except ValueError:
+            envelope = {}
+        message = str(envelope.get("message", "")) if isinstance(envelope, dict) else ""
+        if any(
+            term in message
+            for term in ("验证码", "安全验证", "访问过于频繁", "请求过于频繁", "访问受限")
+        ):
+            raise ValueError("Access paused: JSON challenge or access limit")
     if re.search(r"<title>[^<]*(安全验证|访问验证|验证码|Access Denied)", text, re.I):
         raise ValueError("Access paused: challenge page")
     if 'id="geetest' in text or 'id="captcha' in text:

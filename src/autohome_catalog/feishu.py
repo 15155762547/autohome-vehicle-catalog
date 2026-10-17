@@ -9,7 +9,7 @@ import time
 from datetime import datetime
 from pathlib import Path
 
-from .export import EQUIPMENT_FIELDS, MODEL_FIELDS, TRIM_FIELDS, load_dictionary
+from .export import EQUIPMENT_FIELDS, MODEL_FIELDS, TRIM_FIELDS, load_dictionary, raw_column
 from .storage import assert_external, save_json
 
 KEY_FIELDS = {"models": "来源车系ID", "trims": "来源配置ID", "equipment": "来源配置ID"}
@@ -41,10 +41,11 @@ def assert_operation(config, command, args):
         "+base-block-rename",
         "+record-batch-create",
         "+record-batch-update",
+        "+field-create",
     }
     if command not in allowed:
         raise ValueError(f"Unsupported command: {command}")
-    if command in {"+record-batch-create", "+record-batch-update"}:
+    if command in {"+record-batch-create", "+record-batch-update", "+field-create"}:
         if (
             "--table-id" not in args
             or args[args.index("--table-id") + 1] not in config["tables"].values()
@@ -163,6 +164,14 @@ def table_schemas(dictionary, tables):
         if field["kind"] == "number":
             definition["style"] = {"type": "plain", "precision": 4}
         schemas[field["table"]].append(definition)
+        if field["kind"] == "number":
+            schemas[field["table"]].append(
+                {
+                    "name": raw_column(field),
+                    "type": "text",
+                    "description": "该数值参数的源站原文/符号/条件，不把短横杠变为0或false。",
+                }
+            )
     # These reverse links are created by the opposite table, so reserve their slots.
     if (
         len(schemas["models"]) + 1 > 300
@@ -171,6 +180,24 @@ def table_schemas(dictionary, tables):
     ):
         raise ValueError("Schema exceeds 300 columns")
     return schemas
+
+
+def schema_delta(expected, actual):
+    by_name = {field["name"]: field for field in actual}
+    if len(by_name) != len(actual):
+        raise ValueError("Schema contains duplicate field names")
+    missing = []
+    for field in expected:
+        old = by_name.get(field["name"])
+        if old is None:
+            missing.append(field)
+        elif old["type"] != field["type"] or (
+            field["type"] == "link" and old.get("link_table") != field["link_table"]
+        ):
+            raise ValueError(
+                f"Schema mismatch: {field['name']}; existing fields are never replaced"
+            )
+    return missing
 
 
 class Client:
@@ -245,11 +272,37 @@ class Client:
     def validate_schemas(self, dictionary):
         definitions = table_schemas(dictionary, self.config["tables"])
         for role, expected in definitions.items():
-            actual = self.call("+field-list", ["--table-id", self.config["tables"][role]])["fields"]
-            actual = {f["name"]: f for f in actual}
-            for field in expected:
-                if field["name"] not in actual or actual[field["name"]]["type"] != field["type"]:
-                    raise ValueError(f"Schema mismatch: {role}/{field['name']}")
+            for attempt in range(5):
+                actual = self.call("+field-list", ["--table-id", self.config["tables"][role]])[
+                    "fields"
+                ]
+                if not schema_delta(expected, actual):
+                    break
+                if attempt == 4:
+                    raise ValueError(
+                        f"Schema has missing columns: {role}; inspect successful write receipts before retrying"
+                    )
+                time.sleep(min(0.25 * 2**attempt, 2))
+
+
+def sync_schema(client):
+    definitions = table_schemas(load_dictionary(), client.config["tables"])
+    additions = {}
+    for role, expected in definitions.items():
+        actual = client.call("+field-list", ["--table-id", client.config["tables"][role]])["fields"]
+        additions[role] = schema_delta(expected, actual)
+        if len(actual) + len(additions[role]) > 300:
+            raise ValueError(f"Schema extension would exceed 300 columns: {role}")
+    save_json(client.root / "schema-extension-plan.json", additions)
+    for role, fields in additions.items():
+        if fields:
+            args = ["--table-id", client.config["tables"][role]]
+            client.call("+field-create", args, fields, dry_run=True)
+            client.call("+field-create", args, fields)
+    client.validate_schemas(load_dictionary())
+    result = {role: len(fields) for role, fields in additions.items()}
+    save_json(client.root / "schema-extension-verification.json", result)
+    return result
 
 
 def resolved_rows(role, desired, snapshots):
@@ -340,14 +393,14 @@ def apply(client, run: Path, dictionary_path: Path | None = None):
                 table_args,
                 {"update_records": dict(updates[offset : offset + 100])},
             )
-        for attempt in range(4):
+        for attempt in range(8):
             snapshots[role] = client.records(role)
             remaining = diff_records(rows, snapshots[role], KEY_FIELDS[role])
             if not remaining["create"] and not remaining["update"]:
                 break
-            if attempt == 3:
+            if attempt == 7:
                 raise ValueError(f"Read-back mismatch: {role}; no automatic duplicate writes")
-            time.sleep(0.5)
+            time.sleep(min(0.5 * 2**attempt, 2))
         result[role] = {"created": len(changes["create"]), "updated": len(changes["update"])}
     save_json(run / "feishu-apply.json", result)
     verify(client, run)
@@ -365,10 +418,32 @@ def verify(client, run: Path):
             save_json(run / "feishu-verification-failure.json", {"role": role, "changes": changes})
             raise ValueError(f"Final verification failed: {role}")
         checked += sum(len(row["fields"]) for row in rows)
+    reverse_links = verify_relations(desired, snapshots)
     result = {
         "verified_cells": checked,
         "differences": 0,
+        "verified_reverse_links": reverse_links,
         "records": {role: len(desired[role]) for role in TABLE_NAMES},
     }
     save_json(run / "feishu-verification.json", result)
     return result
+
+
+def verify_relations(desired, snapshots):
+    models = record_index(snapshots["models"], KEY_FIELDS["models"])
+    trims = record_index(snapshots["trims"], KEY_FIELDS["trims"])
+    equipment = record_index(snapshots["equipment"], KEY_FIELDS["equipment"])
+    checked = 0
+    for row in desired["trims"]:
+        parent = models[row["model_key"]]
+        actual_ids = {r["id"] for r in parent["fields"].get("配置列表") or []}
+        if trims[row["key"]]["record_id"] not in actual_ids:
+            raise ValueError(f"Reverse model/trim relation missing: {row['key']}")
+        checked += 1
+    for row in desired["equipment"]:
+        parent = trims[row["trim_key"]]
+        actual_ids = {r["id"] for r in parent["fields"].get("参数扩展") or []}
+        if equipment[row["key"]]["record_id"] not in actual_ids:
+            raise ValueError(f"Reverse trim/equipment relation missing: {row['key']}")
+        checked += 1
+    return checked

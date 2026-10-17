@@ -43,7 +43,7 @@ def parse_parameters(payload: dict, series_id: int, spec_ids: set[int]):
     return result
 
 
-def render_cell(value: dict | Cell) -> str:
+def cell_text(value: dict | Cell) -> str:
     cell = value.model_dump() if isinstance(value, Cell) else value
     chunks = []
     if cell.get("itemname") not in (None, ""):
@@ -57,12 +57,20 @@ def render_cell(value: dict | Cell) -> str:
         chunks.append("价格条件：" + cell["priceinfo"])
     if cell.get("colorinfo"):
         chunks.append("颜色：" + json.dumps(cell["colorinfo"], ensure_ascii=False))
-    return "；".join(chunks).replace("●", "标配（●）").replace("○", "选配（○）")
+    return "；".join(chunks)
+
+
+def render_cell(value: dict | Cell) -> str:
+    return cell_text(value).replace("●", "标配（●）").replace("○", "选配（○）")
 
 
 def numeric_cell(value: dict | Cell) -> int | float | None:
     cell = value.model_dump() if isinstance(value, Cell) else value
     raw = cell.get("itemname")
+    if raw not in (None, "") and cell.get("sublist"):
+        return None
+    if cell.get("colorinfo"):
+        return None
     if raw in (None, ""):
         options = cell.get("sublist") or []
         if len(options) != 1 or options[0].get("value") != "●":
@@ -93,6 +101,6 @@ def choose_series(rows: list[dict], presale_series: set[int], on_sale_states=Non
             chosen.append(
                 {**row, "scope_status": "预售", "scope_basis": "用户明确指定纳入；源站状态10归未售"}
             )
-        elif series.seriesstate == 10:
+        elif series.seriesstate in {0, 10}:
             review.append({**row, "review_reason": "未售，缺少明确预售证据"})
     return chosen, review

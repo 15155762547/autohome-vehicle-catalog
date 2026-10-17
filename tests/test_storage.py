@@ -50,3 +50,24 @@ def test_access_pause_applies_to_new_run_directories(tmp_path):
     (tmp_path / "ACCESS_PAUSED.json").write_text("{}")
     with pytest.raises(ValueError, match="pause"):
         assert_run_allowed(tmp_path / "a-new-run")
+
+
+def test_pause_is_shared_across_different_data_roots(tmp_path, monkeypatch):
+    from autohome_catalog.storage import access_pause_path, assert_run_allowed
+
+    monkeypatch.setenv("AUTOHOME_EXTERNAL_MOUNT", str(tmp_path))
+    marker = access_pause_path()
+    marker.parent.mkdir()
+    marker.write_text("{}")
+    for root in [tmp_path / "data-a" / "run", tmp_path / "data-b" / "run"]:
+        with pytest.raises(ValueError, match="pause"):
+            assert_run_allowed(root)
+
+
+def test_json_access_limit_is_not_treated_as_normal_business_error():
+    with pytest.raises(ValueError, match="challenge"):
+        guard_response(
+            200,
+            '{"returncode":-1,"message":"访问过于频繁，请稍后重试"}'.encode(),
+            "application/json",
+        )

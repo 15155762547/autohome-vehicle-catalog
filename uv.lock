@@ -208,7 +208,7 @@ requires-dist = [
     { name = "pydantic", specifier = ">=2.10,<3" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=8,<10" },
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.9,<1" },
-    { name = "scrapy", specifier = ">=2.13,<3" },
+    { name = "scrapy", specifier = ">=2.14,<3" },
 ]
 provides-extras = ["dev"]
 

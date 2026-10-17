@@ -92,3 +92,52 @@ def test_export_rejects_missing_completed_series_artifacts(tmp_path):
     (tmp_path / "series").mkdir()
     with pytest.raises(ValueError, match="scope"):
         export_run(tmp_path)
+
+
+def test_numeric_dash_has_visible_raw_column_and_is_not_invented_as_zero():
+    p = packet()
+    p["payload"]["datalist"][0]["paramconflist"][0]["itemname"] = "-"
+    expanded, issues = expand_packet(p, fields())
+    assert expanded["trims"][0]["fields"]["长度(mm)"] is None
+    assert expanded["trims"][0]["fields"]["原文｜长度(mm)"] == "-"
+    assert issues == []
+
+
+def test_numeric_value_with_options_is_audited_and_raw_conditions_remain_visible():
+    p = packet()
+    p["payload"]["datalist"][0]["paramconflist"][0]["sublist"] = [
+        {"name": "4900", "value": "○", "priceinfo": "2000元"}
+    ]
+    expanded, issues = expand_packet(p, fields())
+    assert expanded["trims"][0]["fields"]["长度(mm)"] is None
+    assert "4900○（2000元）" in expanded["trims"][0]["fields"]["原文｜长度(mm)"]
+    assert issues[0]["kind"] == "numeric_condition"
+
+
+def test_export_rejects_payload_changed_after_raw_snapshot_capture(tmp_path):
+    import hashlib
+    import json
+
+    from autohome_catalog.export import export_run
+
+    p = packet()
+    body = json.dumps({"returncode": 0, "result": p["payload"]}).encode()
+    source = {
+        **p["parameter_source"],
+        "file": "response.raw",
+        "sha256": hashlib.sha256(body).hexdigest(),
+    }
+    p["parameter_source"] = source
+    p["spec_list_source"] = source
+    p["series"]["catalog_source"] = source
+    p["payload"]["datalist"][0]["paramconflist"][0]["itemname"] = "9999"
+    (tmp_path / "response.raw").write_bytes(body)
+    (tmp_path / "series").mkdir()
+    (tmp_path / "series/123.json").write_text(json.dumps(p))
+    (tmp_path / "status.json").write_text(
+        json.dumps({"phase": "complete", "completed_series": [123]})
+    )
+    dictionary = tmp_path / "dictionary.json"
+    dictionary.write_text(json.dumps({"fields": fields()}))
+    with pytest.raises(ValueError, match="payload"):
+        export_run(tmp_path, dictionary)

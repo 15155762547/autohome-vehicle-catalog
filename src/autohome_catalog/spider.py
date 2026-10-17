@@ -11,7 +11,14 @@ from scrapy.utils.defer import deferred_from_coro
 
 from .models import ParameterResponse, SpecList
 from .parse import choose_series, parse_parameters
-from .storage import assert_run_allowed, capture, guard_response, save_json, validate_request_url
+from .storage import (
+    access_pause_path,
+    assert_run_allowed,
+    capture,
+    guard_response,
+    save_json,
+    validate_request_url,
+)
 
 BASE = "https://www.autohome.com.cn/web-main/car/"
 
@@ -37,6 +44,10 @@ class EvidenceMiddleware:
             save_json(spider.root / "PAUSED.json", {"reason": str(error), "source": receipt})
             save_json(
                 spider.root.parent / "ACCESS_PAUSED.json", {"reason": str(error), "source": receipt}
+            )
+            save_json(
+                access_pause_path(),
+                {"reason": str(error), "source": receipt, "run_directory": str(spider.root)},
             )
             deferred_from_coro(spider.crawler.engine.close_spider_async(reason="access_paused"))
             raise IgnoreRequest(str(error)) from error

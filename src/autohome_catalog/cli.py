@@ -35,11 +35,20 @@ def main():
     bootstrap_command = commands.add_parser("bootstrap", help="核验备份，旧两表改名并创建新三表")
     bootstrap_command.add_argument("--config", type=Path, required=True)
     bootstrap_command.add_argument("--backup", type=Path, required=True)
+    schema_command = commands.add_parser(
+        "schema-sync", help="仅向新表追加审计过的缺失列，不改旧列类型"
+    )
+    schema_command.add_argument("--config", type=Path, required=True)
     for name in ["plan", "apply", "verify"]:
         command = commands.add_parser(name, help=f"飞书试验表 {name}")
         command.add_argument("--config", type=Path, required=True)
         command.add_argument("--run", required=True)
     args = parser.parse_args()
+    if args.command == "schema-sync":
+        from .feishu import Client, sync_schema
+
+        print(json.dumps(sync_schema(Client(args.config)), ensure_ascii=False))
+        return
     if args.command == "bootstrap":
         from .feishu import Client
         from .migration import bootstrap
