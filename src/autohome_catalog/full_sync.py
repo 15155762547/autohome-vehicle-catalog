@@ -95,7 +95,7 @@ def sync_batches(client, root: Path):
     import copy
     import time
 
-    from .feishu import Client, apply, plan, sync_schema, table_schemas
+    from .feishu import Client, apply, digest, plan, sync_schema, table_schemas
 
     root = assert_external(root)
     batches = json.loads((root / "feishu-batch-plan.json").read_text())
@@ -166,6 +166,12 @@ def sync_batches(client, root: Path):
         print(f"{name}: schema ready ({len(fields)} columns)", flush=True)
         time.sleep(1)
     results = []
+    checkpoint_path = root / "feishu-full-progress.json"
+    completed = (
+        {r["batch"]: r for r in json.loads(checkpoint_path.read_text())}
+        if checkpoint_path.exists()
+        else {}
+    )
     catalog = json.loads((root / "full-field-catalog.json").read_text())
     conditions = json.loads((root / "numeric-condition-audit.json").read_text())["issues"]
     condition_keys = {tuple(i["field"]) for i in conditions}
@@ -179,6 +185,18 @@ def sync_batches(client, root: Path):
             sync_schema(worker, dictionary)
         else:
             worker.validate_schemas(load_dictionary(dictionary))
+        if name in completed:
+            recorded = json.loads((directory / "feishu-plan.json").read_text())
+            if (
+                recorded["desired_sha256"]
+                != digest(json.loads((directory / "desired.json").read_text()))
+                or recorded["dictionary_sha256"] != digest(load_dictionary(dictionary))
+                or recorded["config_sha256"] != digest(worker.config)
+            ):
+                raise ValueError("Verified checkpoint inputs changed; inspect before resuming")
+            results.append(completed[name])
+            print(f"{name}: continuing after verified zero-change checkpoint", flush=True)
+            continue
         for attempt in range(4):
             counts = plan(worker, directory, dictionary)
             print(f"{name}: plan {counts}", flush=True)

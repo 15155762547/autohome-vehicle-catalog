@@ -245,9 +245,35 @@ class Client:
             argv += ["--json", "@" + str(payload.relative_to(self.config_path.parent))]
         if dry_run:
             argv.append("--dry-run")
-        result = subprocess.run(argv, cwd=self.config_path.parent, capture_output=True, text=True)
-        output = result.stdout if result.returncode == 0 else result.stderr
-        prefix.with_suffix(".response.json").write_text(output)
+        for attempt in range(3):
+            result = subprocess.run(
+                argv, cwd=self.config_path.parent, capture_output=True, text=True
+            )
+            output = result.stdout if result.returncode == 0 else result.stderr
+            prefix.with_suffix(".response.json").write_text(output)
+            if not result.returncode:
+                break
+            try:
+                code = json.loads(output).get("error", {}).get("code")
+            except ValueError:
+                code = None
+            if (
+                command
+                not in {
+                    "+record-list",
+                    "+field-list",
+                    "+table-list",
+                    "+view-list",
+                    "+view-get-visible-fields",
+                }
+                or code not in (800100001, 800004135)
+                or attempt == 2
+            ):
+                break
+            prefix.with_name(prefix.name + f"-attempt{attempt + 1}.response.json").write_text(
+                output
+            )
+            time.sleep(1 + attempt)
         if result.returncode:
             try:
                 self.last_failure = json.loads(output).get("error", {})
@@ -262,23 +288,24 @@ class Client:
             raise ValueError(f"Ignored fields during {command}")
         return data
 
-    def records(self, role):
+    def records(self, role, field_names=None):
         for attempt in range(4):
             try:
-                return self._records_once(role)
+                return self._records_once(role, field_names)
             except ValueError as error:
                 if str(error) != "Table changed during record export" or attempt == 3:
                     raise
                 time.sleep(min(2**attempt, 4))
 
-    def _records_once(self, role):
+    def _records_once(self, role, field_names=None):
         table = self.config["tables"][role]
         rows, offset = [], 0
         revision = None
         while True:
-            data = self.call(
-                "+record-list", ["--table-id", table, "--offset", str(offset), "--limit", "200"]
-            )
+            args = ["--table-id", table, "--offset", str(offset), "--limit", "200"]
+            for name in field_names or []:
+                args += ["--field-id", name]
+            data = self.call("+record-list", args)
             if revision is not None and revision != data["rev"]:
                 raise ValueError("Table changed during record export")
             revision = data["rev"]
@@ -360,12 +387,27 @@ def digest(value):
     ).hexdigest()
 
 
+def snapshots_for(client, desired):
+    snapshots = {}
+    snapshots["models"] = client.records("models") if desired["models"] or desired["trims"] else []
+    if desired["trims"]:
+        snapshots["trims"] = client.records("trims")
+    elif desired["equipment"]:
+        snapshots["trims"] = client.records(
+            "trims", ["来源配置ID", client.config.get("equipment_reverse_field", "参数扩展")]
+        )
+    else:
+        snapshots["trims"] = []
+    snapshots["equipment"] = client.records("equipment") if desired["equipment"] else []
+    return snapshots
+
+
 def plan(client, run: Path, dictionary_path: Path | None = None):
     assert_external(run)
     dictionary = load_dictionary(dictionary_path)
     client.validate_schemas(dictionary)
     desired = json.loads((run / "desired.json").read_text())
-    snapshots = {role: client.records(role) for role in TABLE_NAMES}
+    snapshots = snapshots_for(client, desired)
     changes = {
         role: diff_records(
             resolved_rows(role, desired, snapshots), snapshots[role], KEY_FIELDS[role]
@@ -397,12 +439,15 @@ def apply(client, run: Path, dictionary_path: Path | None = None):
     ):
         raise ValueError("Plan input changed; generate and review a fresh plan")
     client.validate_schemas(dictionary)
-    snapshots = {role: client.records(role) for role in TABLE_NAMES}
+    snapshots = snapshots_for(client, desired)
     if digest(snapshots) != planned["snapshot_sha256"]:
         raise ValueError("Target records changed after plan; re-plan")
     result = {}
     for role in TABLE_NAMES:
         rows = resolved_rows(role, desired, snapshots)
+        if not rows:
+            result[role] = {"created": 0, "updated": 0}
+            continue
         if any(any("pending_" in str(v) for v in row["fields"].values()) for row in rows):
             raise ValueError(f"Unresolved relation: {role}")
         changes = diff_records(rows, snapshots[role], KEY_FIELDS[role])
@@ -438,7 +483,7 @@ def apply(client, run: Path, dictionary_path: Path | None = None):
 
 def verify(client, run: Path):
     desired = json.loads((run / "desired.json").read_text())
-    snapshots = {role: client.records(role) for role in TABLE_NAMES}
+    snapshots = snapshots_for(client, desired)
     checked = 0
     for role in TABLE_NAMES:
         rows = resolved_rows(role, desired, snapshots)

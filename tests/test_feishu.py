@@ -246,3 +246,53 @@ def test_pagination_restarts_when_async_commits_change_revision(monkeypatch):
     client = ReadChangingTable()
     assert len(client.records("models")) == 2
     assert client.reads == 3
+
+
+def test_extension_snapshot_reads_parent_ids_and_reverse_link_without_unrelated_parameters():
+    from autohome_catalog.feishu import snapshots_for
+
+    class ProjectionClient:
+        config = {"equipment_reverse_field": "参数扩展2"}
+        calls = []
+
+        def records(self, role, field_names=None):
+            self.calls.append((role, field_names))
+            return []
+
+    client = ProjectionClient()
+    snapshots_for(client, {"models": [], "trims": [], "equipment": [{"key": "2"}]})
+    assert client.calls == [("trims", ["来源配置ID", "参数扩展2"]), ("equipment", None)]
+
+
+def test_transient_read_retries_but_uncertain_record_write_is_never_blindly_replayed(
+    tmp_path, monkeypatch
+):
+    import json
+    import subprocess
+
+    import autohome_catalog.feishu as module
+
+    path = tmp_path / "config.json"
+    path.write_text(json.dumps(config()))
+    attempts = {"+field-list": 0, "+record-batch-create": 0}
+
+    def execute(argv, **kwargs):
+        command = argv[2]
+        attempts[command] += 1
+        if command == "+field-list" and attempts[command] == 2:
+            return subprocess.CompletedProcess(
+                argv, 0, json.dumps({"ok": True, "identity": "user", "data": {"fields": []}}), ""
+            )
+        return subprocess.CompletedProcess(
+            argv, 1, "", json.dumps({"ok": False, "identity": "user", "error": {"code": 800100001}})
+        )
+
+    monkeypatch.setattr(module.subprocess, "run", execute)
+    monkeypatch.setattr(module.time, "sleep", lambda _: None)
+    client = module.Client(path)
+    assert client.call("+field-list", ["--table-id", "t"]) == {"fields": []}
+    with pytest.raises(RuntimeError):
+        client.call(
+            "+record-batch-create", ["--table-id", "t"], {"create_records": [{"来源配置ID": "2"}]}
+        )
+    assert attempts == {"+field-list": 2, "+record-batch-create": 1}
