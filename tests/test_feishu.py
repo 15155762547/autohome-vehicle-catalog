@@ -296,3 +296,37 @@ def test_transient_read_retries_but_uncertain_record_write_is_never_blindly_repl
             "+record-batch-create", ["--table-id", "t"], {"create_records": [{"来源配置ID": "2"}]}
         )
     assert attempts == {"+field-list": 2, "+record-batch-create": 1}
+
+
+@pytest.mark.parametrize("command", ["+view-get-filter", "+record-batch-create"])
+def test_transport_eof_only_retries_reads(tmp_path, monkeypatch, command):
+    import json
+    import subprocess
+
+    import autohome_catalog.feishu as module
+
+    settings = config()
+    settings["human_layout_migration"] = {"new_tables": {"trims": "t"}, "archive_names": {}}
+    path = tmp_path / "config.json"
+    path.write_text(json.dumps(settings))
+    attempts = []
+
+    def execute(argv, **kwargs):
+        attempts.append(argv)
+        if len(attempts) == 1:
+            error = {"type": "network", "subtype": "transport", "message": "EOF"}
+            return subprocess.CompletedProcess(argv, 1, "", json.dumps({"error": error}))
+        return subprocess.CompletedProcess(
+            argv, 0, json.dumps({"ok": True, "identity": "user", "data": {}}), ""
+        )
+
+    monkeypatch.setattr(module.subprocess, "run", execute)
+    monkeypatch.setattr(module.time, "sleep", lambda _: None)
+    client = module.Client(path)
+    if command == "+view-get-filter":
+        assert client.call(command, ["--table-id", "t"]) == {}
+        assert len(attempts) == 2
+    else:
+        with pytest.raises(RuntimeError):
+            client.call(command, ["--table-id", "t"])
+        assert len(attempts) == 1

@@ -268,9 +268,12 @@ class Client:
             if not result.returncode:
                 break
             try:
-                code = json.loads(output).get("error", {}).get("code")
+                failure = json.loads(output).get("error", {})
             except ValueError:
-                code = None
+                failure = {}
+            transient = failure.get("code") in (800100001, 800004135) or (
+                failure.get("type") == "network" and failure.get("subtype") == "transport"
+            )
             if (
                 command
                 not in {
@@ -279,8 +282,12 @@ class Client:
                     "+table-list",
                     "+view-list",
                     "+view-get-visible-fields",
+                    "+view-get-sort",
+                    "+view-get-filter",
+                    "+view-get-group",
+                    "+base-block-list",
                 }
-                or code not in (800100001, 800004135)
+                or not transient
                 or attempt == 2
             ):
                 break
