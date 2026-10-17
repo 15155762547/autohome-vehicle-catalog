@@ -103,6 +103,17 @@ def field_definition(name, kind="text", description=""):
     return field
 
 
+def set_visible(client, args, visible):
+    visible = list(dict.fromkeys(visible))
+    client.call("+view-set-visible-fields", args, body={"visible_fields": visible})
+    for attempt in range(5):
+        actual = client.call("+view-get-visible-fields", args)["visible_fields"]
+        if actual == visible:
+            return actual
+        time.sleep(0.5 * (attempt + 1))
+    raise ValueError("Visible parameter order differs after bounded read-back")
+
+
 def build_layout(source: Path, migration: Path):
     """Use verified live values, preserving edits and all numeric source text."""
     manifest = json.loads((migration / "backup-verification.json").read_text())
@@ -505,12 +516,7 @@ def finish(config_path: Path, migration: Path):
             definitions.append((existing[0]["id"], condition, grouped))
         for vid, condition, grouped in definitions:
             args = ["--table-id", tid, "--view-id", vid]
-            client.call(
-                "+view-set-visible-fields", args, body={"visible_fields": plan["visible"][role]}
-            )
-            actual = client.call("+view-get-visible-fields", args)["visible_fields"]
-            if actual != plan["visible"][role]:
-                raise ValueError("Visible parameter order differs")
+            actual = set_visible(client, args, plan["visible"][role])
             sort = [{"field": n, "desc": False} for n in ("品牌", "车系名称", "配置名称")]
             if role == "special":
                 sort.append({"field": "参数顺序", "desc": False})
@@ -546,10 +552,9 @@ def finish(config_path: Path, migration: Path):
     for view in client.call("+view-list", ["--table-id", model_tid])["views"]:
         args = ["--table-id", model_tid, "--view-id", view["id"]]
         old = client.call("+view-get-visible-fields", args)["visible_fields"]
-        visible = ["配置版本" if n == "配置列表" else n for n in old]
-        client.call("+view-set-visible-fields", args, body={"visible_fields": visible})
-        if client.call("+view-get-visible-fields", args)["visible_fields"] != visible:
-            raise ValueError("Model view did not switch to the new configuration link")
+        visible = [n for n in old if n not in {"配置列表", "配置版本"}]
+        visible.insert(min(4, len(visible)), "配置版本")
+        set_visible(client, args, visible)
     save_json(migration / "view-verification.json", view_receipts)
     # Old data must still have the same row counts before it is moved into the backup folder.
     before = {t["id"]: t for t in json.loads((migration / "tables-before.json").read_text())}

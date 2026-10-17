@@ -8,6 +8,7 @@ from autohome_catalog.human_layout import (
     build_layout,
     detail_key,
     read_records,
+    set_visible,
 )
 
 
@@ -140,3 +141,20 @@ def test_paginated_read_restarts_when_async_writes_change_revision(monkeypatch):
     monkeypatch.setattr("autohome_catalog.human_layout.time.sleep", lambda _: None)
     rows = read_records(Client(), "table", "来源配置ID")
     assert [r["fields"]["来源配置ID"] for r in rows] == ["1", "2"]
+
+
+def test_visible_fields_deduplicate_and_wait_for_async_readback(monkeypatch):
+    writes, reads = [], []
+
+    class Client:
+        def call(self, command, args, body=None):
+            if command == "+view-set-visible-fields":
+                writes.append(body)
+                return body
+            reads.append(command)
+            return {"visible_fields": ["名称", "旧关联"] if len(reads) == 1 else ["名称", "新关联"]}
+
+    monkeypatch.setattr("autohome_catalog.human_layout.time.sleep", lambda _: None)
+    assert set_visible(Client(), [], ["名称", "新关联", "新关联"]) == ["名称", "新关联"]
+    assert writes == [{"visible_fields": ["名称", "新关联"]}]
+    assert len(reads) == 2
