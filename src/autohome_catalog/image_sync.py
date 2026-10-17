@@ -28,6 +28,15 @@ def assert_image_operation(config, command, args):
         and command in {"+record-batch-create", "+record-batch-update", "+view-set-visible-fields"}
     ):
         return
+    if tid == config["tables"].get("images") and tid:
+        if command == "+field-create":
+            return
+        if (
+            command == "+field-update"
+            and "--field-id" in args
+            and args[args.index("--field-id") + 1] == "官图URL清单"
+        ):
+            return
     if tid == config["tables"]["models"] and command == "+view-set-visible-fields":
         return
     raise ValueError(f"Operation outside image table scope: {command}")
@@ -50,19 +59,35 @@ def fields(result):
         raise ValueError("Duplicate or excess URLs")
     for p in images:
         image_url(p["url"])
-        if p["http_status"] != 200 or not p["content_type"].startswith("image/"):
+        source_only = (
+            result.get("policy") == "source-urls-official-first-v1"
+            and p.get("verification") == "source_page_only"
+        )
+        if not source_only and (
+            p.get("http_status") != 200 or not p.get("content_type", "").startswith("image/")
+        ):
             raise ValueError("Unverified image in usable list")
-        if p["spec_id"] not in t["specs"]:
+        if p["spec_id"] not in t["specs"] and not (
+            source_only and p.get("scope") == "series" and p["spec_id"] is None
+        ):
             raise ValueError("Photo specification outside target")
     return {
         "车型": t["name"],
         "model_id": t["model_id"],
         "品牌": t["brand"],
         "动力": t["power"],
-        "年款": str(t["year"]),
+        "年款": ""
+        if images and all(p.get("scope") == "series" for p in images)
+        else str(t["year"]),
         "所属车系": [{"id": t["model_record"]}],
-        "官图URL清单": "\n".join(p["url"] for p in images),
+        "图片URL清单": "\n".join(p["url"] for p in images),
         "图片数": len(images),
+        "图片类别": "、".join(dict.fromkeys(p.get("category", "官图") for p in images)),
+        "验证方式": "源站提供URL，未直连验证"
+        if any(p.get("verification") == "source_page_only" for p in images)
+        else "HTTP200及图片类型验证"
+        if images
+        else "尚无图片URL",
         "检查结果": result["status"],
         "说明": result["note"]
         + ("；" + "；".join(p["reason"] for p in result["problems"]) if result["problems"] else ""),
@@ -74,7 +99,7 @@ def fields(result):
 
 def normalize(records):
     for row in records:
-        for key in ["官图URL清单", "来源页"]:
+        for key in ["官图URL清单", "图片URL清单", "来源页"]:
             if key in row["fields"]:
                 row["fields"][key] = "\n".join(url_lines(row["fields"][key]))
     return records
@@ -109,7 +134,7 @@ def sync(config_path, root):
             "动力",
             "年款",
             "所属车系",
-            "官图URL清单",
+            "图片URL清单",
             "图片数",
             "检查结果",
             "说明",
@@ -138,6 +163,24 @@ def sync(config_path, root):
         saved = dict(client.config)
         saved.pop("_image_operation")
         save_json(client.config_path, saved)
+    schema = client.call("+field-list", ["--table-id", tid])["fields"]
+    save_json(backup / "image-fields.json", schema)
+    # Preserve the original image cells before renaming their field.
+    save_json(backup / "image-records-before-schema.json", read_records(client, tid, "model_id"))
+    if any(f["name"] == "官图URL清单" for f in schema):
+        old = next(f for f in schema if f["name"] == "官图URL清单")
+        definition = {k: v for k, v in old.items() if k != "id"}
+        definition["name"] = "图片URL清单"
+        client.call(
+            "+field-update", ["--table-id", tid, "--field-id", "官图URL清单", "--yes"], definition
+        )
+    missing = [
+        {"name": name, "type": "text"}
+        for name in ["图片类别", "验证方式"]
+        if not any(f["name"] == name for f in schema)
+    ]
+    if missing:
+        client.call("+field-create", ["--table-id", tid], missing)
     current = normalize(read_records(client, tid, "model_id"))
     save_json(backup / "images.json", current)
     desired = []
@@ -191,6 +234,29 @@ def sync(config_path, root):
         visible = [x for x in visible if x not in {"车系图片URL", "图片来源页", "官图组"}]
         visible.insert(min(2, len(visible)), "官图组")
         set_visible(client, args, visible)
+    image_views = client.call("+view-list", ["--table-id", tid])["views"]
+    for view in image_views:
+        if view.get("name") == "表格":
+            set_visible(
+                client,
+                ["--table-id", tid, "--view-id", view["id"]],
+                [
+                    "车型",
+                    "model_id",
+                    "品牌",
+                    "动力",
+                    "年款",
+                    "图片数",
+                    "图片类别",
+                    "图片URL清单",
+                    "验证方式",
+                    "所属车系",
+                    "检查结果",
+                    "说明",
+                    "来源页",
+                    "检查时间",
+                ],
+            )
     summary = {
         "verified_rows": len(desired),
         "table_id": tid,

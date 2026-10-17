@@ -83,6 +83,12 @@ def main():
             image.add_argument("--model-id", action="append", default=[])
         if name == "images-sync":
             image.add_argument("--config", type=Path, required=True)
+    urls = commands.add_parser(
+        "images-collect-urls", help="官图优先，提取源站各类图片URL，不访问图片域名"
+    )
+    urls.add_argument("--run", required=True)
+    urls.add_argument("--official-run", type=Path, required=True)
+    urls.add_argument("--source-run", type=Path, required=True)
     args = parser.parse_args()
     if args.command == "schema-sync":
         from .feishu import Client, sync_schema
@@ -101,7 +107,11 @@ def main():
     if args.command.startswith("images-"):
         from . import images
 
-        if args.command == "images-prepare":
+        if args.command == "images-collect-urls":
+            from .image_urls import collect_urls
+
+            result = collect_urls(root, args.official_run, args.source_run)
+        elif args.command == "images-prepare":
             result = images.prepare(args.source, root)
         elif args.command == "images-collect":
             result = images.collect(root, args.model_id)

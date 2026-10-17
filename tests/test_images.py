@@ -266,3 +266,111 @@ def test_repeat_plan_and_cli_readback_urls():
         }
     ]
     assert diff_records(desired, normalize(current), "model_id") == {"create": [], "update": {}}
+
+
+def test_source_url_category_order_and_cdn_never_requested(tmp_path):
+    from autohome_catalog.image_urls import GalleryURLGuard, any_photos
+
+    t = target()
+
+    def category(cid, name, pic):
+        return {
+            "claid": cid,
+            "seriesid": 1,
+            "name": name,
+            "list": [{"picid": pic, "specid": 11, "picpath": f"https://car2.autoimg.cn/{pic}.jpg"}],
+        }
+
+    rows = any_photos(
+        {
+            "SeriesPicList": {
+                "picinfo": {"callist": [category(1, "外观", 1), category(53, "官图", 2)]}
+            }
+        },
+        t,
+        11,
+        "source",
+    )
+    assert [r["category"] for r in rows] == ["官图", "外观"]
+    spider = type("Spider", (), {"paused": set(), "root": tmp_path})()
+    with pytest.raises(ValueError, match="never contacts image hosts"):
+        GalleryURLGuard().process_request(Request(rows[0]["url"]), spider)
+    with pytest.raises(ValueError):
+        GalleryURLGuard().process_request(Request(rows[0]["url"], method="HEAD"), spider)
+
+
+def test_source_only_rows_require_explicit_policy_and_series_year_blank():
+    t = target()
+    photo = {
+        "url": "https://car2.autoimg.cn/a.jpg",
+        "scope": "series",
+        "spec_id": None,
+        "category": "车系封面",
+        "source_page": "https://www.autohome.com.cn/",
+        "verification": "source_page_only",
+    }
+    result = {
+        "target": t,
+        "target_sha256": fingerprint(t),
+        "images": [photo],
+        "status": "不足15张",
+        "problems": [],
+        "note": "source",
+        "checked_at": "now",
+    }
+    with pytest.raises(ValueError):
+        fields(result)
+    result["policy"] = "source-urls-official-first-v1"
+    f = fields(result)
+    assert f["年款"] == "" and f["图片类别"] == "车系封面"
+    assert "未直连验证" in f["验证方式"]
+    assert f["图片URL清单"] == photo["url"]
+
+
+def test_cover_fallback_uses_hash_proven_protocol_relative_url(tmp_path):
+    import hashlib
+
+    from autohome_catalog.image_urls import POLICY, finalize_urls
+
+    root, old, source = tmp_path / "run", tmp_path / "old", tmp_path / "catalog"
+    (root / "groups").mkdir(parents=True)
+    (source / "series").mkdir(parents=True)
+    old.mkdir()
+    t = target()
+    (root / "targets.json").write_text(json.dumps({"targets": [t]}))
+    raw = json.dumps({"seriesid": 1, "seriesimg": "//car2.autoimg.cn/cover.png"}).encode()
+    (source / "catalog.json").write_bytes(raw)
+    packet = {
+        "series": {
+            "seriesimg": "https://car2.autoimg.cn/cover.png",
+            "catalog_source": {
+                "file": "catalog.json",
+                "sha256": hashlib.sha256(raw).hexdigest(),
+                "url": "https://www.autohome.com.cn/search",
+                "fetched_at": "then",
+            },
+        }
+    }
+    (source / "series/1.json").write_text(json.dumps(packet))
+    failed = {
+        "target": t,
+        "target_sha256": fingerprint(t),
+        "policy": POLICY,
+        "images": [],
+        "status": "失败",
+        "problems": [{"reason": "gallery unavailable"}],
+        "note": "source",
+        "checked_at": "now",
+    }
+    (root / "groups/AUT-1-PHEV.json").write_text(json.dumps(failed))
+    summary = finalize_urls(root, old, source)
+    assert summary["unprocessed"] == 0 and summary["images"] == 1
+    result = json.loads((root / "groups/AUT-1-PHEV.json").read_text())
+    assert result["images"][0]["scope"] == "series"
+    assert result["images"][0]["url"] == "https://car2.autoimg.cn/cover.png"
+    assert (root / "recovered/AUT-1-PHEV.json").exists()
+    (source / "catalog.json").write_text("modified")
+    from autohome_catalog.image_urls import SourceURLsSpider
+
+    with pytest.raises(ValueError, match="hash differs"):
+        SourceURLsSpider(root, old, source).cover(t)

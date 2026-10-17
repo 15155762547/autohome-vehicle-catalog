@@ -113,6 +113,7 @@ autohome-vehicle-catalog/
 │       ├── full_export.py           # 全量原始参数导出及字段顺序
 │       ├── full_sync.py             # 旧版横向扩展分批同步（新版禁用）
 │       ├── human_layout.py          # 两张参数表与专属明细的迁移及视图
+│       ├── image_urls.py            # 官图优先，补采其他图库URL及车系封面
 │       ├── image_sync.py            # 图片表备份、幂等更新和关联核验
 │       ├── images.py                # 最新年款官图解析、URL检查及断点续跑
 │       ├── migration.py             # 历史实验表备份检查及新表初始化
@@ -162,8 +163,9 @@ uv run autohome-catalog images-sync --run images-20261017 \
 | 车型、model_id、品牌 | 人类查找与程序稳定标识 |
 | 动力、年款 | 明确图片归属；混合动力车系分别保存 |
 | 所属车系 | 关联原车型表，反向入口为“官图组” |
-| 官图URL清单 | 同一文本单元格，一行一个裸URL，便于复制 |
-| 图片数 | 经过HTTP状态及图片类型检查的URL数量，0至15 |
+| 图片URL清单 | 同一文本单元格，一行一个裸URL，便于复制 |
+| 图片数 | 已提取URL数量，0至15；是否直连验证另看验证方式 |
+| 图片类别、验证方式 | 区分官图、外观、内饰等，以及HTTP验证或仅源站提供URL |
 | 检查结果、说明 | 满15张、不足15张、无匹配官图、失败或访问受阻及原因 |
 | 来源页 | 实际配置官图页；无图时保留车系官图查询页 |
 | 检查时间 | 此次源站检查时间（UTC） |
@@ -185,3 +187,20 @@ by_model = {row['target']['model_id']: row for row in rows}
 urls = [photo['url'] for photo in by_model['AUT-5535-BEV']['images']]
 # 每张还有 picture_id、spec_id、source_page、http_status、content_type、checked_at。
 ```
+
+
+## 放宽后的图片URL补采（当前方式）
+
+2026-10-17用户放宽图片类别要求：官图优先，不足时取汽车之家同一配置的外观、内饰、座椅等图片。仍按1,010个model_id分别保存，最多15个URL。图库配置优先匹配当前最新年款及动力；没有可提取图库时，保留有已验收目录原始快照及SHA256证明的车系封面。封面无法证明具体动力/年款，JSON标注`scope: series`，飞书年款留空、图片类别标注“车系封面”，不冒充对应年款官图。
+
+此命令只请求汽车之家图库HTML，不请求图片域名，既不GET图片也不HEAD图片，保留原有图片域名403暂停标记。`verification: source_page_only`明确表示源站页面提供的URL，未做直连可用性验证；已有HTTP200及图片类型验证的结果保留其验证证据。HTTP200验证不等于永久可用。
+
+```bash
+uv run autohome-catalog images-collect-urls --run image-urls-20261017 \
+  --official-run "$AUTOHOME_DATA_ROOT/images-20261017" \
+  --source-run "$AUTOHOME_DATA_ROOT/full-20261017"
+uv run autohome-catalog images-sync --run image-urls-20261017 \
+  --config "$AUTOHOME_DATA_ROOT/control/feishu.json"
+```
+
+补采沿用原“车型图片”表和model_id，不另建重复表。原“官图URL清单”字段改名为“图片URL清单”，增加“图片类别”“验证方式”；每行一个URL，原单元格内容写前备份。图片来源和采集时间保存在JSON中，运行结果及暂停记录留在数据盘，完整采集后再回读全部分组并进行重复运行检查。

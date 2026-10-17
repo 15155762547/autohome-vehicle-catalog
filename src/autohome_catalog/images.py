@@ -406,8 +406,11 @@ def report(root):
     }
     save_json(root / "summary.json", summary)
     save_json(root / "images.json", results)
+    source_only = any(
+        p.get("verification") == "source_page_only" for r in results for p in r["images"]
+    )
     lines = [
-        "# 官图URL采集报告",
+        "# 车型图片URL采集报告",
         "",
         "本批尚未全量完成。"
         if pending or counts.get("访问受阻") or counts.get("失败")
@@ -444,7 +447,11 @@ def report(root):
         "",
         "## 验证方式与文件",
         "",
-        "仅保存URL，未下载图片文件。可用列表均通过无登录、无Referer的HEAD状态及图片类型检查。",
+        (
+            "仅从汽车之家网页提取URL，不访问图片域名、不下载图片；source_page_only表示未做直连HTTP验证。"
+            if source_only
+            else "仅保存URL，未下载图片文件。可用列表均通过无登录、无Referer的HEAD状态及图片类型检查。"
+        ),
         "按用户最新要求，不再进行浏览器或飞书界面核验；CLI回读可核对文本和关联，不能保证点击端表现或永久有效。",
         "逐张URL、图片ID、配置ID、来源页、HTTP状态和时间见同目录images.json。",
         "飞书写入、数量和双向关联核验结果见feishu-verification.json；写入前快照及计划在backups/。",
