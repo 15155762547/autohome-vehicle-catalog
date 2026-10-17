@@ -12,6 +12,7 @@ from .storage import assert_external, save_json
 
 MODEL_FIELDS = [
     "车系名称",
+    "model_id",
     "来源车系ID",
     "品牌",
     "来源车系页",
@@ -22,6 +23,7 @@ MODEL_FIELDS = [
 ]
 TRIM_FIELDS = [
     "配置名称",
+    "model_id",
     "来源配置ID",
     "来源车系ID",
     "销售状态",
@@ -33,7 +35,14 @@ TRIM_FIELDS = [
     "来源快照SHA256",
     "图片来源URL清单",
 ]
-EQUIPMENT_FIELDS = ["配置名称", "来源配置ID", "来源参数页", "来源采集时间", "来源快照SHA256"]
+EQUIPMENT_FIELDS = [
+    "配置名称",
+    "model_id",
+    "来源配置ID",
+    "来源参数页",
+    "来源采集时间",
+    "来源快照SHA256",
+]
 
 
 def key_of(field):
@@ -83,11 +92,18 @@ def expand_packet(packet: dict, dictionary: list[dict]):
     sid = series["seriesid"]
     spec_list = {s["id"]: s for s in packet["spec_list"]}
     cells_by_spec = parse_parameters(packet["payload"], sid, set(spec_list))
+    model_ids = {}
+    powertrains = {"纯电动": "BEV", "插电式混合动力": "PHEV", "增程式": "EREV"}
+    for spec_id, cells in cells_by_spec.items():
+        energy = cells.get(("参数信息", "基本参数", 55, "能源类型"))
+        powertrain = powertrains.get(cell_text(energy)) if energy else None
+        model_ids[spec_id] = f"AUT-{sid}-{powertrain}" if powertrain else None
     bread = packet["payload"]["bread"]
     model = {
         "key": str(sid),
         "fields": {
             "车系名称": bread["seriesname"],
+            "model_id": "\n".join(sorted({v for v in model_ids.values() if v})) or None,
             "来源车系ID": str(sid),
             "品牌": bread["brandname"],
             "来源车系页": f"https://www.autohome.com.cn/{sid}/",
@@ -104,6 +120,7 @@ def expand_packet(packet: dict, dictionary: list[dict]):
         spec = spec_list[spec_id]
         meta = {
             "配置名称": spec["specname"],
+            "model_id": model_ids[spec_id],
             "来源配置ID": str(spec_id),
             "来源参数页": f"https://www.autohome.com.cn/config/spec/{spec_id}.html",
             "来源采集时间": source_time,

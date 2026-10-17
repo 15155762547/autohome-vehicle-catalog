@@ -65,6 +65,26 @@ def test_new_field_is_reported_without_silently_dropping_it():
     assert issues[0]["field"][3] == "座位数(个)"
 
 
+def test_model_ids_follow_each_configuration_energy_and_keep_mixed_series_together():
+    p = packet()
+    p["payload"]["titlelist"].append(
+        {
+            "groupname": "参数信息",
+            "itemtype": "基本参数",
+            "items": [{"itemid": 55, "titleid": 10, "itemname": "能源类型"}],
+        }
+    )
+    for row, energy in zip(p["payload"]["datalist"], ["纯电动", "增程式"], strict=True):
+        row["paramconflist"].append({"titleid": 10, "itemname": energy})
+    expanded, _ = expand_packet(p, fields())
+    assert expanded["models"][0]["fields"]["model_id"] == "AUT-123-BEV\nAUT-123-EREV"
+    for table in ["trims", "equipment"]:
+        assert [r["fields"]["model_id"] for r in expanded[table]] == ["AUT-123-BEV", "AUT-123-EREV"]
+    p["payload"]["datalist"][0]["paramconflist"][-1]["itemname"] = "未知"
+    expanded, _ = expand_packet(p, fields())
+    assert expanded["trims"][0]["fields"]["model_id"] is None
+
+
 def test_dictionary_rejects_duplicate_keys_and_column_overflow():
     with pytest.raises(ValueError, match="Duplicate"):
         assert_dictionary(fields() + fields())

@@ -51,7 +51,7 @@ def test_schemas_have_chinese_independent_fields_and_no_attachment_or_airbag_tot
     assert all(f["type"] != "attachment" for s in schemas.values() for f in s)
     assert all(f["name"] != "气囊总数" for s in schemas.values() for f in s)
     assert not any("长度" in f["name"] for f in schemas["models"])
-    assert any(f["name"] == "车身｜长度(mm)" and f["type"] == "number" for f in schemas["trims"])
+    assert any(f["name"] == "长度(mm)" and f["type"] == "number" for f in schemas["trims"])
 
 
 def test_each_write_command_checks_actual_table_id_and_disallows_deletion():

@@ -8,7 +8,7 @@
       "item_id": 153,
       "name": "智能召唤",
       "unit": "",
-      "column": "特色配置｜智能召唤",
+      "column": "智能召唤",
       "table": "equipment",
       "kind": "text"
     },
@@ -18,7 +18,7 @@
       "item_id": 891,
       "name": "LED高级辅助驾驶辅助灯",
       "unit": "",
-      "column": "特色配置｜LED高级辅助驾驶辅助灯",
+      "column": "LED高级辅助驾驶辅助灯",
       "table": "equipment",
       "kind": "text"
     },
@@ -28,7 +28,7 @@
       "item_id": 974,
       "name": "智能星空天幕",
       "unit": "",
-      "column": "特色配置｜智能星空天幕",
+      "column": "智能星空天幕",
       "table": "equipment",
       "kind": "text"
     },
@@ -38,7 +38,7 @@
       "item_id": 1135,
       "name": "基础辅助驾驶",
       "unit": "",
-      "column": "选装包｜基础辅助驾驶",
+      "column": "基础辅助驾驶(1135)",
       "table": "equipment",
       "kind": "text"
     },
@@ -48,7 +48,7 @@
       "item_id": 1136,
       "name": "智能辅助驾驶",
       "unit": "",
-      "column": "选装包｜智能辅助驾驶",
+      "column": "智能辅助驾驶(1136)",
       "table": "equipment",
       "kind": "text"
     },
@@ -58,7 +58,7 @@
       "item_id": 2261,
       "name": "增强版自动辅助驾驶功能",
       "unit": "",
-      "column": "选装包｜增强版自动辅助驾驶功能",
+      "column": "增强版自动辅助驾驶功能",
       "table": "equipment",
       "kind": "text"
     },
@@ -68,7 +68,7 @@
       "item_id": 2965,
       "name": "舒适套装",
       "unit": "",
-      "column": "个性化｜选装包｜舒适套装｜参数2965",
+      "column": "舒适套装(2965)",
       "table": "equipment",
       "kind": "text"
     },
@@ -78,7 +78,7 @@
       "item_id": 2966,
       "name": "创新套装",
       "unit": "",
-      "column": "选装包｜创新套装",
+      "column": "创新套装",
       "table": "equipment",
       "kind": "text"
     },
@@ -88,7 +88,7 @@
       "item_id": 2967,
       "name": "娱乐套装",
       "unit": "",
-      "column": "选装包｜娱乐套装",
+      "column": "娱乐套装",
       "table": "equipment",
       "kind": "text"
     },
@@ -98,7 +98,7 @@
       "item_id": 2968,
       "name": "冬季套装",
       "unit": "",
-      "column": "选装包｜冬季套装",
+      "column": "冬季套装",
       "table": "equipment",
       "kind": "text"
     },
@@ -108,7 +108,7 @@
       "item_id": 3637,
       "name": "舒适套装",
       "unit": "",
-      "column": "个性化｜选装包｜舒适套装｜参数3637",
+      "column": "舒适套装(3637)",
       "table": "equipment",
       "kind": "text"
     },
@@ -118,7 +118,7 @@
       "item_id": 3638,
       "name": "暗色套装",
       "unit": "",
-      "column": "选装包｜暗色套装",
+      "column": "暗色套装",
       "table": "equipment",
       "kind": "text"
     },
@@ -128,7 +128,7 @@
       "item_id": 4488,
       "name": "21英寸轮圈轮胎组合",
       "unit": "",
-      "column": "选装包｜21英寸轮圈轮胎组合",
+      "column": "21英寸轮圈轮胎组合",
       "table": "equipment",
       "kind": "text"
     },
@@ -138,7 +138,7 @@
       "item_id": 4720,
       "name": "铂金音响系统",
       "unit": "",
-      "column": "个性化｜选装包｜铂金音响系统｜参数4720",
+      "column": "铂金音响系统(4720)",
       "table": "equipment",
       "kind": "text"
     },
@@ -148,7 +148,7 @@
       "item_id": 4733,
       "name": "山海坐席",
       "unit": "",
-      "column": "选装包｜山海坐席",
+      "column": "山海坐席",
       "table": "equipment",
       "kind": "text"
     },
@@ -158,7 +158,7 @@
       "item_id": 5945,
       "name": "22英寸11孔月辉轮毂",
       "unit": "",
-      "column": "个性化｜选装包｜22英寸11孔月辉轮毂｜参数5945",
+      "column": "22英寸11孔月辉轮毂(5945)",
       "table": "equipment",
       "kind": "text"
     },
@@ -168,7 +168,7 @@
       "item_id": 5946,
       "name": "全彩智慧投影大灯",
       "unit": "",
-      "column": "个性化｜选装包｜全彩智慧投影大灯｜参数5946",
+      "column": "全彩智慧投影大灯(5946)",
       "table": "equipment",
       "kind": "text"
     },
@@ -178,7 +178,7 @@
       "item_id": 5947,
       "name": "云氧奢享套装",
       "unit": "",
-      "column": "选装包｜云氧奢享套装",
+      "column": "云氧奢享套装",
       "table": "equipment",
       "kind": "text"
     },
@@ -188,7 +188,7 @@
       "item_id": 5948,
       "name": "22英寸11孔月辉轮毂",
       "unit": "",
-      "column": "个性化｜选装包｜22英寸11孔月辉轮毂｜参数5948",
+      "column": "22英寸11孔月辉轮毂(5948)",
       "table": "equipment",
       "kind": "text"
     },
@@ -198,7 +198,7 @@
       "item_id": 5949,
       "name": "全彩智慧投影大灯",
       "unit": "",
-      "column": "个性化｜选装包｜全彩智慧投影大灯｜参数5949",
+      "column": "全彩智慧投影大灯(5949)",
       "table": "equipment",
       "kind": "text"
     },
@@ -208,7 +208,7 @@
       "item_id": 6025,
       "name": "铂金音响系统",
       "unit": "",
-      "column": "个性化｜选装包｜铂金音响系统｜参数6025",
+      "column": "铂金音响系统(6025)",
       "table": "equipment",
       "kind": "text"
     },
@@ -218,7 +218,7 @@
       "item_id": 6026,
       "name": "曜黑专属运动设计套件",
       "unit": "",
-      "column": "选装包｜曜黑专属运动设计套件",
+      "column": "曜黑专属运动设计套件",
       "table": "equipment",
       "kind": "text"
     },
@@ -228,7 +228,7 @@
       "item_id": 6027,
       "name": "双马赫M100具身智能套装",
       "unit": "",
-      "column": "选装包｜双马赫M100具身智能套装",
+      "column": "双马赫M100具身智能套装",
       "table": "equipment",
       "kind": "text"
     },
@@ -238,7 +238,7 @@
       "item_id": 6029,
       "name": "后舱娱乐屏套装",
       "unit": "",
-      "column": "选装包｜后舱娱乐屏套装",
+      "column": "后舱娱乐屏套装",
       "table": "equipment",
       "kind": "text"
     },
@@ -248,7 +248,7 @@
       "item_id": 0,
       "name": "内饰颜色",
       "unit": "",
-      "column": "颜色｜内饰颜色",
+      "column": "内饰颜色",
       "table": "equipment",
       "kind": "text"
     },
@@ -258,7 +258,7 @@
       "item_id": 0,
       "name": "外观颜色",
       "unit": "",
-      "column": "颜色｜外观颜色",
+      "column": "外观颜色",
       "table": "equipment",
       "kind": "text"
     },
@@ -268,7 +268,7 @@
       "item_id": 112,
       "name": "中控液晶屏分屏显示",
       "unit": "",
-      "column": "互联/智能化｜中控液晶屏分屏显示",
+      "column": "中控液晶屏分屏显示",
       "table": "equipment",
       "kind": "text"
     },
@@ -278,7 +278,7 @@
       "item_id": 131,
       "name": "主动降噪",
       "unit": "",
-      "column": "互联/智能化｜主动降噪",
+      "column": "主动降噪",
       "table": "equipment",
       "kind": "text"
     },
@@ -288,7 +288,7 @@
       "item_id": 143,
       "name": "车联网",
       "unit": "",
-      "column": "互联/智能化｜车联网",
+      "column": "车联网",
       "table": "equipment",
       "kind": "text"
     },
@@ -298,7 +298,7 @@
       "item_id": 172,
       "name": "中控彩色屏幕",
       "unit": "",
-      "column": "互联/智能化｜中控彩色屏幕",
+      "column": "中控彩色屏幕",
       "table": "equipment",
       "kind": "text"
     },
@@ -308,7 +308,7 @@
       "item_id": 173,
       "name": "中控屏幕尺寸",
       "unit": "",
-      "column": "互联/智能化｜中控屏幕尺寸",
+      "column": "中控屏幕尺寸",
       "table": "equipment",
       "kind": "text"
     },
@@ -318,7 +318,7 @@
       "item_id": 174,
       "name": "手机互联/映射",
       "unit": "",
-      "column": "互联/智能化｜手机互联/映射",
+      "column": "手机互联/映射",
       "table": "equipment",
       "kind": "text"
     },
@@ -328,7 +328,7 @@
       "item_id": 175,
       "name": "后排液晶屏幕",
       "unit": "",
-      "column": "互联/智能化｜后排液晶屏幕",
+      "column": "后排液晶屏幕",
       "table": "equipment",
       "kind": "text"
     },
@@ -338,7 +338,7 @@
       "item_id": 211,
       "name": "语音识别控制系统",
       "unit": "",
-      "column": "互联/智能化｜语音识别控制系统",
+      "column": "语音识别控制系统",
       "table": "equipment",
       "kind": "text"
     },
@@ -348,7 +348,7 @@
       "item_id": 212,
       "name": "手势控制",
       "unit": "",
-      "column": "互联/智能化｜手势控制",
+      "column": "手势控制",
       "table": "equipment",
       "kind": "text"
     },
@@ -358,7 +358,7 @@
       "item_id": 213,
       "name": "后排控制多媒体",
       "unit": "",
-      "column": "互联/智能化｜后排控制多媒体",
+      "column": "后排控制多媒体",
       "table": "equipment",
       "kind": "text"
     },
@@ -368,7 +368,7 @@
       "item_id": 226,
       "name": "OTA升级",
       "unit": "",
-      "column": "互联/智能化｜OTA升级",
+      "column": "OTA升级",
       "table": "equipment",
       "kind": "text"
     },
@@ -378,7 +378,7 @@
       "item_id": 227,
       "name": "面部识别",
       "unit": "",
-      "column": "互联/智能化｜面部识别",
+      "column": "面部识别",
       "table": "equipment",
       "kind": "text"
     },
@@ -388,7 +388,7 @@
       "item_id": 257,
       "name": "车内生物监测系统",
       "unit": "",
-      "column": "互联/智能化｜车内生物监测系统",
+      "column": "车内生物监测系统",
       "table": "equipment",
       "kind": "text"
     },
@@ -398,7 +398,7 @@
       "item_id": 268,
       "name": "旋转大屏",
       "unit": "",
-      "column": "互联/智能化｜旋转大屏",
+      "column": "旋转大屏",
       "table": "equipment",
       "kind": "text"
     },
@@ -408,7 +408,7 @@
       "item_id": 269,
       "name": "4G/5G网络",
       "unit": "",
-      "column": "互联/智能化｜4G/5G网络",
+      "column": "4G/5G网络",
       "table": "equipment",
       "kind": "text"
     },
@@ -418,7 +418,7 @@
       "item_id": 272,
       "name": "副驾娱乐屏尺寸",
       "unit": "",
-      "column": "互联/智能化｜副驾娱乐屏尺寸",
+      "column": "副驾娱乐屏尺寸",
       "table": "equipment",
       "kind": "text"
     },
@@ -428,7 +428,7 @@
       "item_id": 278,
       "name": "手机APP远程功能",
       "unit": "",
-      "column": "互联/智能化｜手机APP远程功能",
+      "column": "手机APP远程功能",
       "table": "equipment",
       "kind": "text"
     },
@@ -438,7 +438,7 @@
       "item_id": 282,
       "name": "车载智能系统",
       "unit": "",
-      "column": "互联/智能化｜车载智能系统",
+      "column": "车载智能系统",
       "table": "equipment",
       "kind": "text"
     },
@@ -448,7 +448,7 @@
       "item_id": 285,
       "name": "Wi-Fi热点",
       "unit": "",
-      "column": "互联/智能化｜Wi-Fi热点",
+      "column": "Wi-Fi热点",
       "table": "equipment",
       "kind": "text"
     },
@@ -458,7 +458,7 @@
       "item_id": 297,
       "name": "车机智能芯片",
       "unit": "",
-      "column": "互联/智能化｜车机智能芯片",
+      "column": "车机智能芯片",
       "table": "equipment",
       "kind": "text"
     },
@@ -468,7 +468,7 @@
       "item_id": 299,
       "name": "模拟声浪",
       "unit": "",
-      "column": "互联/智能化｜模拟声浪",
+      "column": "模拟声浪",
       "table": "equipment",
       "kind": "text"
     },
@@ -478,7 +478,7 @@
       "item_id": 308,
       "name": "后排液晶屏幕尺寸",
       "unit": "",
-      "column": "互联/智能化｜后排液晶屏幕尺寸",
+      "column": "后排液晶屏幕尺寸",
       "table": "equipment",
       "kind": "text"
     },
@@ -488,7 +488,7 @@
       "item_id": 310,
       "name": "车载KTV",
       "unit": "",
-      "column": "互联/智能化｜车载KTV",
+      "column": "车载KTV",
       "table": "equipment",
       "kind": "text"
     },
@@ -498,7 +498,7 @@
       "item_id": 315,
       "name": "中控屏幕分辨率",
       "unit": "",
-      "column": "互联/智能化｜中控屏幕分辨率",
+      "column": "中控屏幕分辨率",
       "table": "equipment",
       "kind": "text"
     },
@@ -508,7 +508,7 @@
       "item_id": 316,
       "name": "中控屏幕像素密度",
       "unit": "",
-      "column": "互联/智能化｜中控屏幕像素密度",
+      "column": "中控屏幕像素密度",
       "table": "equipment",
       "kind": "text"
     },
@@ -518,7 +518,7 @@
       "item_id": 327,
       "name": "车机系统内存(GB)",
       "unit": "GB",
-      "column": "互联/智能化｜车机系统内存(GB)",
+      "column": "车机系统内存(GB)",
       "table": "equipment",
       "kind": "text"
     },
@@ -528,7 +528,7 @@
       "item_id": 328,
       "name": "车机系统存储(GB)",
       "unit": "GB",
-      "column": "互联/智能化｜车机系统存储(GB)",
+      "column": "车机系统存储(GB)",
       "table": "equipment",
       "kind": "text"
     },
@@ -538,7 +538,7 @@
       "item_id": 330,
       "name": "多指飞屏操控",
       "unit": "",
-      "column": "互联/智能化｜多指飞屏操控",
+      "column": "多指飞屏操控",
       "table": "equipment",
       "kind": "text"
     },
@@ -548,7 +548,7 @@
       "item_id": 335,
       "name": "语音免唤醒词",
       "unit": "",
-      "column": "互联/智能化｜语音免唤醒词",
+      "column": "语音免唤醒词",
       "table": "equipment",
       "kind": "text"
     },
@@ -558,7 +558,7 @@
       "item_id": 336,
       "name": "语音分区域唤醒识别",
       "unit": "",
-      "column": "互联/智能化｜语音分区域唤醒识别",
+      "column": "语音分区域唤醒识别",
       "table": "equipment",
       "kind": "text"
     },
@@ -568,7 +568,7 @@
       "item_id": 337,
       "name": "语音连续识别",
       "unit": "",
-      "column": "互联/智能化｜语音连续识别",
+      "column": "语音连续识别",
       "table": "equipment",
       "kind": "text"
     },
@@ -578,7 +578,7 @@
       "item_id": 338,
       "name": "可见即可说",
       "unit": "",
-      "column": "互联/智能化｜可见即可说",
+      "column": "可见即可说",
       "table": "equipment",
       "kind": "text"
     },
@@ -588,7 +588,7 @@
       "item_id": 344,
       "name": "声纹识别",
       "unit": "",
-      "column": "互联/智能化｜声纹识别",
+      "column": "声纹识别",
       "table": "equipment",
       "kind": "text"
     },
@@ -598,7 +598,7 @@
       "item_id": 351,
       "name": "语音助手唤醒词",
       "unit": "",
-      "column": "互联/智能化｜语音助手唤醒词",
+      "column": "语音助手唤醒词",
       "table": "equipment",
       "kind": "text"
     },
@@ -608,7 +608,7 @@
       "item_id": 352,
       "name": "应用商店",
       "unit": "",
-      "column": "互联/智能化｜应用商店",
+      "column": "应用商店",
       "table": "equipment",
       "kind": "text"
     },
@@ -618,7 +618,7 @@
       "item_id": 365,
       "name": "中控屏幕类型",
       "unit": "",
-      "column": "互联/智能化｜中控屏幕类型",
+      "column": "中控屏幕类型",
       "table": "equipment",
       "kind": "text"
     },
@@ -628,7 +628,7 @@
       "item_id": 368,
       "name": "后排多媒体屏幕数量",
       "unit": "",
-      "column": "互联/智能化｜后排多媒体屏幕数量",
+      "column": "后排多媒体屏幕数量",
       "table": "equipment",
       "kind": "text"
     },
@@ -638,7 +638,7 @@
       "item_id": 370,
       "name": "副驾屏幕类型",
       "unit": "",
-      "column": "互联/智能化｜副驾屏幕类型",
+      "column": "副驾屏幕类型",
       "table": "equipment",
       "kind": "text"
     },
@@ -648,7 +648,7 @@
       "item_id": 373,
       "name": "副驾屏幕分辨率",
       "unit": "",
-      "column": "互联/智能化｜副驾屏幕分辨率",
+      "column": "副驾屏幕分辨率",
       "table": "equipment",
       "kind": "text"
     },
@@ -658,7 +658,7 @@
       "item_id": 374,
       "name": "副驾屏幕像素密度",
       "unit": "",
-      "column": "互联/智能化｜副驾屏幕像素密度",
+      "column": "副驾屏幕像素密度",
       "table": "equipment",
       "kind": "text"
     },
@@ -668,7 +668,7 @@
       "item_id": 375,
       "name": "后排液晶屏幕分辨率",
       "unit": "",
-      "column": "互联/智能化｜后排液晶屏幕分辨率",
+      "column": "后排液晶屏幕分辨率",
       "table": "equipment",
       "kind": "text"
     },
@@ -678,7 +678,7 @@
       "item_id": 385,
       "name": "隐私声盾",
       "unit": "",
-      "column": "互联/智能化｜隐私声盾",
+      "column": "隐私声盾",
       "table": "equipment",
       "kind": "text"
     },
@@ -688,7 +688,7 @@
       "item_id": 386,
       "name": "后排投影系统",
       "unit": "",
-      "column": "互联/智能化｜后排投影系统",
+      "column": "后排投影系统",
       "table": "equipment",
       "kind": "text"
     },
@@ -698,7 +698,7 @@
       "item_id": 441,
       "name": "车外语音交互",
       "unit": "",
-      "column": "互联/智能化｜车外语音交互",
+      "column": "车外语音交互",
       "table": "equipment",
       "kind": "text"
     },
@@ -708,7 +708,7 @@
       "item_id": 67,
       "name": "蓝牙/车载电话",
       "unit": "",
-      "column": "互联/智能化｜蓝牙/车载电话",
+      "column": "蓝牙/车载电话",
       "table": "equipment",
       "kind": "text"
     },
@@ -718,7 +718,7 @@
       "item_id": 133,
       "name": "副驾驶位后排可调节按钮",
       "unit": "",
-      "column": "座椅配置｜副驾驶位后排可调节按钮",
+      "column": "副驾驶位后排可调节按钮",
       "table": "equipment",
       "kind": "text"
     },
@@ -728,7 +728,7 @@
       "item_id": 134,
       "name": "第二排独立座椅",
       "unit": "",
-      "column": "座椅配置｜第二排独立座椅",
+      "column": "第二排独立座椅",
       "table": "equipment",
       "kind": "text"
     },
@@ -738,7 +738,7 @@
       "item_id": 164,
       "name": "主座椅调节方式",
       "unit": "",
-      "column": "座椅配置｜主座椅调节方式",
+      "column": "主座椅调节方式",
       "table": "equipment",
       "kind": "text"
     },
@@ -748,7 +748,7 @@
       "item_id": 165,
       "name": "副座椅调节方式",
       "unit": "",
-      "column": "座椅配置｜副座椅调节方式",
+      "column": "副座椅调节方式",
       "table": "equipment",
       "kind": "text"
     },
@@ -758,7 +758,7 @@
       "item_id": 166,
       "name": "电动座椅记忆功能",
       "unit": "",
-      "column": "座椅配置｜电动座椅记忆功能",
+      "column": "电动座椅记忆功能",
       "table": "equipment",
       "kind": "text"
     },
@@ -768,7 +768,7 @@
       "item_id": 167,
       "name": "前排座椅功能",
       "unit": "",
-      "column": "座椅配置｜前排座椅功能",
+      "column": "前排座椅功能",
       "table": "equipment",
       "kind": "text"
     },
@@ -778,7 +778,7 @@
       "item_id": 168,
       "name": "第二排座椅功能",
       "unit": "",
-      "column": "座椅配置｜第二排座椅功能",
+      "column": "第二排座椅功能",
       "table": "equipment",
       "kind": "text"
     },
@@ -788,7 +788,7 @@
       "item_id": 170,
       "name": "第二排座椅调节",
       "unit": "",
-      "column": "座椅配置｜第二排座椅调节",
+      "column": "第二排座椅调节",
       "table": "equipment",
       "kind": "text"
     },
@@ -798,7 +798,7 @@
       "item_id": 171,
       "name": "后排座椅放倒形式",
       "unit": "",
-      "column": "座椅配置｜后排座椅放倒形式",
+      "column": "后排座椅放倒形式",
       "table": "equipment",
       "kind": "text"
     },
@@ -808,7 +808,7 @@
       "item_id": 192,
       "name": "座椅材质",
       "unit": "",
-      "column": "座椅配置｜座椅材质",
+      "column": "座椅材质",
       "table": "equipment",
       "kind": "text"
     },
@@ -818,7 +818,7 @@
       "item_id": 207,
       "name": "后排小桌板",
       "unit": "",
-      "column": "座椅配置｜后排小桌板",
+      "column": "后排小桌板",
       "table": "equipment",
       "kind": "text"
     },
@@ -828,7 +828,7 @@
       "item_id": 208,
       "name": "座椅布局",
       "unit": "",
-      "column": "座椅配置｜座椅布局",
+      "column": "座椅布局",
       "table": "equipment",
       "kind": "text"
     },
@@ -838,7 +838,7 @@
       "item_id": 209,
       "name": "后排座椅电动放倒",
       "unit": "",
-      "column": "座椅配置｜后排座椅电动放倒",
+      "column": "后排座椅电动放倒",
       "table": "equipment",
       "kind": "text"
     },
@@ -848,7 +848,7 @@
       "item_id": 305,
       "name": "第三排座椅调节",
       "unit": "",
-      "column": "座椅配置｜第三排座椅调节",
+      "column": "第三排座椅调节",
       "table": "equipment",
       "kind": "text"
     },
@@ -858,7 +858,7 @@
       "item_id": 306,
       "name": "第三排座椅电动调节",
       "unit": "",
-      "column": "座椅配置｜第三排座椅电动调节",
+      "column": "第三排座椅电动调节",
       "table": "equipment",
       "kind": "text"
     },
@@ -868,7 +868,7 @@
       "item_id": 307,
       "name": "第三排座椅功能",
       "unit": "",
-      "column": "座椅配置｜第三排座椅功能",
+      "column": "第三排座椅功能",
       "table": "equipment",
       "kind": "text"
     },
@@ -878,7 +878,7 @@
       "item_id": 384,
       "name": "零重力座椅",
       "unit": "",
-      "column": "座椅配置｜零重力座椅",
+      "column": "零重力座椅",
       "table": "equipment",
       "kind": "text"
     },
@@ -888,7 +888,7 @@
       "item_id": 47,
       "name": "运动风格座椅",
       "unit": "",
-      "column": "座椅配置｜运动风格座椅",
+      "column": "运动风格座椅",
       "table": "equipment",
       "kind": "text"
     },
@@ -898,7 +898,7 @@
       "item_id": 51,
       "name": "主/副驾驶座电动调节",
       "unit": "",
-      "column": "座椅配置｜主/副驾驶座电动调节",
+      "column": "主/副驾驶座电动调节",
       "table": "equipment",
       "kind": "text"
     },
@@ -908,7 +908,7 @@
       "item_id": 54,
       "name": "第二排座椅电动调节",
       "unit": "",
-      "column": "座椅配置｜第二排座椅电动调节",
+      "column": "第二排座椅电动调节",
       "table": "equipment",
       "kind": "text"
     },
@@ -918,7 +918,7 @@
       "item_id": 61,
       "name": "前/后中央扶手",
       "unit": "",
-      "column": "座椅配置｜前/后中央扶手",
+      "column": "前/后中央扶手",
       "table": "equipment",
       "kind": "text"
     },
@@ -928,7 +928,7 @@
       "item_id": 62,
       "name": "后排杯架",
       "unit": "",
-      "column": "座椅配置｜后排杯架",
+      "column": "后排杯架",
       "table": "equipment",
       "kind": "text"
     },
@@ -938,7 +938,7 @@
       "item_id": 116,
       "name": "全液晶仪表盘",
       "unit": "",
-      "column": "方向盘/内后视镜｜全液晶仪表盘",
+      "column": "全液晶仪表盘",
       "table": "equipment",
       "kind": "text"
     },
@@ -948,7 +948,7 @@
       "item_id": 121,
       "name": "方向盘记忆",
       "unit": "",
-      "column": "方向盘/内后视镜｜方向盘记忆",
+      "column": "方向盘记忆",
       "table": "equipment",
       "kind": "text"
     },
@@ -958,7 +958,7 @@
       "item_id": 160,
       "name": "方向盘材质",
       "unit": "",
-      "column": "方向盘/内后视镜｜方向盘材质",
+      "column": "方向盘材质",
       "table": "equipment",
       "kind": "text"
     },
@@ -968,7 +968,7 @@
       "item_id": 161,
       "name": "方向盘位置调节",
       "unit": "",
-      "column": "方向盘/内后视镜｜方向盘位置调节",
+      "column": "方向盘位置调节",
       "table": "equipment",
       "kind": "text"
     },
@@ -978,7 +978,7 @@
       "item_id": 162,
       "name": "行车电脑显示屏幕",
       "unit": "",
-      "column": "方向盘/内后视镜｜行车电脑显示屏幕",
+      "column": "行车电脑显示屏幕",
       "table": "equipment",
       "kind": "text"
     },
@@ -988,7 +988,7 @@
       "item_id": 186,
       "name": "内后视镜功能",
       "unit": "",
-      "column": "方向盘/内后视镜｜内后视镜功能",
+      "column": "内后视镜功能",
       "table": "equipment",
       "kind": "text"
     },
@@ -998,7 +998,7 @@
       "item_id": 205,
       "name": "液晶仪表尺寸",
       "unit": "",
-      "column": "方向盘/内后视镜｜液晶仪表尺寸",
+      "column": "液晶仪表尺寸",
       "table": "equipment",
       "kind": "text"
     },
@@ -1008,7 +1008,7 @@
       "item_id": 265,
       "name": "ETC装置",
       "unit": "",
-      "column": "方向盘/内后视镜｜ETC装置",
+      "column": "ETC装置",
       "table": "equipment",
       "kind": "text"
     },
@@ -1018,7 +1018,7 @@
       "item_id": 284,
       "name": "换挡形式",
       "unit": "",
-      "column": "方向盘/内后视镜｜换挡形式",
+      "column": "换挡形式",
       "table": "equipment",
       "kind": "text"
     },
@@ -1028,7 +1028,7 @@
       "item_id": 303,
       "name": "AR-HUD增强现实抬头显示",
       "unit": "",
-      "column": "方向盘/内后视镜｜AR-HUD增强现实抬头显示",
+      "column": "AR-HUD增强现实抬头显示",
       "table": "equipment",
       "kind": "text"
     },
@@ -1038,7 +1038,7 @@
       "item_id": 355,
       "name": "HUD抬头尺寸",
       "unit": "",
-      "column": "方向盘/内后视镜｜HUD抬头尺寸",
+      "column": "HUD抬头尺寸",
       "table": "equipment",
       "kind": "text"
     },
@@ -1048,7 +1048,7 @@
       "item_id": 364,
       "name": "仪表盘屏幕材质",
       "unit": "",
-      "column": "方向盘/内后视镜｜仪表盘屏幕材质",
+      "column": "仪表盘屏幕材质",
       "table": "equipment",
       "kind": "text"
     },
@@ -1058,7 +1058,7 @@
       "item_id": 38,
       "name": "多功能方向盘",
       "unit": "",
-      "column": "方向盘/内后视镜｜多功能方向盘",
+      "column": "多功能方向盘",
       "table": "equipment",
       "kind": "text"
     },
@@ -1068,7 +1068,7 @@
       "item_id": 40,
       "name": "方向盘加热",
       "unit": "",
-      "column": "方向盘/内后视镜｜方向盘加热",
+      "column": "方向盘加热",
       "table": "equipment",
       "kind": "text"
     },
@@ -1078,7 +1078,7 @@
       "item_id": 45,
       "name": "HUD抬头数字显示",
       "unit": "",
-      "column": "方向盘/内后视镜｜HUD抬头数字显示",
+      "column": "HUD抬头数字显示",
       "table": "equipment",
       "kind": "text"
     },
@@ -1088,7 +1088,7 @@
       "item_id": 100,
       "name": "后排独立空调",
       "unit": "",
-      "column": "空调/冰箱｜后排独立空调",
+      "column": "后排独立空调",
       "table": "equipment",
       "kind": "text"
     },
@@ -1098,7 +1098,7 @@
       "item_id": 101,
       "name": "后座出风口",
       "unit": "",
-      "column": "空调/冰箱｜后座出风口",
+      "column": "后座出风口",
       "table": "equipment",
       "kind": "text"
     },
@@ -1108,7 +1108,7 @@
       "item_id": 102,
       "name": "温度分区控制",
       "unit": "",
-      "column": "空调/冰箱｜温度分区控制",
+      "column": "温度分区控制",
       "table": "equipment",
       "kind": "text"
     },
@@ -1118,7 +1118,7 @@
       "item_id": 104,
       "name": "车载冰箱",
       "unit": "",
-      "column": "空调/冰箱｜车载冰箱",
+      "column": "车载冰箱",
       "table": "equipment",
       "kind": "text"
     },
@@ -1128,7 +1128,7 @@
       "item_id": 144,
       "name": "车载空气净化器",
       "unit": "",
-      "column": "空调/冰箱｜车载空气净化器",
+      "column": "车载空气净化器",
       "table": "equipment",
       "kind": "text"
     },
@@ -1138,7 +1138,7 @@
       "item_id": 190,
       "name": "空调温度控制方式",
       "unit": "",
-      "column": "空调/冰箱｜空调温度控制方式",
+      "column": "空调温度控制方式",
       "table": "equipment",
       "kind": "text"
     },
@@ -1148,7 +1148,7 @@
       "item_id": 219,
       "name": "车内香氛装置",
       "unit": "",
-      "column": "空调/冰箱｜车内香氛装置",
+      "column": "车内香氛装置",
       "table": "equipment",
       "kind": "text"
     },
@@ -1158,7 +1158,7 @@
       "item_id": 220,
       "name": "车内PM2.5过滤装置",
       "unit": "",
-      "column": "空调/冰箱｜车内PM2.5过滤装置",
+      "column": "车内PM2.5过滤装置",
       "table": "equipment",
       "kind": "text"
     },
@@ -1168,7 +1168,7 @@
       "item_id": 221,
       "name": "负离子发生器",
       "unit": "",
-      "column": "空调/冰箱｜负离子发生器",
+      "column": "负离子发生器",
       "table": "equipment",
       "kind": "text"
     },
@@ -1178,7 +1178,7 @@
       "item_id": 273,
       "name": "热泵空调",
       "unit": "",
-      "column": "空调/冰箱｜热泵空调",
+      "column": "热泵空调",
       "table": "equipment",
       "kind": "text"
     },
@@ -1188,7 +1188,7 @@
       "item_id": 369,
       "name": "空气质量监测",
       "unit": "",
-      "column": "空调/冰箱｜空气质量监测",
+      "column": "空气质量监测",
       "table": "equipment",
       "kind": "text"
     },
@@ -1198,7 +1198,7 @@
       "item_id": 117,
       "name": "220V/230V电源",
       "unit": "",
-      "column": "车内充电｜220V/230V电源",
+      "column": "220V/230V电源",
       "table": "equipment",
       "kind": "text"
     },
@@ -1208,7 +1208,7 @@
       "item_id": 163,
       "name": "手机无线充电功能",
       "unit": "",
-      "column": "车内充电｜手机无线充电功能",
+      "column": "手机无线充电功能",
       "table": "equipment",
       "kind": "text"
     },
@@ -1218,7 +1218,7 @@
       "item_id": 176,
       "name": "多媒体/充电接口",
       "unit": "",
-      "column": "车内充电｜多媒体/充电接口",
+      "column": "多媒体/充电接口",
       "table": "equipment",
       "kind": "text"
     },
@@ -1228,7 +1228,7 @@
       "item_id": 214,
       "name": "USB/Type-C接口数量",
       "unit": "",
-      "column": "车内充电｜USB/Type-C接口数量",
+      "column": "USB/Type-C接口数量",
       "table": "equipment",
       "kind": "text"
     },
@@ -1238,7 +1238,7 @@
       "item_id": 222,
       "name": "行李厢12V电源接口",
       "unit": "",
-      "column": "车内充电｜行李厢12V电源接口",
+      "column": "行李厢12V电源接口",
       "table": "equipment",
       "kind": "text"
     },
@@ -1248,7 +1248,7 @@
       "item_id": 345,
       "name": "手机无线充电功率",
       "unit": "",
-      "column": "车内充电｜手机无线充电功率",
+      "column": "手机无线充电功率",
       "table": "equipment",
       "kind": "text"
     },
@@ -1258,7 +1258,7 @@
       "item_id": 353,
       "name": "USB/Type-C最大充电功率",
       "unit": "",
-      "column": "车内充电｜USB/Type-C最大充电功率",
+      "column": "USB/Type-C最大充电功率",
       "table": "equipment",
       "kind": "text"
     },
@@ -1268,7 +1268,7 @@
       "item_id": 178,
       "name": "扬声器品牌名称",
       "unit": "",
-      "column": "音响/车内灯光｜扬声器品牌名称",
+      "column": "扬声器品牌名称",
       "table": "equipment",
       "kind": "text"
     },
@@ -1278,7 +1278,7 @@
       "item_id": 179,
       "name": "扬声器数量",
       "unit": "",
-      "column": "音响/车内灯光｜扬声器数量",
+      "column": "扬声器数量",
       "table": "equipment",
       "kind": "text"
     },
@@ -1288,7 +1288,7 @@
       "item_id": 183,
       "name": "车内环境氛围灯",
       "unit": "",
-      "column": "音响/车内灯光｜车内环境氛围灯",
+      "column": "车内环境氛围灯",
       "table": "equipment",
       "kind": "text"
     },
@@ -1298,7 +1298,7 @@
       "item_id": 217,
       "name": "触摸式阅读灯",
       "unit": "",
-      "column": "音响/车内灯光｜触摸式阅读灯",
+      "column": "触摸式阅读灯",
       "table": "equipment",
       "kind": "text"
     },
@@ -1308,7 +1308,7 @@
       "item_id": 309,
       "name": "杜比全景声(Dolby Atmos)",
       "unit": "Dolby Atmos",
-      "column": "音响/车内灯光｜杜比全景声(Dolby Atmos)",
+      "column": "杜比全景声(Dolby Atmos)",
       "table": "equipment",
       "kind": "text"
     },
@@ -1318,7 +1318,7 @@
       "item_id": 354,
       "name": "主动式环境氛围灯",
       "unit": "",
-      "column": "音响/车内灯光｜主动式环境氛围灯",
+      "column": "主动式环境氛围灯",
       "table": "equipment",
       "kind": "text"
     },
@@ -1328,7 +1328,7 @@
       "item_id": 388,
       "name": "车外扬声器数量",
       "unit": "",
-      "column": "音响/车内灯光｜车外扬声器数量",
+      "column": "车外扬声器数量",
       "table": "equipment",
       "kind": "text"
     },
@@ -1338,7 +1338,7 @@
       "item_id": 447,
       "name": "功放最大输出功率(W)",
       "unit": "W",
-      "column": "音响/车内灯光｜功放最大输出功率(W)",
+      "column": "功放最大输出功率(W)",
       "table": "equipment",
       "kind": "text"
     },
@@ -1348,7 +1348,7 @@
       "item_id": 448,
       "name": "扬声器布局",
       "unit": "",
-      "column": "音响/车内灯光｜扬声器布局",
+      "column": "扬声器布局",
       "table": "equipment",
       "kind": "text"
     },
@@ -1358,7 +1358,7 @@
       "item_id": 106,
       "name": "最大净功率(kW)",
       "unit": "kW",
-      "column": "发动机｜最大净功率(kW)",
+      "column": "最大净功率(kW)",
       "table": "trims",
       "kind": "number"
     },
@@ -1368,7 +1368,7 @@
       "item_id": 107,
       "name": "发动机布局",
       "unit": "",
-      "column": "发动机｜发动机布局",
+      "column": "发动机布局",
       "table": "trims",
       "kind": "text"
     },
@@ -1378,7 +1378,7 @@
       "item_id": 37,
       "name": "发动机型号",
       "unit": "",
-      "column": "发动机｜发动机型号",
+      "column": "发动机型号",
       "table": "trims",
       "kind": "text"
     },
@@ -1388,7 +1388,7 @@
       "item_id": 39,
       "name": "排量(mL)",
       "unit": "mL",
-      "column": "发动机｜排量(mL)",
+      "column": "排量(mL)",
       "table": "trims",
       "kind": "number"
     },
@@ -1398,7 +1398,7 @@
       "item_id": 40,
       "name": "排量(L)",
       "unit": "L",
-      "column": "发动机｜排量(L)",
+      "column": "排量(L)",
       "table": "trims",
       "kind": "number"
     },
@@ -1408,7 +1408,7 @@
       "item_id": 41,
       "name": "进气形式",
       "unit": "",
-      "column": "发动机｜进气形式",
+      "column": "进气形式",
       "table": "trims",
       "kind": "text"
     },
@@ -1418,7 +1418,7 @@
       "item_id": 42,
       "name": "气缸排列形式",
       "unit": "",
-      "column": "发动机｜气缸排列形式",
+      "column": "气缸排列形式",
       "table": "trims",
       "kind": "text"
     },
@@ -1428,7 +1428,7 @@
       "item_id": 43,
       "name": "气缸数(个)",
       "unit": "个",
-      "column": "发动机｜气缸数(个)",
+      "column": "气缸数(个)",
       "table": "trims",
       "kind": "number"
     },
@@ -1438,7 +1438,7 @@
       "item_id": 44,
       "name": "每缸气门数(个)",
       "unit": "个",
-      "column": "发动机｜每缸气门数(个)",
+      "column": "每缸气门数(个)",
       "table": "trims",
       "kind": "number"
     },
@@ -1448,7 +1448,7 @@
       "item_id": 45,
       "name": "压缩比",
       "unit": "",
-      "column": "发动机｜压缩比",
+      "column": "压缩比",
       "table": "trims",
       "kind": "number"
     },
@@ -1458,7 +1458,7 @@
       "item_id": 46,
       "name": "配气机构",
       "unit": "",
-      "column": "发动机｜配气机构",
+      "column": "配气机构",
       "table": "trims",
       "kind": "text"
     },
@@ -1468,7 +1468,7 @@
       "item_id": 47,
       "name": "缸径(mm)",
       "unit": "mm",
-      "column": "发动机｜缸径(mm)",
+      "column": "缸径(mm)",
       "table": "trims",
       "kind": "number"
     },
@@ -1478,7 +1478,7 @@
       "item_id": 48,
       "name": "行程(mm)",
       "unit": "mm",
-      "column": "发动机｜行程(mm)",
+      "column": "行程(mm)",
       "table": "trims",
       "kind": "number"
     },
@@ -1488,7 +1488,7 @@
       "item_id": 49,
       "name": "最大马力(Ps)",
       "unit": "Ps",
-      "column": "发动机｜最大马力(Ps)",
+      "column": "最大马力(Ps)",
       "table": "trims",
       "kind": "number"
     },
@@ -1498,7 +1498,7 @@
       "item_id": 50,
       "name": "最大功率(kW)",
       "unit": "kW",
-      "column": "发动机｜最大功率(kW)",
+      "column": "最大功率(kW)(发动机)",
       "table": "trims",
       "kind": "number"
     },
@@ -1508,7 +1508,7 @@
       "item_id": 51,
       "name": "最大功率转速(rpm)",
       "unit": "rpm",
-      "column": "发动机｜最大功率转速(rpm)",
+      "column": "最大功率转速(rpm)",
       "table": "trims",
       "kind": "number"
     },
@@ -1518,7 +1518,7 @@
       "item_id": 52,
       "name": "最大扭矩(N·m)",
       "unit": "N·m",
-      "column": "发动机｜最大扭矩(N·m)",
+      "column": "最大扭矩(N·m)(发动机)",
       "table": "trims",
       "kind": "number"
     },
@@ -1528,7 +1528,7 @@
       "item_id": 53,
       "name": "最大扭矩转速(rpm)",
       "unit": "rpm",
-      "column": "发动机｜最大扭矩转速(rpm)",
+      "column": "最大扭矩转速(rpm)",
       "table": "trims",
       "kind": "text"
     },
@@ -1538,7 +1538,7 @@
       "item_id": 55,
       "name": "能源类型",
       "unit": "",
-      "column": "发动机｜能源类型",
+      "column": "能源类型(发动机)",
       "table": "trims",
       "kind": "text"
     },
@@ -1548,7 +1548,7 @@
       "item_id": 57,
       "name": "燃油标号",
       "unit": "",
-      "column": "发动机｜燃油标号",
+      "column": "燃油标号",
       "table": "trims",
       "kind": "text"
     },
@@ -1558,7 +1558,7 @@
       "item_id": 58,
       "name": "供油方式",
       "unit": "",
-      "column": "发动机｜供油方式",
+      "column": "供油方式",
       "table": "trims",
       "kind": "text"
     },
@@ -1568,7 +1568,7 @@
       "item_id": 59,
       "name": "缸盖材料",
       "unit": "",
-      "column": "发动机｜缸盖材料",
+      "column": "缸盖材料",
       "table": "trims",
       "kind": "text"
     },
@@ -1578,7 +1578,7 @@
       "item_id": 60,
       "name": "缸体材料",
       "unit": "",
-      "column": "发动机｜缸体材料",
+      "column": "缸体材料",
       "table": "trims",
       "kind": "text"
     },
@@ -1588,7 +1588,7 @@
       "item_id": 61,
       "name": "环保标准",
       "unit": "",
-      "column": "发动机｜环保标准",
+      "column": "环保标准(发动机)",
       "table": "trims",
       "kind": "text"
     },
@@ -1598,7 +1598,7 @@
       "item_id": 108,
       "name": "简称",
       "unit": "",
-      "column": "变速箱｜简称",
+      "column": "简称",
       "table": "trims",
       "kind": "text"
     },
@@ -1608,7 +1608,7 @@
       "item_id": 84,
       "name": "挡位个数",
       "unit": "",
-      "column": "变速箱｜挡位个数",
+      "column": "挡位个数",
       "table": "trims",
       "kind": "text"
     },
@@ -1618,7 +1618,7 @@
       "item_id": 85,
       "name": "变速箱类型",
       "unit": "",
-      "column": "变速箱｜变速箱类型",
+      "column": "变速箱类型",
       "table": "trims",
       "kind": "text"
     },
@@ -1628,7 +1628,7 @@
       "item_id": -2,
       "name": "经销商报价",
       "unit": "",
-      "column": "基本参数｜经销商报价",
+      "column": "经销商报价",
       "table": "trims",
       "kind": "text"
     },
@@ -1638,7 +1638,7 @@
       "item_id": 1,
       "name": "最高车速(km/h)",
       "unit": "km/h",
-      "column": "基本参数｜最高车速(km/h)",
+      "column": "最高车速(km/h)",
       "table": "trims",
       "kind": "number"
     },
@@ -1648,7 +1648,7 @@
       "item_id": 10,
       "name": "实测快充时间(小时)",
       "unit": "小时",
-      "column": "基本参数｜实测快充时间(小时)",
+      "column": "实测快充时间(小时)",
       "table": "trims",
       "kind": "number"
     },
@@ -1658,7 +1658,7 @@
       "item_id": 101,
       "name": "CLTC纯电续航里程(km)",
       "unit": "km",
-      "column": "基本参数｜CLTC纯电续航里程(km)",
+      "column": "CLTC纯电续航里程(km)",
       "table": "trims",
       "kind": "number"
     },
@@ -1668,7 +1668,7 @@
       "item_id": 102,
       "name": "WLTC综合油耗(L/100km)",
       "unit": "L/100km",
-      "column": "基本参数｜WLTC综合油耗(L/100km)",
+      "column": "WLTC综合油耗(L/100km)",
       "table": "trims",
       "kind": "number"
     },
@@ -1678,7 +1678,7 @@
       "item_id": 108,
       "name": "变速箱",
       "unit": "",
-      "column": "基本参数｜变速箱",
+      "column": "变速箱",
       "table": "trims",
       "kind": "text"
     },
@@ -1688,7 +1688,7 @@
       "item_id": 109,
       "name": "上市时间",
       "unit": "",
-      "column": "基本参数｜上市时间",
+      "column": "上市时间",
       "table": "trims",
       "kind": "text"
     },
@@ -1698,7 +1698,7 @@
       "item_id": 110,
       "name": "长*宽*高(mm)",
       "unit": "mm",
-      "column": "基本参数｜长*宽*高(mm)",
+      "column": "长*宽*高(mm)",
       "table": "trims",
       "kind": "text"
     },
@@ -1708,7 +1708,7 @@
       "item_id": 111,
       "name": "厂商",
       "unit": "",
-      "column": "基本参数｜厂商",
+      "column": "厂商",
       "table": "trims",
       "kind": "text"
     },
@@ -1718,7 +1718,7 @@
       "item_id": 112,
       "name": "厂商指导价(元)",
       "unit": "元",
-      "column": "基本参数｜厂商指导价(元)",
+      "column": "厂商指导价(元)",
       "table": "trims",
       "kind": "text"
     },
@@ -1728,7 +1728,7 @@
       "item_id": 113,
       "name": "车型名称",
       "unit": "",
-      "column": "基本参数｜车型名称",
+      "column": "车型名称",
       "table": "trims",
       "kind": "text"
     },
@@ -1738,7 +1738,7 @@
       "item_id": 114,
       "name": "电动机(Ps)",
       "unit": "Ps",
-      "column": "基本参数｜电动机(Ps)",
+      "column": "电动机(Ps)",
       "table": "trims",
       "kind": "number"
     },
@@ -1748,7 +1748,7 @@
       "item_id": 115,
       "name": "发动机",
       "unit": "",
-      "column": "基本参数｜发动机",
+      "column": "发动机",
       "table": "trims",
       "kind": "text"
     },
@@ -1758,7 +1758,7 @@
       "item_id": 116,
       "name": "级别",
       "unit": "",
-      "column": "基本参数｜级别",
+      "column": "级别",
       "table": "trims",
       "kind": "text"
     },
@@ -1768,7 +1768,7 @@
       "item_id": 12,
       "name": "整车质保",
       "unit": "",
-      "column": "基本参数｜整车质保",
+      "column": "整车质保",
       "table": "trims",
       "kind": "text"
     },
@@ -1778,7 +1778,7 @@
       "item_id": 132,
       "name": "准拖挂车总质量(kg)",
       "unit": "kg",
-      "column": "基本参数｜准拖挂车总质量(kg)",
+      "column": "准拖挂车总质量(kg)",
       "table": "trims",
       "kind": "number"
     },
@@ -1788,7 +1788,7 @@
       "item_id": 134,
       "name": "官方0-50km/h加速(s)",
       "unit": "s",
-      "column": "基本参数｜官方0-50km/h加速(s)",
+      "column": "官方0-50km/h加速(s)",
       "table": "trims",
       "kind": "number"
     },
@@ -1798,7 +1798,7 @@
       "item_id": 135,
       "name": "WLTC纯电续航里程(km)",
       "unit": "km",
-      "column": "基本参数｜WLTC纯电续航里程(km)",
+      "column": "WLTC纯电续航里程(km)",
       "table": "trims",
       "kind": "number"
     },
@@ -1808,7 +1808,7 @@
       "item_id": 136,
       "name": "电能当量燃料消耗量(L/100km)",
       "unit": "L/100km",
-      "column": "基本参数｜电能当量燃料消耗量(L/100km)",
+      "column": "电能当量燃料消耗量(L/100km)",
       "table": "trims",
       "kind": "number"
     },
@@ -1818,7 +1818,7 @@
       "item_id": 137,
       "name": "最大满载质量(kg)",
       "unit": "kg",
-      "column": "基本参数｜最大满载质量(kg)",
+      "column": "最大满载质量(kg)",
       "table": "trims",
       "kind": "number"
     },
@@ -1828,7 +1828,7 @@
       "item_id": 151,
       "name": "最低荷电状态油耗(L/100km)WLTC",
       "unit": "L/100km",
-      "column": "基本参数｜最低荷电状态油耗(L/100km)WLTC",
+      "column": "最低荷电状态油耗(L/100km)WLTC",
       "table": "trims",
       "kind": "number"
     },
@@ -1838,7 +1838,7 @@
       "item_id": 152,
       "name": "最低荷电状态油耗(L/100km)NEDC",
       "unit": "L/100km",
-      "column": "基本参数｜最低荷电状态油耗(L/100km)NEDC",
+      "column": "最低荷电状态油耗(L/100km)NEDC",
       "table": "trims",
       "kind": "number"
     },
@@ -1848,7 +1848,7 @@
       "item_id": 162,
       "name": "官方100-0km/h制动(m)",
       "unit": "m",
-      "column": "基本参数｜官方100-0km/h制动(m)",
+      "column": "官方100-0km/h制动(m)",
       "table": "trims",
       "kind": "number"
     },
@@ -1858,7 +1858,7 @@
       "item_id": 167,
       "name": "油电综合燃料消耗量(L/100km)",
       "unit": "L/100km",
-      "column": "基本参数｜油电综合燃料消耗量(L/100km)",
+      "column": "油电综合燃料消耗量(L/100km)",
       "table": "trims",
       "kind": "number"
     },
@@ -1868,7 +1868,7 @@
       "item_id": 168,
       "name": "实测最低荷电状态油耗(L/100km)",
       "unit": "L/100km",
-      "column": "基本参数｜实测最低荷电状态油耗(L/100km)",
+      "column": "实测最低荷电状态油耗(L/100km)",
       "table": "trims",
       "kind": "number"
     },
@@ -1878,7 +1878,7 @@
       "item_id": 169,
       "name": "实测平均电耗(kWh/100km)",
       "unit": "kWh/100km",
-      "column": "基本参数｜实测平均电耗(kWh/100km)",
+      "column": "实测平均电耗(kWh/100km)",
       "table": "trims",
       "kind": "number"
     },
@@ -1888,7 +1888,7 @@
       "item_id": 170,
       "name": "实测电池快充电量范围(%)",
       "unit": "%",
-      "column": "基本参数｜实测电池快充电量范围(%)",
+      "column": "实测电池快充电量范围(%)",
       "table": "trims",
       "kind": "text"
     },
@@ -1898,7 +1898,7 @@
       "item_id": 2,
       "name": "官方0-100km/h加速(s)",
       "unit": "s",
-      "column": "基本参数｜官方0-100km/h加速(s)",
+      "column": "官方0-100km/h加速(s)",
       "table": "trims",
       "kind": "number"
     },
@@ -1908,7 +1908,7 @@
       "item_id": 24,
       "name": "车身结构",
       "unit": "",
-      "column": "基本参数｜车身结构",
+      "column": "车身结构",
       "table": "trims",
       "kind": "text"
     },
@@ -1918,7 +1918,7 @@
       "item_id": 3,
       "name": "整备质量(kg)",
       "unit": "kg",
-      "column": "基本参数｜整备质量(kg)",
+      "column": "整备质量(kg)",
       "table": "trims",
       "kind": "number"
     },
@@ -1928,7 +1928,7 @@
       "item_id": 4,
       "name": "NEDC综合油耗(L/100km)",
       "unit": "L/100km",
-      "column": "基本参数｜NEDC综合油耗(L/100km)",
+      "column": "NEDC综合油耗(L/100km)",
       "table": "trims",
       "kind": "number"
     },
@@ -1938,7 +1938,7 @@
       "item_id": 5,
       "name": "实测0-100km/h加速(s)",
       "unit": "s",
-      "column": "基本参数｜实测0-100km/h加速(s)",
+      "column": "实测0-100km/h加速(s)",
       "table": "trims",
       "kind": "number"
     },
@@ -1948,7 +1948,7 @@
       "item_id": 50,
       "name": "最大功率(kW)",
       "unit": "kW",
-      "column": "基本参数｜最大功率(kW)",
+      "column": "最大功率(kW)",
       "table": "trims",
       "kind": "number"
     },
@@ -1958,7 +1958,7 @@
       "item_id": 52,
       "name": "最大扭矩(N·m)",
       "unit": "N·m",
-      "column": "基本参数｜最大扭矩(N·m)",
+      "column": "最大扭矩(N·m)",
       "table": "trims",
       "kind": "number"
     },
@@ -1968,7 +1968,7 @@
       "item_id": 55,
       "name": "能源类型",
       "unit": "",
-      "column": "基本参数｜能源类型",
+      "column": "能源类型",
       "table": "trims",
       "kind": "text"
     },
@@ -1978,7 +1978,7 @@
       "item_id": 6,
       "name": "实测100-0km/h制动(m)",
       "unit": "m",
-      "column": "基本参数｜实测100-0km/h制动(m)",
+      "column": "实测100-0km/h制动(m)",
       "table": "trims",
       "kind": "number"
     },
@@ -1988,7 +1988,7 @@
       "item_id": 61,
       "name": "环保标准",
       "unit": "",
-      "column": "基本参数｜环保标准",
+      "column": "环保标准",
       "table": "trims",
       "kind": "text"
     },
@@ -1998,7 +1998,7 @@
       "item_id": 7,
       "name": "实测油耗(L/100km)",
       "unit": "L/100km",
-      "column": "基本参数｜实测油耗(L/100km)",
+      "column": "实测油耗(L/100km)",
       "table": "trims",
       "kind": "number"
     },
@@ -2008,7 +2008,7 @@
       "item_id": 75,
       "name": "NEDC纯电续航里程(km)",
       "unit": "km",
-      "column": "基本参数｜NEDC纯电续航里程(km)",
+      "column": "NEDC纯电续航里程(km)",
       "table": "trims",
       "kind": "number"
     },
@@ -2018,7 +2018,7 @@
       "item_id": 79,
       "name": "电池快充时间(小时)",
       "unit": "小时",
-      "column": "基本参数｜电池快充时间(小时)",
+      "column": "电池快充时间(小时)",
       "table": "trims",
       "kind": "number"
     },
@@ -2028,7 +2028,7 @@
       "item_id": 8,
       "name": "最低荷电状态油耗(L/100km)",
       "unit": "L/100km",
-      "column": "基本参数｜最低荷电状态油耗(L/100km)",
+      "column": "最低荷电状态油耗(L/100km)",
       "table": "trims",
       "kind": "number"
     },
@@ -2038,7 +2038,7 @@
       "item_id": 80,
       "name": "电池快充电量范围(%)",
       "unit": "%",
-      "column": "基本参数｜电池快充电量范围(%)",
+      "column": "电池快充电量范围(%)",
       "table": "trims",
       "kind": "text"
     },
@@ -2048,7 +2048,7 @@
       "item_id": 81,
       "name": "电池慢充时间(小时)",
       "unit": "小时",
-      "column": "基本参数｜电池慢充时间(小时)",
+      "column": "电池慢充时间(小时)",
       "table": "trims",
       "kind": "number"
     },
@@ -2058,7 +2058,7 @@
       "item_id": 82,
       "name": "电池慢充电量范围(%)",
       "unit": "%",
-      "column": "基本参数｜电池慢充电量范围(%)",
+      "column": "电池慢充电量范围(%)",
       "table": "trims",
       "kind": "text"
     },
@@ -2068,7 +2068,7 @@
       "item_id": 9,
       "name": "实测续航里程(km)",
       "unit": "km",
-      "column": "基本参数｜实测续航里程(km)",
+      "column": "实测续航里程(km)",
       "table": "trims",
       "kind": "number"
     },
@@ -2078,7 +2078,7 @@
       "item_id": 192,
       "name": "线控智能底盘",
       "unit": "",
-      "column": "底盘转向｜线控智能底盘",
+      "column": "线控智能底盘",
       "table": "trims",
       "kind": "text"
     },
@@ -2088,7 +2088,7 @@
       "item_id": 86,
       "name": "驱动方式",
       "unit": "",
-      "column": "底盘转向｜驱动方式",
+      "column": "驱动方式",
       "table": "trims",
       "kind": "text"
     },
@@ -2098,7 +2098,7 @@
       "item_id": 87,
       "name": "四驱形式",
       "unit": "",
-      "column": "底盘转向｜四驱形式",
+      "column": "四驱形式",
       "table": "trims",
       "kind": "text"
     },
@@ -2108,7 +2108,7 @@
       "item_id": 89,
       "name": "前悬架类型",
       "unit": "",
-      "column": "底盘转向｜前悬架类型",
+      "column": "前悬架类型",
       "table": "trims",
       "kind": "text"
     },
@@ -2118,7 +2118,7 @@
       "item_id": 90,
       "name": "后悬架类型",
       "unit": "",
-      "column": "底盘转向｜后悬架类型",
+      "column": "后悬架类型",
       "table": "trims",
       "kind": "text"
     },
@@ -2128,7 +2128,7 @@
       "item_id": 91,
       "name": "助力类型",
       "unit": "",
-      "column": "底盘转向｜助力类型",
+      "column": "助力类型",
       "table": "trims",
       "kind": "text"
     },
@@ -2138,7 +2138,7 @@
       "item_id": 92,
       "name": "车体结构",
       "unit": "",
-      "column": "底盘转向｜车体结构",
+      "column": "车体结构",
       "table": "trims",
       "kind": "text"
     },
@@ -2148,7 +2148,7 @@
       "item_id": 120,
       "name": "电动机总马力(Ps)",
       "unit": "Ps",
-      "column": "电动机｜电动机总马力(Ps)",
+      "column": "电动机总马力(Ps)",
       "table": "trims",
       "kind": "number"
     },
@@ -2158,7 +2158,7 @@
       "item_id": 121,
       "name": "系统综合马力(Ps)",
       "unit": "Ps",
-      "column": "电动机｜系统综合马力(Ps)",
+      "column": "系统综合马力(Ps)",
       "table": "trims",
       "kind": "number"
     },
@@ -2168,7 +2168,7 @@
       "item_id": 142,
       "name": "三电首任车主质保政策",
       "unit": "",
-      "column": "电动机｜三电首任车主质保政策",
+      "column": "三电首任车主质保政策",
       "table": "trims",
       "kind": "text"
     },
@@ -2178,7 +2178,7 @@
       "item_id": 143,
       "name": "前电动机型号",
       "unit": "",
-      "column": "电动机｜前电动机型号",
+      "column": "前电动机型号",
       "table": "trims",
       "kind": "text"
     },
@@ -2188,7 +2188,7 @@
       "item_id": 144,
       "name": "后电动机型号",
       "unit": "",
-      "column": "电动机｜后电动机型号",
+      "column": "后电动机型号",
       "table": "trims",
       "kind": "text"
     },
@@ -2198,7 +2198,7 @@
       "item_id": 147,
       "name": "前电动机品牌",
       "unit": "",
-      "column": "电动机｜前电动机品牌",
+      "column": "前电动机品牌",
       "table": "trims",
       "kind": "text"
     },
@@ -2208,7 +2208,7 @@
       "item_id": 148,
       "name": "后电动机品牌",
       "unit": "",
-      "column": "电动机｜后电动机品牌",
+      "column": "后电动机品牌",
       "table": "trims",
       "kind": "text"
     },
@@ -2218,7 +2218,7 @@
       "item_id": 62,
       "name": "电机类型",
       "unit": "",
-      "column": "电动机｜电机类型",
+      "column": "电机类型",
       "table": "trims",
       "kind": "text"
     },
@@ -2228,7 +2228,7 @@
       "item_id": 63,
       "name": "电动机总功率(kW)",
       "unit": "kW",
-      "column": "电动机｜电动机总功率(kW)",
+      "column": "电动机总功率(kW)",
       "table": "trims",
       "kind": "number"
     },
@@ -2238,7 +2238,7 @@
       "item_id": 65,
       "name": "电动机总扭矩(N·m)",
       "unit": "N·m",
-      "column": "电动机｜电动机总扭矩(N·m)",
+      "column": "电动机总扭矩(N·m)",
       "table": "trims",
       "kind": "number"
     },
@@ -2248,7 +2248,7 @@
       "item_id": 66,
       "name": "前电动机最大功率(kW)",
       "unit": "kW",
-      "column": "电动机｜前电动机最大功率(kW)",
+      "column": "前电动机最大功率(kW)",
       "table": "trims",
       "kind": "number"
     },
@@ -2258,7 +2258,7 @@
       "item_id": 67,
       "name": "前电动机最大扭矩(N·m)",
       "unit": "N·m",
-      "column": "电动机｜前电动机最大扭矩(N·m)",
+      "column": "前电动机最大扭矩(N·m)",
       "table": "trims",
       "kind": "number"
     },
@@ -2268,7 +2268,7 @@
       "item_id": 68,
       "name": "后电动机最大功率(kW)",
       "unit": "kW",
-      "column": "电动机｜后电动机最大功率(kW)",
+      "column": "后电动机最大功率(kW)",
       "table": "trims",
       "kind": "number"
     },
@@ -2278,7 +2278,7 @@
       "item_id": 69,
       "name": "后电动机最大扭矩(N·m)",
       "unit": "N·m",
-      "column": "电动机｜后电动机最大扭矩(N·m)",
+      "column": "后电动机最大扭矩(N·m)",
       "table": "trims",
       "kind": "number"
     },
@@ -2288,7 +2288,7 @@
       "item_id": 70,
       "name": "系统综合功率(kW)",
       "unit": "kW",
-      "column": "电动机｜系统综合功率(kW)",
+      "column": "系统综合功率(kW)",
       "table": "trims",
       "kind": "number"
     },
@@ -2298,7 +2298,7 @@
       "item_id": 71,
       "name": "系统综合扭矩(N·m)",
       "unit": "N·m",
-      "column": "电动机｜系统综合扭矩(N·m)",
+      "column": "系统综合扭矩(N·m)",
       "table": "trims",
       "kind": "number"
     },
@@ -2308,7 +2308,7 @@
       "item_id": 72,
       "name": "驱动电机数",
       "unit": "",
-      "column": "电动机｜驱动电机数",
+      "column": "驱动电机数",
       "table": "trims",
       "kind": "text"
     },
@@ -2318,7 +2318,7 @@
       "item_id": 73,
       "name": "电机布局",
       "unit": "",
-      "column": "电动机｜电机布局",
+      "column": "电机布局",
       "table": "trims",
       "kind": "text"
     },
@@ -2328,7 +2328,7 @@
       "item_id": 78,
       "name": "三电系统质保",
       "unit": "",
-      "column": "电动机｜三电系统质保",
+      "column": "三电系统质保",
       "table": "trims",
       "kind": "text"
     },
@@ -2338,7 +2338,7 @@
       "item_id": 101,
       "name": "CLTC纯电续航里程(km)",
       "unit": "km",
-      "column": "电池/充电｜CLTC纯电续航里程(km)",
+      "column": "CLTC纯电续航里程(km)(电池)",
       "table": "trims",
       "kind": "number"
     },
@@ -2348,7 +2348,7 @@
       "item_id": 123,
       "name": "电池能量密度(Wh/kg)",
       "unit": "Wh/kg",
-      "column": "电池/充电｜电池能量密度(Wh/kg)",
+      "column": "电池能量密度(Wh/kg)",
       "table": "trims",
       "kind": "number"
     },
@@ -2358,7 +2358,7 @@
       "item_id": 124,
       "name": "快充功能",
       "unit": "",
-      "column": "电池/充电｜快充功能",
+      "column": "快充功能",
       "table": "trims",
       "kind": "text"
     },
@@ -2368,7 +2368,7 @@
       "item_id": 125,
       "name": "快充功率(kW)",
       "unit": "kW",
-      "column": "电池/充电｜快充功率(kW)",
+      "column": "快充功率(kW)",
       "table": "trims",
       "kind": "number"
     },
@@ -2378,7 +2378,7 @@
       "item_id": 126,
       "name": "高压快充",
       "unit": "",
-      "column": "电池/充电｜高压快充",
+      "column": "高压快充",
       "table": "trims",
       "kind": "text"
     },
@@ -2388,7 +2388,7 @@
       "item_id": 127,
       "name": "换电",
       "unit": "",
-      "column": "电池/充电｜换电",
+      "column": "换电",
       "table": "trims",
       "kind": "text"
     },
@@ -2398,7 +2398,7 @@
       "item_id": 129,
       "name": "WLTC综合续航(km)",
       "unit": "km",
-      "column": "电池/充电｜WLTC综合续航(km)",
+      "column": "WLTC综合续航(km)",
       "table": "trims",
       "kind": "number"
     },
@@ -2408,7 +2408,7 @@
       "item_id": 130,
       "name": "CLTC综合续航(km)",
       "unit": "km",
-      "column": "电池/充电｜CLTC综合续航(km)",
+      "column": "CLTC综合续航(km)",
       "table": "trims",
       "kind": "number"
     },
@@ -2418,7 +2418,7 @@
       "item_id": 133,
       "name": "电池冷却方式",
       "unit": "",
-      "column": "电池/充电｜电池冷却方式",
+      "column": "电池冷却方式",
       "table": "trims",
       "kind": "text"
     },
@@ -2428,7 +2428,7 @@
       "item_id": 135,
       "name": "WLTC纯电续航里程(km)",
       "unit": "km",
-      "column": "电池/充电｜WLTC纯电续航里程(km)",
+      "column": "WLTC纯电续航里程(km)(电池)",
       "table": "trims",
       "kind": "number"
     },
@@ -2438,7 +2438,7 @@
       "item_id": 138,
       "name": "慢充接口位置",
       "unit": "",
-      "column": "电池/充电｜慢充接口位置",
+      "column": "慢充接口位置",
       "table": "trims",
       "kind": "text"
     },
@@ -2448,7 +2448,7 @@
       "item_id": 139,
       "name": "快充接口位置",
       "unit": "",
-      "column": "电池/充电｜快充接口位置",
+      "column": "快充接口位置",
       "table": "trims",
       "kind": "text"
     },
@@ -2458,7 +2458,7 @@
       "item_id": 140,
       "name": "对外交流放电功率(kW)",
       "unit": "kW",
-      "column": "电池/充电｜对外交流放电功率(kW)",
+      "column": "对外交流放电功率(kW)",
       "table": "trims",
       "kind": "number"
     },
@@ -2468,7 +2468,7 @@
       "item_id": 141,
       "name": "对外放电最低允许值(%)",
       "unit": "%",
-      "column": "电池/充电｜对外放电最低允许值(%)",
+      "column": "对外放电最低允许值(%)",
       "table": "trims",
       "kind": "number"
     },
@@ -2478,7 +2478,7 @@
       "item_id": 145,
       "name": "对外直流放电功率(kW)",
       "unit": "kW",
-      "column": "电池/充电｜对外直流放电功率(kW)",
+      "column": "对外直流放电功率(kW)",
       "table": "trims",
       "kind": "number"
     },
@@ -2488,7 +2488,7 @@
       "item_id": 149,
       "name": "电池特有技术",
       "unit": "",
-      "column": "电池/充电｜电池特有技术",
+      "column": "电池特有技术",
       "table": "trims",
       "kind": "text"
     },
@@ -2498,7 +2498,7 @@
       "item_id": 154,
       "name": "高压平台（V）",
       "unit": "V",
-      "column": "电池/充电｜高压平台（V）",
+      "column": "高压平台（V）",
       "table": "trims",
       "kind": "number"
     },
@@ -2508,7 +2508,7 @@
       "item_id": 157,
       "name": "电芯品牌",
       "unit": "",
-      "column": "电池/充电｜电芯品牌",
+      "column": "电芯品牌",
       "table": "trims",
       "kind": "text"
     },
@@ -2518,7 +2518,7 @@
       "item_id": 163,
       "name": "电池组质保",
       "unit": "",
-      "column": "电池/充电｜电池组质保",
+      "column": "电池组质保",
       "table": "trims",
       "kind": "text"
     },
@@ -2528,7 +2528,7 @@
       "item_id": 191,
       "name": "电池快充时间(分钟)",
       "unit": "分钟",
-      "column": "电池/充电｜电池快充时间(分钟)",
+      "column": "电池快充时间(分钟)",
       "table": "trims",
       "kind": "number"
     },
@@ -2538,7 +2538,7 @@
       "item_id": 74,
       "name": "电池类型",
       "unit": "",
-      "column": "电池/充电｜电池类型",
+      "column": "电池类型",
       "table": "trims",
       "kind": "text"
     },
@@ -2548,7 +2548,7 @@
       "item_id": 75,
       "name": "NEDC纯电续航里程(km)",
       "unit": "km",
-      "column": "电池/充电｜NEDC纯电续航里程(km)",
+      "column": "NEDC纯电续航里程(km)(电池)",
       "table": "trims",
       "kind": "number"
     },
@@ -2558,7 +2558,7 @@
       "item_id": 76,
       "name": "电池能量(kWh)",
       "unit": "kWh",
-      "column": "电池/充电｜电池能量(kWh)",
+      "column": "电池能量(kWh)",
       "table": "trims",
       "kind": "number"
     },
@@ -2568,7 +2568,7 @@
       "item_id": 77,
       "name": "百公里耗电量(kWh/100km)",
       "unit": "kWh/100km",
-      "column": "电池/充电｜百公里耗电量(kWh/100km)",
+      "column": "百公里耗电量(kWh/100km)",
       "table": "trims",
       "kind": "number"
     },
@@ -2578,7 +2578,7 @@
       "item_id": 79,
       "name": "电池快充时间(小时)",
       "unit": "小时",
-      "column": "电池/充电｜电池快充时间(小时)",
+      "column": "电池快充时间(小时)(电池)",
       "table": "trims",
       "kind": "number"
     },
@@ -2588,7 +2588,7 @@
       "item_id": 80,
       "name": "电池快充电量范围(%)",
       "unit": "%",
-      "column": "电池/充电｜电池快充电量范围(%)",
+      "column": "电池快充电量范围(%)(电池)",
       "table": "trims",
       "kind": "text"
     },
@@ -2598,7 +2598,7 @@
       "item_id": 81,
       "name": "电池慢充时间(小时)",
       "unit": "小时",
-      "column": "电池/充电｜电池慢充时间(小时)",
+      "column": "电池慢充时间(小时)(电池)",
       "table": "trims",
       "kind": "number"
     },
@@ -2608,7 +2608,7 @@
       "item_id": 82,
       "name": "电池慢充电量范围(%)",
       "unit": "%",
-      "column": "电池/充电｜电池慢充电量范围(%)",
+      "column": "电池慢充电量范围(%)(电池)",
       "table": "trims",
       "kind": "text"
     },
@@ -2618,7 +2618,7 @@
       "item_id": 118,
       "name": "前备厢容积(L)",
       "unit": "L",
-      "column": "车身｜前备厢容积(L)",
+      "column": "前备厢容积(L)",
       "table": "trims",
       "kind": "number"
     },
@@ -2628,7 +2628,7 @@
       "item_id": 119,
       "name": "最大爬坡角度(°)",
       "unit": "°",
-      "column": "车身｜最大爬坡角度(°)",
+      "column": "最大爬坡角度(°)",
       "table": "trims",
       "kind": "number"
     },
@@ -2638,7 +2638,7 @@
       "item_id": 131,
       "name": "车门开启方式",
       "unit": "",
-      "column": "车身｜车门开启方式",
+      "column": "车门开启方式",
       "table": "trims",
       "kind": "text"
     },
@@ -2648,7 +2648,7 @@
       "item_id": 14,
       "name": "长度(mm)",
       "unit": "mm",
-      "column": "车身｜长度(mm)",
+      "column": "长度(mm)",
       "table": "trims",
       "kind": "number"
     },
@@ -2658,7 +2658,7 @@
       "item_id": 16,
       "name": "高度(mm)",
       "unit": "mm",
-      "column": "车身｜高度(mm)",
+      "column": "高度(mm)",
       "table": "trims",
       "kind": "number"
     },
@@ -2668,7 +2668,7 @@
       "item_id": 17,
       "name": "轴距(mm)",
       "unit": "mm",
-      "column": "车身｜轴距(mm)",
+      "column": "轴距(mm)",
       "table": "trims",
       "kind": "number"
     },
@@ -2678,7 +2678,7 @@
       "item_id": 18,
       "name": "前轮距(mm)",
       "unit": "mm",
-      "column": "车身｜前轮距(mm)",
+      "column": "前轮距(mm)",
       "table": "trims",
       "kind": "number"
     },
@@ -2688,7 +2688,7 @@
       "item_id": 19,
       "name": "后轮距(mm)",
       "unit": "mm",
-      "column": "车身｜后轮距(mm)",
+      "column": "后轮距(mm)",
       "table": "trims",
       "kind": "number"
     },
@@ -2698,7 +2698,7 @@
       "item_id": 20,
       "name": "最小离地间隙(mm)",
       "unit": "mm",
-      "column": "车身｜最小离地间隙(mm)",
+      "column": "最小离地间隙(mm)",
       "table": "trims",
       "kind": "number"
     },
@@ -2708,7 +2708,7 @@
       "item_id": 21,
       "name": "空载最小离地间隙(mm)",
       "unit": "mm",
-      "column": "车身｜空载最小离地间隙(mm)",
+      "column": "空载最小离地间隙(mm)",
       "table": "trims",
       "kind": "number"
     },
@@ -2718,7 +2718,7 @@
       "item_id": 22,
       "name": "满载最小离地间隙(mm)",
       "unit": "mm",
-      "column": "车身｜满载最小离地间隙(mm)",
+      "column": "满载最小离地间隙(mm)",
       "table": "trims",
       "kind": "number"
     },
@@ -2728,7 +2728,7 @@
       "item_id": 23,
       "name": "宽度(mm)",
       "unit": "mm",
-      "column": "车身｜宽度(mm)",
+      "column": "宽度(mm)",
       "table": "trims",
       "kind": "number"
     },
@@ -2738,7 +2738,7 @@
       "item_id": 24,
       "name": "车身结构",
       "unit": "",
-      "column": "车身｜车身结构",
+      "column": "车身结构(车身)",
       "table": "trims",
       "kind": "text"
     },
@@ -2748,7 +2748,7 @@
       "item_id": 27,
       "name": "车门数(个)",
       "unit": "个",
-      "column": "车身｜车门数(个)",
+      "column": "车门数(个)",
       "table": "trims",
       "kind": "number"
     },
@@ -2758,7 +2758,7 @@
       "item_id": 28,
       "name": "座位数(个)",
       "unit": "个",
-      "column": "车身｜座位数(个)",
+      "column": "座位数(个)",
       "table": "trims",
       "kind": "number"
     },
@@ -2768,7 +2768,7 @@
       "item_id": 29,
       "name": "油箱容积(L)",
       "unit": "L",
-      "column": "车身｜油箱容积(L)",
+      "column": "油箱容积(L)",
       "table": "trims",
       "kind": "number"
     },
@@ -2778,7 +2778,7 @@
       "item_id": 30,
       "name": "后备厢容积(L)",
       "unit": "L",
-      "column": "车身｜后备厢容积(L)",
+      "column": "后备厢容积(L)",
       "table": "trims",
       "kind": "text"
     },
@@ -2788,7 +2788,7 @@
       "item_id": 31,
       "name": "接近角(°)",
       "unit": "°",
-      "column": "车身｜接近角(°)",
+      "column": "接近角(°)",
       "table": "trims",
       "kind": "number"
     },
@@ -2798,7 +2798,7 @@
       "item_id": 32,
       "name": "离去角(°)",
       "unit": "°",
-      "column": "车身｜离去角(°)",
+      "column": "离去角(°)",
       "table": "trims",
       "kind": "number"
     },
@@ -2808,7 +2808,7 @@
       "item_id": 33,
       "name": "纵向通过角(°)",
       "unit": "°",
-      "column": "车身｜纵向通过角(°)",
+      "column": "纵向通过角(°)",
       "table": "trims",
       "kind": "number"
     },
@@ -2818,7 +2818,7 @@
       "item_id": 34,
       "name": "最大爬坡度(%)",
       "unit": "%",
-      "column": "车身｜最大爬坡度(%)",
+      "column": "最大爬坡度(%)",
       "table": "trims",
       "kind": "number"
     },
@@ -2828,7 +2828,7 @@
       "item_id": 35,
       "name": "最小转弯半径(m)",
       "unit": "m",
-      "column": "车身｜最小转弯半径(m)",
+      "column": "最小转弯半径(m)",
       "table": "trims",
       "kind": "number"
     },
@@ -2838,7 +2838,7 @@
       "item_id": 36,
       "name": "最大涉水深度(mm)",
       "unit": "mm",
-      "column": "车身｜最大涉水深度(mm)",
+      "column": "最大涉水深度(mm)",
       "table": "trims",
       "kind": "number"
     },
@@ -2848,7 +2848,7 @@
       "item_id": 99,
       "name": "风阻系数(Cd)",
       "unit": "Cd",
-      "column": "车身｜风阻系数(Cd)",
+      "column": "风阻系数(Cd)",
       "table": "trims",
       "kind": "number"
     },
@@ -2858,7 +2858,7 @@
       "item_id": 93,
       "name": "前制动器类型",
       "unit": "",
-      "column": "车轮制动｜前制动器类型",
+      "column": "前制动器类型",
       "table": "trims",
       "kind": "text"
     },
@@ -2868,7 +2868,7 @@
       "item_id": 94,
       "name": "后制动器类型",
       "unit": "",
-      "column": "车轮制动｜后制动器类型",
+      "column": "后制动器类型",
       "table": "trims",
       "kind": "text"
     },
@@ -2878,7 +2878,7 @@
       "item_id": 95,
       "name": "驻车制动类型",
       "unit": "",
-      "column": "车轮制动｜驻车制动类型",
+      "column": "驻车制动类型",
       "table": "trims",
       "kind": "text"
     },
@@ -2888,7 +2888,7 @@
       "item_id": 96,
       "name": "前轮胎规格",
       "unit": "",
-      "column": "车轮制动｜前轮胎规格",
+      "column": "前轮胎规格",
       "table": "trims",
       "kind": "text"
     },
@@ -2898,7 +2898,7 @@
       "item_id": 97,
       "name": "后轮胎规格",
       "unit": "",
-      "column": "车轮制动｜后轮胎规格",
+      "column": "后轮胎规格",
       "table": "trims",
       "kind": "text"
     },
@@ -2908,7 +2908,7 @@
       "item_id": 98,
       "name": "备胎规格",
       "unit": "",
-      "column": "车轮制动｜备胎规格",
+      "column": "备胎规格",
       "table": "trims",
       "kind": "text"
     },
@@ -2918,7 +2918,7 @@
       "item_id": 185,
       "name": "外后视镜功能",
       "unit": "",
-      "column": "外后视镜｜外后视镜功能",
+      "column": "外后视镜功能",
       "table": "equipment",
       "kind": "text"
     },
@@ -2928,7 +2928,7 @@
       "item_id": 10,
       "name": "车内中控锁",
       "unit": "",
-      "column": "外观/防盗｜车内中控锁",
+      "column": "车内中控锁",
       "table": "equipment",
       "kind": "text"
     },
@@ -2938,7 +2938,7 @@
       "item_id": 115,
       "name": "感应后备厢",
       "unit": "",
-      "column": "外观/防盗｜感应后备厢",
+      "column": "感应后备厢",
       "table": "equipment",
       "kind": "text"
     },
@@ -2948,7 +2948,7 @@
       "item_id": 119,
       "name": "车顶行李架",
       "unit": "",
-      "column": "外观/防盗｜车顶行李架",
+      "column": "车顶行李架",
       "table": "equipment",
       "kind": "text"
     },
@@ -2958,7 +2958,7 @@
       "item_id": 12,
       "name": "无钥匙启动系统",
       "unit": "",
-      "column": "外观/防盗｜无钥匙启动系统",
+      "column": "无钥匙启动系统",
       "table": "equipment",
       "kind": "text"
     },
@@ -2968,7 +2968,7 @@
       "item_id": 146,
       "name": "电池预加热",
       "unit": "",
-      "column": "外观/防盗｜电池预加热",
+      "column": "电池预加热",
       "table": "equipment",
       "kind": "text"
     },
@@ -2978,7 +2978,7 @@
       "item_id": 155,
       "name": "轮圈材质",
       "unit": "",
-      "column": "外观/防盗｜轮圈材质",
+      "column": "轮圈材质",
       "table": "equipment",
       "kind": "text"
     },
@@ -2988,7 +2988,7 @@
       "item_id": 156,
       "name": "电动吸合车门",
       "unit": "",
-      "column": "外观/防盗｜电动吸合车门",
+      "column": "电动吸合车门",
       "table": "equipment",
       "kind": "text"
     },
@@ -2998,7 +2998,7 @@
       "item_id": 158,
       "name": "钥匙类型",
       "unit": "",
-      "column": "外观/防盗｜钥匙类型",
+      "column": "钥匙类型",
       "table": "equipment",
       "kind": "text"
     },
@@ -3008,7 +3008,7 @@
       "item_id": 159,
       "name": "远程启动功能",
       "unit": "",
-      "column": "外观/防盗｜远程启动功能",
+      "column": "远程启动功能",
       "table": "equipment",
       "kind": "text"
     },
@@ -3018,7 +3018,7 @@
       "item_id": 191,
       "name": "无钥匙进入功能",
       "unit": "",
-      "column": "外观/防盗｜无钥匙进入功能",
+      "column": "无钥匙进入功能",
       "table": "equipment",
       "kind": "text"
     },
@@ -3028,7 +3028,7 @@
       "item_id": 200,
       "name": "电动后备厢位置记忆",
       "unit": "",
-      "column": "外观/防盗｜电动后备厢位置记忆",
+      "column": "电动后备厢位置记忆",
       "table": "equipment",
       "kind": "text"
     },
@@ -3038,7 +3038,7 @@
       "item_id": 201,
       "name": "车侧脚踏板",
       "unit": "",
-      "column": "外观/防盗｜车侧脚踏板",
+      "column": "车侧脚踏板",
       "table": "equipment",
       "kind": "text"
     },
@@ -3048,7 +3048,7 @@
       "item_id": 203,
       "name": "主动闭合式进气格栅",
       "unit": "",
-      "column": "外观/防盗｜主动闭合式进气格栅",
+      "column": "主动闭合式进气格栅",
       "table": "equipment",
       "kind": "text"
     },
@@ -3058,7 +3058,7 @@
       "item_id": 232,
       "name": "无框设计车门",
       "unit": "",
-      "column": "外观/防盗｜无框设计车门",
+      "column": "无框设计车门",
       "table": "equipment",
       "kind": "text"
     },
@@ -3068,7 +3068,7 @@
       "item_id": 233,
       "name": "隐藏电动门把手",
       "unit": "",
-      "column": "外观/防盗｜隐藏电动门把手",
+      "column": "隐藏电动门把手",
       "table": "equipment",
       "kind": "text"
     },
@@ -3078,7 +3078,7 @@
       "item_id": 264,
       "name": "自动开合车门",
       "unit": "",
-      "column": "外观/防盗｜自动开合车门",
+      "column": "自动开合车门",
       "table": "equipment",
       "kind": "text"
     },
@@ -3088,7 +3088,7 @@
       "item_id": 274,
       "name": "对外放电",
       "unit": "",
-      "column": "外观/防盗｜对外放电",
+      "column": "对外放电",
       "table": "equipment",
       "kind": "text"
     },
@@ -3098,7 +3098,7 @@
       "item_id": 34,
       "name": "电动后备厢",
       "unit": "",
-      "column": "外观/防盗｜电动后备厢",
+      "column": "电动后备厢",
       "table": "equipment",
       "kind": "text"
     },
@@ -3108,7 +3108,7 @@
       "item_id": 383,
       "name": "外观套件",
       "unit": "",
-      "column": "外观/防盗｜外观套件",
+      "column": "外观套件",
       "table": "equipment",
       "kind": "text"
     },
@@ -3118,7 +3118,7 @@
       "item_id": 390,
       "name": "感应前备厢",
       "unit": "",
-      "column": "外观/防盗｜感应前备厢",
+      "column": "感应前备厢",
       "table": "equipment",
       "kind": "text"
     },
@@ -3128,7 +3128,7 @@
       "item_id": 393,
       "name": "电动前备厢",
       "unit": "",
-      "column": "外观/防盗｜电动前备厢",
+      "column": "电动前备厢",
       "table": "equipment",
       "kind": "text"
     },
@@ -3138,7 +3138,7 @@
       "item_id": 9,
       "name": "发动机电子防盗",
       "unit": "",
-      "column": "外观/防盗｜发动机电子防盗",
+      "column": "发动机电子防盗",
       "table": "equipment",
       "kind": "text"
     },
@@ -3148,7 +3148,7 @@
       "item_id": 154,
       "name": "天窗类型",
       "unit": "",
-      "column": "天窗/玻璃｜天窗类型",
+      "column": "天窗类型",
       "table": "equipment",
       "kind": "text"
     },
@@ -3158,7 +3158,7 @@
       "item_id": 184,
       "name": "车窗一键升降功能",
       "unit": "",
-      "column": "天窗/玻璃｜车窗一键升降功能",
+      "column": "车窗一键升降功能",
       "table": "equipment",
       "kind": "text"
     },
@@ -3168,7 +3168,7 @@
       "item_id": 187,
       "name": "后排侧窗遮阳帘",
       "unit": "",
-      "column": "天窗/玻璃｜后排侧窗遮阳帘",
+      "column": "后排侧窗遮阳帘",
       "table": "equipment",
       "kind": "text"
     },
@@ -3178,7 +3178,7 @@
       "item_id": 188,
       "name": "车内化妆镜",
       "unit": "",
-      "column": "天窗/玻璃｜车内化妆镜",
+      "column": "车内化妆镜",
       "table": "equipment",
       "kind": "text"
     },
@@ -3188,7 +3188,7 @@
       "item_id": 189,
       "name": "感应雨刷功能",
       "unit": "",
-      "column": "天窗/玻璃｜感应雨刷功能",
+      "column": "感应雨刷功能",
       "table": "equipment",
       "kind": "text"
     },
@@ -3198,7 +3198,7 @@
       "item_id": 218,
       "name": "侧窗多层隔音玻璃",
       "unit": "",
-      "column": "天窗/玻璃｜侧窗多层隔音玻璃",
+      "column": "侧窗多层隔音玻璃",
       "table": "equipment",
       "kind": "text"
     },
@@ -3208,7 +3208,7 @@
       "item_id": 394,
       "name": "后排调光隐私玻璃",
       "unit": "",
-      "column": "天窗/玻璃｜后排调光隐私玻璃",
+      "column": "后排调光隐私玻璃",
       "table": "equipment",
       "kind": "text"
     },
@@ -3218,7 +3218,7 @@
       "item_id": 449,
       "name": "天窗电动遮阳帘",
       "unit": "",
-      "column": "天窗/玻璃｜天窗电动遮阳帘",
+      "column": "天窗电动遮阳帘",
       "table": "equipment",
       "kind": "text"
     },
@@ -3228,7 +3228,7 @@
       "item_id": 85,
       "name": "前/后电动车窗",
       "unit": "",
-      "column": "天窗/玻璃｜前/后电动车窗",
+      "column": "前/后电动车窗",
       "table": "equipment",
       "kind": "text"
     },
@@ -3238,7 +3238,7 @@
       "item_id": 86,
       "name": "车窗防夹手功能",
       "unit": "",
-      "column": "天窗/玻璃｜车窗防夹手功能",
+      "column": "车窗防夹手功能",
       "table": "equipment",
       "kind": "text"
     },
@@ -3248,7 +3248,7 @@
       "item_id": 95,
       "name": "后排侧隐私玻璃",
       "unit": "",
-      "column": "天窗/玻璃｜后排侧隐私玻璃",
+      "column": "后排侧隐私玻璃",
       "table": "equipment",
       "kind": "text"
     },
@@ -3258,7 +3258,7 @@
       "item_id": 97,
       "name": "后雨刷",
       "unit": "",
-      "column": "天窗/玻璃｜后雨刷",
+      "column": "后雨刷",
       "table": "equipment",
       "kind": "text"
     },
@@ -3268,7 +3268,7 @@
       "item_id": 118,
       "name": "自适应远近光",
       "unit": "",
-      "column": "车外灯光｜自适应远近光",
+      "column": "自适应远近光",
       "table": "equipment",
       "kind": "text"
     },
@@ -3278,7 +3278,7 @@
       "item_id": 180,
       "name": "近光灯光源",
       "unit": "",
-      "column": "车外灯光｜近光灯光源",
+      "column": "近光灯光源",
       "table": "equipment",
       "kind": "text"
     },
@@ -3288,7 +3288,7 @@
       "item_id": 181,
       "name": "远光灯光源",
       "unit": "",
-      "column": "车外灯光｜远光灯光源",
+      "column": "远光灯光源",
       "table": "equipment",
       "kind": "text"
     },
@@ -3298,7 +3298,7 @@
       "item_id": 182,
       "name": "车前雾灯",
       "unit": "",
-      "column": "车外灯光｜车前雾灯",
+      "column": "车前雾灯",
       "table": "equipment",
       "kind": "text"
     },
@@ -3308,7 +3308,7 @@
       "item_id": 215,
       "name": "灯光特色功能",
       "unit": "",
-      "column": "车外灯光｜灯光特色功能",
+      "column": "灯光特色功能",
       "table": "equipment",
       "kind": "text"
     },
@@ -3318,7 +3318,7 @@
       "item_id": 216,
       "name": "大灯延时关闭",
       "unit": "",
-      "column": "车外灯光｜大灯延时关闭",
+      "column": "大灯延时关闭",
       "table": "equipment",
       "kind": "text"
     },
@@ -3328,7 +3328,7 @@
       "item_id": 225,
       "name": "前大灯雨雾模式",
       "unit": "",
-      "column": "车外灯光｜前大灯雨雾模式",
+      "column": "前大灯雨雾模式",
       "table": "equipment",
       "kind": "text"
     },
@@ -3338,7 +3338,7 @@
       "item_id": 334,
       "name": "场景灯语",
       "unit": "",
-      "column": "车外灯光｜场景灯语",
+      "column": "场景灯语",
       "table": "equipment",
       "kind": "text"
     },
@@ -3348,7 +3348,7 @@
       "item_id": 400,
       "name": "辅助驾驶灯",
       "unit": "",
-      "column": "车外灯光｜辅助驾驶灯",
+      "column": "辅助驾驶灯",
       "table": "equipment",
       "kind": "text"
     },
@@ -3358,7 +3358,7 @@
       "item_id": 77,
       "name": "LED日间行车灯",
       "unit": "",
-      "column": "车外灯光｜LED日间行车灯",
+      "column": "LED日间行车灯",
       "table": "equipment",
       "kind": "text"
     },
@@ -3368,7 +3368,7 @@
       "item_id": 78,
       "name": "自动头灯",
       "unit": "",
-      "column": "车外灯光｜自动头灯",
+      "column": "自动头灯",
       "table": "equipment",
       "kind": "text"
     },
@@ -3378,7 +3378,7 @@
       "item_id": 79,
       "name": "转向辅助灯",
       "unit": "",
-      "column": "车外灯光｜转向辅助灯",
+      "column": "转向辅助灯",
       "table": "equipment",
       "kind": "text"
     },
@@ -3388,7 +3388,7 @@
       "item_id": 80,
       "name": "转向头灯",
       "unit": "",
-      "column": "车外灯光｜转向头灯",
+      "column": "转向头灯",
       "table": "equipment",
       "kind": "text"
     },
@@ -3398,7 +3398,7 @@
       "item_id": 82,
       "name": "大灯高度可调",
       "unit": "",
-      "column": "车外灯光｜大灯高度可调",
+      "column": "大灯高度可调",
       "table": "equipment",
       "kind": "text"
     },
@@ -3408,7 +3408,7 @@
       "item_id": 108,
       "name": "车道偏离预警系统",
       "unit": "",
-      "column": "主动安全｜车道偏离预警系统",
+      "column": "车道偏离预警系统",
       "table": "equipment",
       "kind": "text"
     },
@@ -3418,7 +3418,7 @@
       "item_id": 109,
       "name": "主动刹车/主动安全系统",
       "unit": "",
-      "column": "主动安全｜主动刹车/主动安全系统",
+      "column": "主动刹车/主动安全系统",
       "table": "equipment",
       "kind": "text"
     },
@@ -3428,7 +3428,7 @@
       "item_id": 127,
       "name": "疲劳驾驶提示",
       "unit": "",
-      "column": "主动安全｜疲劳驾驶提示",
+      "column": "疲劳驾驶提示",
       "table": "equipment",
       "kind": "text"
     },
@@ -3438,7 +3438,7 @@
       "item_id": 130,
       "name": "内置行车记录仪",
       "unit": "",
-      "column": "主动安全｜内置行车记录仪",
+      "column": "内置行车记录仪",
       "table": "equipment",
       "kind": "text"
     },
@@ -3448,7 +3448,7 @@
       "item_id": 14,
       "name": "ABS防抱死",
       "unit": "",
-      "column": "主动安全｜ABS防抱死",
+      "column": "ABS防抱死",
       "table": "equipment",
       "kind": "text"
     },
@@ -3458,7 +3458,7 @@
       "item_id": 147,
       "name": "胎压监测功能",
       "unit": "",
-      "column": "主动安全｜胎压监测功能",
+      "column": "胎压监测功能",
       "table": "equipment",
       "kind": "text"
     },
@@ -3468,7 +3468,7 @@
       "item_id": 148,
       "name": "安全带未系提醒",
       "unit": "",
-      "column": "主动安全｜安全带未系提醒",
+      "column": "安全带未系提醒",
       "table": "equipment",
       "kind": "text"
     },
@@ -3478,7 +3478,7 @@
       "item_id": 15,
       "name": "制动力分配(EBD/CBC等)",
       "unit": "EBD/CBC等",
-      "column": "主动安全｜制动力分配(EBD/CBC等)",
+      "column": "制动力分配(EBD/CBC等)",
       "table": "equipment",
       "kind": "text"
     },
@@ -3488,7 +3488,7 @@
       "item_id": 16,
       "name": "刹车辅助(EBA/BAS/BA等)",
       "unit": "EBA/BAS/BA等",
-      "column": "主动安全｜刹车辅助(EBA/BAS/BA等)",
+      "column": "刹车辅助(EBA/BAS/BA等)",
       "table": "equipment",
       "kind": "text"
     },
@@ -3498,7 +3498,7 @@
       "item_id": 17,
       "name": "牵引力控制(ASR/TCS/TRC等)",
       "unit": "ASR/TCS/TRC等",
-      "column": "主动安全｜牵引力控制(ASR/TCS/TRC等)",
+      "column": "牵引力控制(ASR/TCS/TRC等)",
       "table": "equipment",
       "kind": "text"
     },
@@ -3508,7 +3508,7 @@
       "item_id": 18,
       "name": "车身稳定控制(ESC/ESP/DSC等)",
       "unit": "ESC/ESP/DSC等",
-      "column": "主动安全｜车身稳定控制(ESC/ESP/DSC等)",
+      "column": "车身稳定控制(ESC/ESP/DSC等)",
       "table": "equipment",
       "kind": "text"
     },
@@ -3518,7 +3518,7 @@
       "item_id": 254,
       "name": "DOW开门预警",
       "unit": "",
-      "column": "主动安全｜DOW开门预警",
+      "column": "DOW开门预警",
       "table": "equipment",
       "kind": "text"
     },
@@ -3528,7 +3528,7 @@
       "item_id": 255,
       "name": "前方碰撞预警",
       "unit": "",
-      "column": "主动安全｜前方碰撞预警",
+      "column": "前方碰撞预警",
       "table": "equipment",
       "kind": "text"
     },
@@ -3538,7 +3538,7 @@
       "item_id": 276,
       "name": "低速行车警告",
       "unit": "",
-      "column": "主动安全｜低速行车警告",
+      "column": "低速行车警告",
       "table": "equipment",
       "kind": "text"
     },
@@ -3548,7 +3548,7 @@
       "item_id": 286,
       "name": "后方碰撞预警",
       "unit": "",
-      "column": "主动安全｜后方碰撞预警",
+      "column": "后方碰撞预警",
       "table": "equipment",
       "kind": "text"
     },
@@ -3558,7 +3558,7 @@
       "item_id": 293,
       "name": "哨兵模式/千里眼",
       "unit": "",
-      "column": "主动安全｜哨兵模式/千里眼",
+      "column": "哨兵模式/千里眼",
       "table": "equipment",
       "kind": "text"
     },
@@ -3568,7 +3568,7 @@
       "item_id": 324,
       "name": "防侧翻系统",
       "unit": "",
-      "column": "主动安全｜防侧翻系统",
+      "column": "防侧翻系统",
       "table": "equipment",
       "kind": "text"
     },
@@ -3578,7 +3578,7 @@
       "item_id": 64,
       "name": "道路救援呼叫",
       "unit": "",
-      "column": "主动安全｜道路救援呼叫",
+      "column": "道路救援呼叫",
       "table": "equipment",
       "kind": "text"
     },
@@ -3588,7 +3588,7 @@
       "item_id": 8,
       "name": "ISOFIX儿童座椅接口",
       "unit": "",
-      "column": "主动安全｜ISOFIX儿童座椅接口",
+      "column": "ISOFIX儿童座椅接口",
       "table": "equipment",
       "kind": "text"
     },
@@ -3598,7 +3598,7 @@
       "item_id": 1,
       "name": "主/副驾驶座安全气囊",
       "unit": "",
-      "column": "被动安全｜主/副驾驶座安全气囊",
+      "column": "主/副驾驶座安全气囊",
       "table": "equipment",
       "kind": "text"
     },
@@ -3608,7 +3608,7 @@
       "item_id": 194,
       "name": "后排中央安全气囊",
       "unit": "",
-      "column": "被动安全｜后排中央安全气囊",
+      "column": "后排中央安全气囊",
       "table": "equipment",
       "kind": "text"
     },
@@ -3618,7 +3618,7 @@
       "item_id": 195,
       "name": "被动行人保护",
       "unit": "",
-      "column": "被动安全｜被动行人保护",
+      "column": "被动行人保护",
       "table": "equipment",
       "kind": "text"
     },
@@ -3628,7 +3628,7 @@
       "item_id": 2,
       "name": "前/后排侧气囊",
       "unit": "",
-      "column": "被动安全｜前/后排侧气囊",
+      "column": "前/后排侧气囊",
       "table": "equipment",
       "kind": "text"
     },
@@ -3638,7 +3638,7 @@
       "item_id": 229,
       "name": "后排座椅防下滑气囊",
       "unit": "",
-      "column": "被动安全｜后排座椅防下滑气囊",
+      "column": "后排座椅防下滑气囊",
       "table": "equipment",
       "kind": "text"
     },
@@ -3648,7 +3648,7 @@
       "item_id": 231,
       "name": "前排中间气囊",
       "unit": "",
-      "column": "被动安全｜前排中间气囊",
+      "column": "前排中间气囊",
       "table": "equipment",
       "kind": "text"
     },
@@ -3658,7 +3658,7 @@
       "item_id": 3,
       "name": "前/后排头部气囊(气帘)",
       "unit": "气帘",
-      "column": "被动安全｜前/后排头部气囊(气帘)",
+      "column": "前/后排头部气囊(气帘)",
       "table": "equipment",
       "kind": "text"
     },
@@ -3668,7 +3668,7 @@
       "item_id": 199,
       "name": "涉水感应系统",
       "unit": "",
-      "column": "四驱/越野｜涉水感应系统",
+      "column": "涉水感应系统",
       "table": "equipment",
       "kind": "text"
     },
@@ -3678,7 +3678,7 @@
       "item_id": 323,
       "name": "拖挂钩",
       "unit": "",
-      "column": "四驱/越野｜拖挂钩",
+      "column": "拖挂钩",
       "table": "equipment",
       "kind": "text"
     },
@@ -3688,7 +3688,7 @@
       "item_id": 387,
       "name": "拖车取电口",
       "unit": "",
-      "column": "四驱/越野｜拖车取电口",
+      "column": "拖车取电口",
       "table": "equipment",
       "kind": "text"
     },
@@ -3698,7 +3698,7 @@
       "item_id": 110,
       "name": "整体主动转向系统",
       "unit": "",
-      "column": "驾驶操控｜整体主动转向系统",
+      "column": "整体主动转向系统",
       "table": "equipment",
       "kind": "text"
     },
@@ -3708,7 +3708,7 @@
       "item_id": 152,
       "name": "可变悬架功能",
       "unit": "",
-      "column": "驾驶操控｜可变悬架功能",
+      "column": "可变悬架功能",
       "table": "equipment",
       "kind": "text"
     },
@@ -3718,7 +3718,7 @@
       "item_id": 19,
       "name": "上坡辅助",
       "unit": "",
-      "column": "驾驶操控｜上坡辅助",
+      "column": "上坡辅助",
       "table": "equipment",
       "kind": "text"
     },
@@ -3728,7 +3728,7 @@
       "item_id": 197,
       "name": "驾驶模式切换",
       "unit": "",
-      "column": "驾驶操控｜驾驶模式切换",
+      "column": "驾驶模式切换",
       "table": "equipment",
       "kind": "text"
     },
@@ -3738,7 +3738,7 @@
       "item_id": 20,
       "name": "自动驻车",
       "unit": "",
-      "column": "驾驶操控｜自动驻车",
+      "column": "自动驻车",
       "table": "equipment",
       "kind": "text"
     },
@@ -3748,7 +3748,7 @@
       "item_id": 21,
       "name": "陡坡缓降",
       "unit": "",
-      "column": "驾驶操控｜陡坡缓降",
+      "column": "陡坡缓降",
       "table": "equipment",
       "kind": "text"
     },
@@ -3758,7 +3758,7 @@
       "item_id": 23,
       "name": "空气悬架",
       "unit": "",
-      "column": "驾驶操控｜空气悬架",
+      "column": "空气悬架",
       "table": "equipment",
       "kind": "text"
     },
@@ -3768,7 +3768,7 @@
       "item_id": 260,
       "name": "能量回收系统",
       "unit": "",
-      "column": "驾驶操控｜能量回收系统",
+      "column": "能量回收系统",
       "table": "equipment",
       "kind": "text"
     },
@@ -3778,7 +3778,7 @@
       "item_id": 300,
       "name": "单踏板模式",
       "unit": "",
-      "column": "驾驶操控｜单踏板模式",
+      "column": "单踏板模式",
       "table": "equipment",
       "kind": "text"
     },
@@ -3788,7 +3788,7 @@
       "item_id": 319,
       "name": "魔毯智能悬架",
       "unit": "",
-      "column": "驾驶操控｜魔毯智能悬架",
+      "column": "魔毯智能悬架",
       "table": "equipment",
       "kind": "text"
     },
@@ -3798,7 +3798,7 @@
       "item_id": 397,
       "name": "后轮转向角度(°)",
       "unit": "°",
-      "column": "驾驶操控｜后轮转向角度(°)",
+      "column": "后轮转向角度(°)",
       "table": "equipment",
       "kind": "text"
     },
@@ -3808,7 +3808,7 @@
       "item_id": 399,
       "name": "空气悬挂类型",
       "unit": "",
-      "column": "驾驶操控｜空气悬挂类型",
+      "column": "空气悬挂类型",
       "table": "equipment",
       "kind": "text"
     },
@@ -3818,7 +3818,7 @@
       "item_id": 105,
       "name": "辅助泊车入位",
       "unit": "",
-      "column": "驾驶功能｜辅助泊车入位",
+      "column": "辅助泊车入位",
       "table": "equipment",
       "kind": "text"
     },
@@ -3828,7 +3828,7 @@
       "item_id": 107,
       "name": "并线辅助",
       "unit": "",
-      "column": "驾驶功能｜并线辅助",
+      "column": "并线辅助",
       "table": "equipment",
       "kind": "text"
     },
@@ -3838,7 +3838,7 @@
       "item_id": 150,
       "name": "巡航系统",
       "unit": "",
-      "column": "驾驶功能｜巡航系统",
+      "column": "巡航系统",
       "table": "equipment",
       "kind": "text"
     },
@@ -3848,7 +3848,7 @@
       "item_id": 151,
       "name": "辅助驾驶等级",
       "unit": "",
-      "column": "驾驶功能｜辅助驾驶等级",
+      "column": "辅助驾驶等级",
       "table": "equipment",
       "kind": "text"
     },
@@ -3858,7 +3858,7 @@
       "item_id": 196,
       "name": "道路交通标识识别",
       "unit": "",
-      "column": "驾驶功能｜道路交通标识识别",
+      "column": "道路交通标识识别",
       "table": "equipment",
       "kind": "text"
     },
@@ -3868,7 +3868,7 @@
       "item_id": 198,
       "name": "倒车车侧预警系统",
       "unit": "",
-      "column": "驾驶功能｜倒车车侧预警系统",
+      "column": "倒车车侧预警系统",
       "table": "equipment",
       "kind": "text"
     },
@@ -3878,7 +3878,7 @@
       "item_id": 202,
       "name": "车道保持辅助系统",
       "unit": "",
-      "column": "驾驶功能｜车道保持辅助系统",
+      "column": "车道保持辅助系统",
       "table": "equipment",
       "kind": "text"
     },
@@ -3888,7 +3888,7 @@
       "item_id": 210,
       "name": "导航路况信息显示",
       "unit": "",
-      "column": "驾驶功能｜导航路况信息显示",
+      "column": "导航路况信息显示",
       "table": "equipment",
       "kind": "text"
     },
@@ -3898,7 +3898,7 @@
       "item_id": 256,
       "name": "辅助变道",
       "unit": "",
-      "column": "驾驶功能｜辅助变道",
+      "column": "辅助变道",
       "table": "equipment",
       "kind": "text"
     },
@@ -3908,7 +3908,7 @@
       "item_id": 259,
       "name": "循迹倒车",
       "unit": "",
-      "column": "驾驶功能｜循迹倒车",
+      "column": "循迹倒车",
       "table": "equipment",
       "kind": "text"
     },
@@ -3918,7 +3918,7 @@
       "item_id": 270,
       "name": "高精地图",
       "unit": "",
-      "column": "驾驶功能｜高精地图",
+      "column": "高精地图",
       "table": "equipment",
       "kind": "text"
     },
@@ -3928,7 +3928,7 @@
       "item_id": 271,
       "name": "地图品牌",
       "unit": "",
-      "column": "驾驶功能｜地图品牌",
+      "column": "地图品牌",
       "table": "equipment",
       "kind": "text"
     },
@@ -3938,7 +3938,7 @@
       "item_id": 279,
       "name": "遥控泊车",
       "unit": "",
-      "column": "驾驶功能｜遥控泊车",
+      "column": "遥控泊车",
       "table": "equipment",
       "kind": "text"
     },
@@ -3948,7 +3948,7 @@
       "item_id": 280,
       "name": "远程召唤",
       "unit": "",
-      "column": "驾驶功能｜远程召唤",
+      "column": "远程召唤",
       "table": "equipment",
       "kind": "text"
     },
@@ -3958,7 +3958,7 @@
       "item_id": 283,
       "name": "辅助驾驶系统",
       "unit": "",
-      "column": "驾驶功能｜辅助驾驶系统",
+      "column": "辅助驾驶系统",
       "table": "equipment",
       "kind": "text"
     },
@@ -3968,7 +3968,7 @@
       "item_id": 296,
       "name": "车道居中保持",
       "unit": "",
-      "column": "驾驶功能｜车道居中保持",
+      "column": "车道居中保持",
       "table": "equipment",
       "kind": "text"
     },
@@ -3978,7 +3978,7 @@
       "item_id": 301,
       "name": "记忆泊车",
       "unit": "",
-      "column": "驾驶功能｜记忆泊车",
+      "column": "记忆泊车",
       "table": "equipment",
       "kind": "text"
     },
@@ -3988,7 +3988,7 @@
       "item_id": 302,
       "name": "辅助匝道自动驶出(入)",
       "unit": "入",
-      "column": "驾驶功能｜辅助匝道自动驶出(入)",
+      "column": "辅助匝道自动驶出(入)",
       "table": "equipment",
       "kind": "text"
     },
@@ -3998,7 +3998,7 @@
       "item_id": 304,
       "name": "信号灯识别",
       "unit": "",
-      "column": "驾驶功能｜信号灯识别",
+      "column": "信号灯识别",
       "table": "equipment",
       "kind": "text"
     },
@@ -4008,7 +4008,7 @@
       "item_id": 312,
       "name": "方向盘离手检测",
       "unit": "",
-      "column": "驾驶功能｜方向盘离手检测",
+      "column": "方向盘离手检测",
       "table": "equipment",
       "kind": "text"
     },
@@ -4018,7 +4018,7 @@
       "item_id": 325,
       "name": "起步提醒",
       "unit": "",
-      "column": "驾驶功能｜起步提醒",
+      "column": "起步提醒",
       "table": "equipment",
       "kind": "text"
     },
@@ -4028,7 +4028,7 @@
       "item_id": 326,
       "name": "辅助驾驶路段",
       "unit": "",
-      "column": "驾驶功能｜辅助驾驶路段",
+      "column": "辅助驾驶路段",
       "table": "equipment",
       "kind": "text"
     },
@@ -4038,7 +4038,7 @@
       "item_id": 380,
       "name": "车载卫星通信",
       "unit": "",
-      "column": "驾驶功能｜车载卫星通信",
+      "column": "车载卫星通信",
       "table": "equipment",
       "kind": "text"
     },
@@ -4048,7 +4048,7 @@
       "item_id": 395,
       "name": "高精定位",
       "unit": "",
-      "column": "驾驶功能｜高精定位",
+      "column": "高精定位",
       "table": "equipment",
       "kind": "text"
     },
@@ -4058,7 +4058,7 @@
       "item_id": 63,
       "name": "卫星导航系统",
       "unit": "",
-      "column": "驾驶功能｜卫星导航系统",
+      "column": "卫星导航系统",
       "table": "equipment",
       "kind": "text"
     },
@@ -4068,7 +4068,7 @@
       "item_id": 149,
       "name": "驾驶辅助影像",
       "unit": "",
-      "column": "驾驶硬件｜驾驶辅助影像",
+      "column": "驾驶辅助影像",
       "table": "equipment",
       "kind": "text"
     },
@@ -4078,7 +4078,7 @@
       "item_id": 247,
       "name": "辅助驾驶芯片",
       "unit": "",
-      "column": "驾驶硬件｜辅助驾驶芯片",
+      "column": "辅助驾驶芯片",
       "table": "equipment",
       "kind": "text"
     },
@@ -4088,7 +4088,7 @@
       "item_id": 248,
       "name": "芯片总算力",
       "unit": "",
-      "column": "驾驶硬件｜芯片总算力",
+      "column": "芯片总算力",
       "table": "equipment",
       "kind": "text"
     },
@@ -4098,7 +4098,7 @@
       "item_id": 249,
       "name": "摄像头数量",
       "unit": "",
-      "column": "驾驶硬件｜摄像头数量",
+      "column": "摄像头数量",
       "table": "equipment",
       "kind": "text"
     },
@@ -4108,7 +4108,7 @@
       "item_id": 250,
       "name": "超声波雷达数量",
       "unit": "",
-      "column": "驾驶硬件｜超声波雷达数量",
+      "column": "超声波雷达数量",
       "table": "equipment",
       "kind": "text"
     },
@@ -4118,7 +4118,7 @@
       "item_id": 251,
       "name": "毫米波雷达数量",
       "unit": "",
-      "column": "驾驶硬件｜毫米波雷达数量",
+      "column": "毫米波雷达数量",
       "table": "equipment",
       "kind": "text"
     },
@@ -4128,7 +4128,7 @@
       "item_id": 252,
       "name": "激光雷达数量",
       "unit": "",
-      "column": "驾驶硬件｜激光雷达数量",
+      "column": "激光雷达数量",
       "table": "equipment",
       "kind": "text"
     },
@@ -4138,7 +4138,7 @@
       "item_id": 258,
       "name": "透明底盘/540度影像",
       "unit": "",
-      "column": "驾驶硬件｜透明底盘/540度影像",
+      "column": "透明底盘/540度影像",
       "table": "equipment",
       "kind": "text"
     },
@@ -4148,7 +4148,7 @@
       "item_id": 277,
       "name": "车内摄像头数量",
       "unit": "",
-      "column": "驾驶硬件｜车内摄像头数量",
+      "column": "车内摄像头数量",
       "table": "equipment",
       "kind": "text"
     },
@@ -4158,7 +4158,7 @@
       "item_id": 349,
       "name": "前方感知摄像头像素",
       "unit": "",
-      "column": "驾驶硬件｜前方感知摄像头像素",
+      "column": "前方感知摄像头像素",
       "table": "equipment",
       "kind": "text"
     },
@@ -4168,7 +4168,7 @@
       "item_id": 350,
       "name": "前方最大探测距离",
       "unit": "",
-      "column": "驾驶硬件｜前方最大探测距离",
+      "column": "前方最大探测距离",
       "table": "equipment",
       "kind": "text"
     },
@@ -4178,7 +4178,7 @@
       "item_id": 356,
       "name": "激光雷达品牌",
       "unit": "",
-      "column": "驾驶硬件｜激光雷达品牌",
+      "column": "激光雷达品牌",
       "table": "equipment",
       "kind": "text"
     },
@@ -4188,7 +4188,7 @@
       "item_id": 357,
       "name": "激光雷达型号",
       "unit": "",
-      "column": "驾驶硬件｜激光雷达型号",
+      "column": "激光雷达型号",
       "table": "equipment",
       "kind": "text"
     },
@@ -4198,7 +4198,7 @@
       "item_id": 358,
       "name": "激光雷达线数",
       "unit": "",
-      "column": "驾驶硬件｜激光雷达线数",
+      "column": "激光雷达线数",
       "table": "equipment",
       "kind": "text"
     },
@@ -4208,7 +4208,7 @@
       "item_id": 359,
       "name": "激光雷达10%反射率探测距离",
       "unit": "",
-      "column": "驾驶硬件｜激光雷达10%反射率探测距离",
+      "column": "激光雷达10%反射率探测距离",
       "table": "equipment",
       "kind": "text"
     },
@@ -4218,7 +4218,7 @@
       "item_id": 360,
       "name": "激光雷达点云数量",
       "unit": "",
-      "column": "驾驶硬件｜激光雷达点云数量",
+      "column": "激光雷达点云数量",
       "table": "equipment",
       "kind": "text"
     },
@@ -4228,7 +4228,7 @@
       "item_id": 361,
       "name": "前方感知摄像头",
       "unit": "",
-      "column": "驾驶硬件｜前方感知摄像头",
+      "column": "前方感知摄像头",
       "table": "equipment",
       "kind": "text"
     },
@@ -4238,7 +4238,7 @@
       "item_id": 362,
       "name": "环境感知摄像头像素",
       "unit": "",
-      "column": "驾驶硬件｜环境感知摄像头像素",
+      "column": "环境感知摄像头像素",
       "table": "equipment",
       "kind": "text"
     },
@@ -4248,7 +4248,7 @@
       "item_id": 363,
       "name": "环视摄像头像素",
       "unit": "",
-      "column": "驾驶硬件｜环视摄像头像素",
+      "column": "环视摄像头像素",
       "table": "equipment",
       "kind": "text"
     },
@@ -4258,7 +4258,7 @@
       "item_id": 42,
       "name": "前/后驻车雷达",
       "unit": "",
-      "column": "驾驶硬件｜前/后驻车雷达",
+      "column": "前/后驻车雷达",
       "table": "equipment",
       "kind": "text"
     },
@@ -4268,7 +4268,7 @@
       "item_id": 443,
       "name": "UWB高精度雷达",
       "unit": "",
-      "column": "驾驶硬件｜UWB高精度雷达",
+      "column": "UWB高精度雷达",
       "table": "equipment",
       "kind": "text"
     },
@@ -4278,7 +4278,7 @@
       "item_id": 38,
       "name": "后排车门开启方式",
       "unit": "",
-      "column": "车身｜后排车门开启方式",
+      "column": "后排车门开启方式",
       "table": "trims",
       "kind": "text"
     },
@@ -4288,7 +4288,7 @@
       "item_id": 5129,
       "name": "基础辅助驾驶",
       "unit": "",
-      "column": "选装包｜基础辅助驾驶｜参数5129",
+      "column": "基础辅助驾驶(5129)",
       "table": "equipment",
       "kind": "text"
     },
@@ -4298,7 +4298,7 @@
       "item_id": 5009,
       "name": "增强辅助驾驶",
       "unit": "",
-      "column": "选装包｜增强辅助驾驶",
+      "column": "增强辅助驾驶(5009)",
       "table": "equipment",
       "kind": "text"
     },
@@ -4308,7 +4308,7 @@
       "item_id": 5062,
       "name": "智能辅助驾驶",
       "unit": "",
-      "column": "选装包｜智能辅助驾驶｜参数5062",
+      "column": "智能辅助驾驶(5062)",
       "table": "equipment",
       "kind": "text"
     },
@@ -4318,7 +4318,7 @@
       "item_id": 5375,
       "name": "基础辅助驾驶",
       "unit": "",
-      "column": "选装包｜基础辅助驾驶｜参数5375",
+      "column": "基础辅助驾驶(5375)",
       "table": "equipment",
       "kind": "text"
     },
@@ -4328,7 +4328,7 @@
       "item_id": 5377,
       "name": "增强辅助驾驶",
       "unit": "",
-      "column": "选装包｜增强辅助驾驶｜参数5377",
+      "column": "增强辅助驾驶(5377)",
       "table": "equipment",
       "kind": "text"
     },
@@ -4338,7 +4338,7 @@
       "item_id": 5376,
       "name": "智能辅助驾驶",
       "unit": "",
-      "column": "选装包｜智能辅助驾驶｜参数5376",
+      "column": "智能辅助驾驶(5376)",
       "table": "equipment",
       "kind": "text"
     }
