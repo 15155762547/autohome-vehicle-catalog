@@ -425,6 +425,17 @@ def report(root):
         f"| {status} | {counts.get(status, 0)} |"
         for status in ("满15张", "不足15张", "无匹配官图", "失败", "访问受阻", "未处理")
     ]
+    if source_only:
+        categories = Counter(p.get("category", "官图") for r in results for p in r["images"])
+        covers = sum(
+            bool(r["images"]) and all(p.get("scope") == "series" for p in r["images"])
+            for r in results
+        )
+        lines += [
+            "",
+            f"仅车系封面：{covers}组，飞书年款留空，不能据此确认图片年款或动力。",
+            "图片类别：" + "；".join(f"{k} {v}个" for k, v in categories.items()) + "。",
+        ]
     lines += [
         "",
         "飞书“车型图片”包含全部分组。未处理行仅是占位，0张不代表源站无图，须同时查看“检查结果”。",
@@ -458,7 +469,7 @@ def report(root):
         "",
         "## 各组明细",
         "",
-        "| 车型 | model_id | 年款 | 图片数 | 状态 | 详情 |",
+        "| 车型 | model_id | 目标年款 | 图片数 | 状态 | 详情 |",
         "|---|---|---:|---:|---|---|",
     ]
     for r in results:
