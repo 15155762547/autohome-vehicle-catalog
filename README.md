@@ -25,26 +25,37 @@ uv run pytest
 
 ## 范围与状态
 
-目录从汽车之家品牌接口发现，并保存筛选选项及每个车系的原始状态；不把新能源搜索页发现数当全站完整性证明，也不按厂商是否进口筛选。
+公司要求采集汽车之家“找新能源”目录的在售与预售，排除停售及其他未售，不按进口身份额外筛选。正式全量范围来自该页面两个状态分页接口的实际成员，不使用品牌接口的模糊“未售”状态推断预售，也不依赖搜索响应中不可靠的 `newenergy` 标记。
 
-源站把部分状态10和0均归为“未售”。状态10不能直接全部当预售。`--presale-series` 是用户明确确认的预售范围，源站状态及用户指定依据分别保留。其他模糊未售进入复核清单，不进入配置表。`--presale-series` 不能使停售车系重新纳入。
-
-本项目首次验收使用特斯拉四车系：Model 3、Model Y、Model Y L、赛博越野旅行车。其中赛博越野旅行车由用户明确指定纳入，记录这个依据，不宣称源站接口已经标明正式预售价。
+2026-10-17 实时目录快照核对为859在售＋38预售，897个不重复车系、6586个不重复配置。赛博越野旅行车属于源站预售目录；纳入依据是公司的统一范围要求与源站目录归属，不是个人指定例外。数字是该时点快照，后续运行必须重新核对。
 
 ```bash
-# brand ID 和 series ID 均为汽车之家公开来源编号。
-uv run autohome-catalog crawl --brand 133 --presale-series 5535 --run tesla-sample
-# 同一个运行目录只允许一次联网采集；重放不联网。
-uv run autohome-catalog export --run tesla-sample
+uv run autohome-catalog discover --expected-on-sale 859 --expected-presale 38 --run full-directory
+uv run autohome-catalog crawl --manifest "$AUTOHOME_DATA_ROOT/full-directory/manifest.json" --run full-catalog
+# 若首轮报告缺失，按官网配置页请求补采失败项；不重爬已完成车系。
+uv run autohome-catalog repair --run full-catalog
+uv run autohome-catalog export-full --run full-catalog
 ```
 
-采集只针对显式给出的品牌；`--series` 可进一步限定本轮车系。没有隐式全站任务或后台定时任务。
+全量导出为`完整车型.csv`、`完整配置.csv`和`字段目录.csv`，完整文本保留区间、多个取值、位置、标配／选装符号及条件。数字筛选列不强转这些条件，飞书保留必要的原文对照。全量源站字段先归并，再按300列预算准备扩展批次；新增的品牌专属参数横向展开，只有实际有本批参数的配置才创建对应扩展记录。
+
+```bash
+uv run autohome-catalog prepare-full-sync --run full-catalog
+# 显式实验Base配置包含profile和允许写入的目标ID；新扩展表ID及批次配置只保存在数据盘。
+uv run autohome-catalog sync-full --config "$AUTOHOME_DATA_ROOT/private-config.json" --run full-catalog
+```
+
+全量同步复用已有的plan/apply/verify，以来源车系／配置ID去重；同一快照重复计划必须零新增、零更新。现有参数列和类型不改动；新增参数保持源站原文。各表内按源站分组及字段顺序排列，来源和关联列后置，model_id紧随名称。扩展表按配置ID与主表一一关联。旧表及生产表不写入。
+
+目录分页总数、页内数量、重复ID或源站成员变化会报错；清单保留每页URL、时间、哈希及原始响应。采集验证清单证据后，仅取对应车系及配置ID，并再次核对配置在售／预售状态。目录证据随采集运行一起保存；`progress.json` 可查看实时完成数量，结束时 `status.json` 列出覆盖与失败。没有默认全量或后台定时任务。
+
+小样本或品牌专项仍可使用 `crawl --brand ... --series ...`。历史 `--presale-series` 仅用于有独立证据的显式样本，不能把所有状态10或0当作预售。同一个运行目录只允许一次联网采集；重放不联网。
 
 ## 参数与输出
 
 `schema/fields.json` 是五品牌137配置、25个历史响应的427项初始中文参数字典（实时特斯拉样本补审后为434项），保留源站大组/分组/原名/单位/原始参数ID。该字典不是全站永久全集。每份响应独立建立titleid映射，按specid匹配具体配置；不能跨年份复用列号。
 
-`model_id` 使用 `AUT-车系ID-BEV/PHEV/EREV` 格式，动力类型取自每条配置的能源类型；未识别时留空。车型表保持一车系一行，多动力编号换行列出；trim和配置扩展表每行对应一个编号。编号列在默认视图紧随名称。
+`model_id` 使用 `AUT-车系ID-BEV/PHEV/EREV/FCEV` 格式，动力类型取自每条配置的能源类型；未识别时留空。FCEV用于源站氢燃料车型，本次为Mirai；[丰田官方说明其为燃料电池电动车](https://global.toyota/en/newsroom/toyota/33558148.html)。车型表保持一车系一行，多动力编号换行列出；trim和配置扩展表每行对应一个编号。编号列在默认视图紧随名称。
 
 配置输出独立列CSV及飞书计划，原始JSON仅用于证据。88个数值参数另有一一对应的“原文”文本列，保留原始短横杠、符号和条件；默认检查视图隐藏这些证据列，需要查错时可显示。参数列优先使用源站原名和单位，仅在重名时加上必要的分组或参数ID，完整来源分组仍保留在字典及字段说明中。新增字段输出审计清单，先审查字典和列预算，再用 `schema-sync --config ...` 仅追加缺失列，已有列类型或关联目标不符会拒绝；不静默丢字段。●显示为“标配（●）”，○显示为“选配（○）”，短横杠保留原符号待字段语义核对，不变成false或0。不计算气囊总数。只有明确纯数值才转数字，缺失留空，无法转换的数值进入审计。
 
@@ -70,6 +81,9 @@ uv run autohome-catalog verify --config "$AUTOHOME_DATA_ROOT/private-config.json
 - `spider.py`、`storage.py`：Scrapy请求、外接盘证据、限制暂停。
 - `export.py`：中文字典、参数展开及审计。
 - `feishu.py`、`migration.py`：指定试验表的备份核验、旧表改名、新表创建、计划、写入和回读。
+- `discovery.py`：新能源在售／预售分页目录与证据校验。
+- `repair.py`：按网页真实spec页请求补采缺失参数，按源字段身份重映射每个响应的titleid；保持每个配置实际来源。
+- `full_export.py` / `full_sync.py`：源站完整CSV导出、300列横向扩展批次和已授权实验Base同步。
 - `cli.py`：显式范围的命令行入口。
 
 首次默认并发2、超时20秒、有限重试；可在小样本上测并发1/2/4，依据成功率、延迟和完整性选择。访问限制、验证码、意外跳转会停止后续请求；不使用代理、验证码破解或变更身份绕过访问控制。遇到问题先保留证据，不能把一次完成称为全站完整。

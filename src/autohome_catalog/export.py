@@ -10,6 +10,8 @@ from pathlib import Path
 from .parse import cell_text, numeric_cell, parse_parameters, render_cell
 from .storage import assert_external, save_json
 
+POWERTRAIN_CODES = {"纯电动": "BEV", "插电式混合动力": "PHEV", "增程式": "EREV", "氢燃料": "FCEV"}
+
 MODEL_FIELDS = [
     "车系名称",
     "model_id",
@@ -84,7 +86,35 @@ def assert_dictionary(fields):
         raise ValueError("Field dictionary exceeds the 300-column table budget")
 
 
+def verify_packet_sources(root, packet):
+    from .repair import merge_parts
+
+    parts = packet.get("parameter_parts") or [
+        {"source": packet["parameter_source"], "payload": packet["payload"]}
+    ]
+    for source in [packet["spec_list_source"], packet["series"]["catalog_source"]] + [
+        p["source"] for p in parts
+    ]:
+        path = (root / source["file"]).resolve()
+        if not path.is_relative_to(root.resolve()):
+            raise ValueError("Source evidence path escapes the run")
+        if hashlib.sha256(path.read_bytes()).hexdigest() != source["sha256"]:
+            raise ValueError(f"Source evidence hash mismatch: {source['file']}")
+    for part in parts:
+        raw = (root / part["source"]["file"]).read_bytes()
+        if json.loads(raw).get("result") != part["payload"]:
+            raise ValueError("Normalized parameter payload differs from its captured source")
+    if "parameter_parts" in packet:
+        ids = [sid for p in parts for sid in p["spec_ids"]]
+        if len(ids) != len(set(ids)) or set(ids) != {s["id"] for s in packet["spec_list"]}:
+            raise ValueError("Parameter parts differ from the selected configuration scope")
+        if merge_parts(parts, packet["series"]["seriesid"]) != packet["payload"]:
+            raise ValueError("Merged parameter payload differs from its captured source parts")
+
+
 def expand_packet(packet: dict, dictionary: list[dict]):
+    from .repair import sources_by_spec
+
     series, source = packet["series"], packet["parameter_source"]
     source_time = datetime.fromisoformat(source["fetched_at"].replace("Z", "+00:00")).isoformat(
         timespec="milliseconds"
@@ -93,10 +123,9 @@ def expand_packet(packet: dict, dictionary: list[dict]):
     spec_list = {s["id"]: s for s in packet["spec_list"]}
     cells_by_spec = parse_parameters(packet["payload"], sid, set(spec_list))
     model_ids = {}
-    powertrains = {"纯电动": "BEV", "插电式混合动力": "PHEV", "增程式": "EREV"}
     for spec_id, cells in cells_by_spec.items():
         energy = cells.get(("参数信息", "基本参数", 55, "能源类型"))
-        powertrain = powertrains.get(cell_text(energy)) if energy else None
+        powertrain = POWERTRAIN_CODES.get(cell_text(energy)) if energy else None
         model_ids[spec_id] = f"AUT-{sid}-{powertrain}" if powertrain else None
     bread = packet["payload"]["bread"]
     model = {
@@ -116,15 +145,19 @@ def expand_packet(packet: dict, dictionary: list[dict]):
     result = {"models": [model], "trims": [], "equipment": [], "evidence": []}
     fields_by_key = {key_of(f): f for f in dictionary}
     issues = []
+    spec_sources = sources_by_spec(packet)
     for spec_id, cells in cells_by_spec.items():
         spec = spec_list[spec_id]
+        spec_source = spec_sources[spec_id]
         meta = {
             "配置名称": spec["specname"],
             "model_id": model_ids[spec_id],
             "来源配置ID": str(spec_id),
             "来源参数页": f"https://www.autohome.com.cn/config/spec/{spec_id}.html",
-            "来源采集时间": source_time,
-            "来源快照SHA256": source["sha256"],
+            "来源采集时间": datetime.fromisoformat(
+                spec_source["fetched_at"].replace("Z", "+00:00")
+            ).isoformat(timespec="milliseconds"),
+            "来源快照SHA256": spec_source["sha256"],
         }
         trim = {
             **meta,
@@ -132,7 +165,7 @@ def expand_packet(packet: dict, dictionary: list[dict]):
             "销售状态": [series["scope_status"]],
             "销售状态依据": series["scope_basis"],
             "原始销售状态码": str(spec["specstate"]),
-            "来源采集URL": source["url"],
+            "来源采集URL": spec_source["url"],
             "图片来源URL清单": None,
         }
         equipment = dict(meta)
@@ -148,7 +181,7 @@ def expand_packet(packet: dict, dictionary: list[dict]):
                     "spec_id": spec_id,
                     "field": key,
                     "raw_cell": cell.model_dump(),
-                    "source": source,
+                    "source": spec_source,
                 }
             )
             if key not in fields_by_key:
@@ -204,17 +237,7 @@ def export_run(root: Path, dictionary_path: Path | None = None):
         packet = json.loads(file.read_text())
         if packet["series"]["seriesid"] != int(file.stem):
             raise ValueError("Packet filename/series identity mismatch")
-        for source in [
-            packet["parameter_source"],
-            packet["spec_list_source"],
-            packet["series"]["catalog_source"],
-        ]:
-            raw = (root / source["file"]).read_bytes()
-            if hashlib.sha256(raw).hexdigest() != source["sha256"]:
-                raise ValueError(f"Source evidence hash mismatch: {source['file']}")
-        parameter_raw = (root / packet["parameter_source"]["file"]).read_bytes()
-        if json.loads(parameter_raw).get("result") != packet["payload"]:
-            raise ValueError("Normalized parameter payload differs from its captured source")
+        verify_packet_sources(root, packet)
         expanded, packet_issues = expand_packet(packet, dictionary)
         for table in desired:
             desired[table].extend(expanded[table])

@@ -176,3 +176,73 @@ def test_record_visibility_delay_does_not_cause_duplicate_writes(tmp_path, monke
     monkeypatch.setattr(module.time, "sleep", lambda _: None)
     module.apply(client, tmp_path)
     assert client.writes == 1
+
+
+def test_extra_tables_and_view_writes_stay_inside_explicit_experiment_scope():
+    from autohome_catalog.feishu import assert_operation
+
+    c = config()
+    with pytest.raises(ValueError, match="name"):
+        assert_operation(c, "+table-create", ["--name", "配置参数扩展2"])
+    c["extension_table_names"] = ["配置参数扩展2", "unrelated"]
+    assert_operation(c, "+table-create", ["--name", "配置参数扩展2"])
+    with pytest.raises(ValueError, match="name"):
+        assert_operation(c, "+table-create", ["--name", "unrelated"])
+    with pytest.raises(ValueError, match="table"):
+        assert_operation(c, "+view-set-visible-fields", ["--table-id", "old-t"])
+
+
+def test_extension_verification_checks_its_own_reverse_link():
+    from autohome_catalog.feishu import verify_relations
+
+    desired = {"trims": [], "equipment": [{"key": "2", "trim_key": "2"}]}
+    snapshots = {
+        "models": [],
+        "trims": [
+            {
+                "record_id": "t",
+                "fields": {
+                    "来源配置ID": "2",
+                    "参数扩展": [{"id": "original"}],
+                    "参数扩展2": [{"id": "extra"}],
+                },
+            }
+        ],
+        "equipment": [{"record_id": "extra", "fields": {"来源配置ID": "2"}}],
+    }
+    assert verify_relations(desired, snapshots, "参数扩展2") == 1
+    with pytest.raises(ValueError, match="Reverse"):
+        verify_relations(desired, snapshots)
+
+
+def test_pagination_restarts_when_async_commits_change_revision(monkeypatch):
+    import autohome_catalog.feishu as module
+
+    class ReadChangingTable(module.Client):
+        def __init__(self):
+            self.config = config()
+            self.reads = 0
+
+        def call(self, command, args):
+            assert command == "+record-list"
+            self.reads += 1
+            if self.reads < 3:
+                return {
+                    "rev": self.reads,
+                    "record_id_list": ["r1"],
+                    "data": [["1"]],
+                    "fields": ["来源车系ID"],
+                    "has_more": True,
+                }
+            return {
+                "rev": 3,
+                "record_id_list": ["r1", "r2"],
+                "data": [["1"], ["2"]],
+                "fields": ["来源车系ID"],
+                "has_more": False,
+            }
+
+    monkeypatch.setattr(module.time, "sleep", lambda _: None)
+    client = ReadChangingTable()
+    assert len(client.records("models")) == 2
+    assert client.reads == 3

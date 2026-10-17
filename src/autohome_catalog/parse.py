@@ -99,7 +99,7 @@ def choose_series(rows: list[dict], presale_series: set[int], on_sale_states=Non
             chosen.append({**row, "scope_status": "在售", "scope_basis": "源站在售目录"})
         elif series.seriesstate == 10 and series.seriesid in presale_series:
             chosen.append(
-                {**row, "scope_status": "预售", "scope_basis": "用户明确指定纳入；源站状态10归未售"}
+                {**row, "scope_status": "预售", "scope_basis": "历史显式样本；正式预售范围以找新能源预售目录核验"}
             )
         elif series.seriesstate in {0, 10}:
             review.append({**row, "review_reason": "未售，缺少明确预售证据"})

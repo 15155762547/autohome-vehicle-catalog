@@ -58,7 +58,9 @@ class CatalogSpider(scrapy.Spider):
     name = "catalog"
     allowed_domains = ["www.autohome.com.cn"]
 
-    def __init__(self, root, brands, series_ids=(), presale_series=(), **kwargs):
+    def __init__(
+        self, root, brands=(), series_ids=(), presale_series=(), catalog_rows=(), **kwargs
+    ):
         super().__init__(**kwargs)
         self.root = Path(root)
         self.brands = set(brands)
@@ -66,14 +68,21 @@ class CatalogSpider(scrapy.Spider):
         self.presale_series = set(presale_series)
         self.directory, self.review, self.errors = [], [], []
         self.completed = set()
+        self.catalog_rows = list(catalog_rows)
 
     @classmethod
     def from_crawler(cls, crawler, *args, **kwargs):
         spider = super().from_crawler(crawler, *args, **kwargs)
         crawler.signals.connect(spider.closed_report, signal=signals.spider_closed)
+        crawler.signals.connect(spider.callback_failed, signal=signals.spider_error)
         return spider
 
     async def start(self):
+        if self.catalog_rows:
+            self.directory = self.catalog_rows
+            for row in self.catalog_rows:
+                yield self.spec_request(row)
+            return
         for brand in sorted(self.brands):
             yield scrapy.Request(
                 BASE + f"series/getserieslistbybrandid?brandid={brand}",
@@ -111,17 +120,20 @@ class CatalogSpider(scrapy.Spider):
         for row in chosen:
             row = {**row, "brand_id": brand_id, "catalog_source": response.meta["source_receipt"]}
             self.directory.append(row)
-            state = 3 if row["scope_status"] == "预售" else 2
-            url = (
-                BASE
-                + "spec/getSpecList?"
-                + urlencode(
-                    {"searchtype": 6, "seriesid": row["seriesid"], "state": state, "orderid": 0}
-                )
+            yield self.spec_request(row)
+
+    def spec_request(self, row):
+        state = 3 if row["scope_status"] == "预售" else 2
+        url = (
+            BASE
+            + "spec/getSpecList?"
+            + urlencode(
+                {"searchtype": 6, "seriesid": row["seriesid"], "state": state, "orderid": 0}
             )
-            yield scrapy.Request(
-                url, callback=self.parse_spec_list, errback=self.failed, cb_kwargs={"series": row}
-            )
+        )
+        return scrapy.Request(
+            url, callback=self.parse_spec_list, errback=self.failed, cb_kwargs={"series": row}
+        )
 
     def parse_spec_list(self, response, series):
         listing = SpecList.model_validate(self.source_json(response))
@@ -131,6 +143,11 @@ class CatalogSpider(scrapy.Spider):
         items = [s.model_dump() for s in listing.items]
         if len({s["id"] for s in items}) != len(items):
             raise ValueError("Duplicate configuration IDs in list")
+        if "catalog_state" in series:
+            selected = set(series["specids"])
+            if selected - {s["id"] for s in items}:
+                raise ValueError(f"Directory configurations missing from spec list: {sid}")
+            items = [s for s in items if s["id"] in selected]
         permitted_states = {10} if series["scope_status"] == "预售" else {20, 30}
         if any(s["specstate"] not in permitted_states for s in items):
             raise ValueError("Unexpected configuration sales state")
@@ -181,9 +198,37 @@ class CatalogSpider(scrapy.Spider):
         }
         save_json(self.root / f"series/{sid}.json", packet)
         self.completed.add(sid)
+        self.report_progress(sid)
+
+    def report_progress(self, sid=None):
+        if self.catalog_rows:
+            save_json(
+                self.root / "progress.json",
+                {
+                    "phase": "collecting",
+                    "expected_series": len(self.catalog_rows),
+                    "completed_series": len(self.completed),
+                    "last_series": sid,
+                    "errors": self.errors,
+                },
+            )
 
     def failed(self, failure):
         self.errors.append({"url": failure.request.url, "reason": str(failure.value)})
+        self.report_progress()
+
+    def callback_failed(self, failure, response, spider):
+        context = response.request.cb_kwargs
+        series = context.get("series") or context.get("context", {}).get("series", {})
+        self.errors.append(
+            {
+                "url": response.url,
+                "series_id": series.get("seriesid"),
+                "reason": str(failure.value),
+                "stage": "parse",
+            }
+        )
+        self.report_progress()
 
     def closed_report(self, spider, reason):
         stats = self.crawler.stats.get_stats()

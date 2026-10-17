@@ -161,3 +161,25 @@ def test_export_rejects_payload_changed_after_raw_snapshot_capture(tmp_path):
     dictionary.write_text(json.dumps({"fields": fields()}))
     with pytest.raises(ValueError, match="payload"):
         export_run(tmp_path, dictionary)
+
+
+def test_repaired_parts_remap_local_title_ids_and_keep_each_specs_actual_receipt():
+    import copy
+
+    from autohome_catalog.repair import merge_parts
+
+    p = packet()
+    second = copy.deepcopy(p["payload"])
+    second["titlelist"][0]["items"][0]["titleid"] = 700
+    for row in second["datalist"]:
+        row["paramconflist"][0]["titleid"] = 700
+    source = {**p["parameter_source"], "sha256": "b" * 64, "url": "https://example.test/spec/82"}
+    p["parameter_parts"] = [
+        {"payload": p["payload"], "spec_ids": [81], "source": p["parameter_source"]},
+        {"payload": second, "spec_ids": [82], "source": source},
+    ]
+    p["payload"] = merge_parts(p["parameter_parts"], 123)
+    expanded, _ = expand_packet(p, fields())
+    assert [r["fields"]["长度(mm)"] for r in expanded["trims"]] == [4800, 4900]
+    assert [r["fields"]["来源快照SHA256"] for r in expanded["trims"]] == ["a" * 64, "b" * 64]
+    assert expanded["trims"][1]["fields"]["来源采集URL"] == source["url"]

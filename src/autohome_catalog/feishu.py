@@ -42,10 +42,18 @@ def assert_operation(config, command, args):
         "+record-batch-create",
         "+record-batch-update",
         "+field-create",
+        "+view-list",
+        "+view-get-visible-fields",
+        "+view-set-visible-fields",
     }
     if command not in allowed:
         raise ValueError(f"Unsupported command: {command}")
-    if command in {"+record-batch-create", "+record-batch-update", "+field-create"}:
+    if command in {
+        "+record-batch-create",
+        "+record-batch-update",
+        "+field-create",
+        "+view-set-visible-fields",
+    }:
         if (
             "--table-id" not in args
             or args[args.index("--table-id") + 1] not in config["tables"].values()
@@ -56,8 +64,13 @@ def assert_operation(config, command, args):
         role = next((r for r, i in config["legacy_tables"].items() if i == block), None)
         if role is None or args[args.index("--name") + 1] != TABLE_NAMES[role] + "（已弃用）":
             raise ValueError("Only the two explicitly configured legacy renames are allowed")
-    if command == "+table-create" and args[args.index("--name") + 1] not in TABLE_NAMES.values():
-        raise ValueError("Unexpected new table name")
+    if command == "+table-create":
+        name = args[args.index("--name") + 1]
+        additional = config.get("extension_table_names", [])
+        if name not in TABLE_NAMES.values() and not (
+            name in additional and re.fullmatch(r"配置参数扩展[2-9]\d*", name)
+        ):
+            raise ValueError("Unexpected new table name")
 
 
 def same_value(left, right):
@@ -236,6 +249,10 @@ class Client:
         output = result.stdout if result.returncode == 0 else result.stderr
         prefix.with_suffix(".response.json").write_text(output)
         if result.returncode:
+            try:
+                self.last_failure = json.loads(output).get("error", {})
+            except ValueError:
+                self.last_failure = {}
             raise RuntimeError(f"{command} failed; inspect {prefix.with_suffix('.response.json')}")
         envelope = json.loads(output)
         if envelope.get("ok") is not True or envelope.get("identity") != "user":
@@ -246,6 +263,15 @@ class Client:
         return data
 
     def records(self, role):
+        for attempt in range(4):
+            try:
+                return self._records_once(role)
+            except ValueError as error:
+                if str(error) != "Table changed during record export" or attempt == 3:
+                    raise
+                time.sleep(min(2**attempt, 4))
+
+    def _records_once(self, role):
         table = self.config["tables"][role]
         rows, offset = [], 0
         revision = None
@@ -285,8 +311,9 @@ class Client:
                 time.sleep(min(0.25 * 2**attempt, 2))
 
 
-def sync_schema(client):
-    definitions = table_schemas(load_dictionary(), client.config["tables"])
+def sync_schema(client, dictionary_path=None):
+    dictionary = load_dictionary(dictionary_path)
+    definitions = table_schemas(dictionary, client.config["tables"])
     additions = {}
     for role, expected in definitions.items():
         actual = client.call("+field-list", ["--table-id", client.config["tables"][role]])["fields"]
@@ -299,7 +326,7 @@ def sync_schema(client):
             args = ["--table-id", client.config["tables"][role]]
             client.call("+field-create", args, fields, dry_run=True)
             client.call("+field-create", args, fields)
-    client.validate_schemas(load_dictionary())
+    client.validate_schemas(dictionary)
     result = {role: len(fields) for role, fields in additions.items()}
     save_json(client.root / "schema-extension-verification.json", result)
     return result
@@ -386,6 +413,7 @@ def apply(client, run: Path, dictionary_path: Path | None = None):
                 table_args,
                 {"create_records": changes["create"][offset : offset + 100]},
             )
+            time.sleep(0.5)
         updates = list(changes["update"].items())
         for offset in range(0, len(updates), 100):
             client.call(
@@ -393,6 +421,7 @@ def apply(client, run: Path, dictionary_path: Path | None = None):
                 table_args,
                 {"update_records": dict(updates[offset : offset + 100])},
             )
+            time.sleep(0.5)
         for attempt in range(8):
             snapshots[role] = client.records(role)
             remaining = diff_records(rows, snapshots[role], KEY_FIELDS[role])
@@ -418,7 +447,9 @@ def verify(client, run: Path):
             save_json(run / "feishu-verification-failure.json", {"role": role, "changes": changes})
             raise ValueError(f"Final verification failed: {role}")
         checked += sum(len(row["fields"]) for row in rows)
-    reverse_links = verify_relations(desired, snapshots)
+    reverse_links = verify_relations(
+        desired, snapshots, client.config.get("equipment_reverse_field", "参数扩展")
+    )
     result = {
         "verified_cells": checked,
         "differences": 0,
@@ -429,7 +460,7 @@ def verify(client, run: Path):
     return result
 
 
-def verify_relations(desired, snapshots):
+def verify_relations(desired, snapshots, equipment_reverse_field="参数扩展"):
     models = record_index(snapshots["models"], KEY_FIELDS["models"])
     trims = record_index(snapshots["trims"], KEY_FIELDS["trims"])
     equipment = record_index(snapshots["equipment"], KEY_FIELDS["equipment"])
@@ -442,7 +473,7 @@ def verify_relations(desired, snapshots):
         checked += 1
     for row in desired["equipment"]:
         parent = trims[row["trim_key"]]
-        actual_ids = {r["id"] for r in parent["fields"].get("参数扩展") or []}
+        actual_ids = {r["id"] for r in parent["fields"].get(equipment_reverse_field) or []}
         if equipment[row["key"]]["record_id"] not in actual_ids:
             raise ValueError(f"Reverse trim/equipment relation missing: {row['key']}")
         checked += 1
