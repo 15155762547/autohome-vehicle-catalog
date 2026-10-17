@@ -493,7 +493,11 @@ def finish(config_path: Path, migration: Path):
     for role, tid in tables.items():
         views = client.call("+view-list", ["--table-id", tid])["views"]
         first = views[0]["id"]
-        definitions = [(first, None, False)]
+        definitions = [
+            (v["id"], None, False)
+            for v in views
+            if v["id"] == first or v["name"] == "按汽车之家顺序"
+        ]
         extra = [("按品牌车系查找", None, True)]
         if role == "trims":
             extra += [
