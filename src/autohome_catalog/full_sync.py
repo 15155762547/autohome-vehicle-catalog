@@ -97,6 +97,8 @@ def sync_batches(client, root: Path):
 
     from .feishu import Client, apply, digest, plan, sync_schema, table_schemas
 
+    if client.config.get("layout_version") == 2:
+        raise ValueError("This Base uses the human layout; do not recreate wide option tables")
     root = assert_external(root)
     batches = json.loads((root / "feishu-batch-plan.json").read_text())
     names = [

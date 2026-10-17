@@ -33,6 +33,20 @@ def assert_target(config):
 
 
 def assert_operation(config, command, args):
+    if config.get("human_layout_migration"):
+        from .human_layout import assert_migration_operation
+
+        return assert_migration_operation(config, command, args)
+    if config.get("layout_version") == 2 and command in {
+        "+table-create",
+        "+base-block-rename",
+        "+record-batch-create",
+        "+record-batch-update",
+        "+field-create",
+    }:
+        raise ValueError(
+            "Legacy writes are disabled for the human layout; use a reviewed migration"
+        )
     allowed = {
         "+table-list",
         "+field-list",

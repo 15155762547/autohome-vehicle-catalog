@@ -45,6 +45,12 @@ def main():
     )
     sync_full.add_argument("--run", required=True)
     sync_full.add_argument("--config", type=Path, required=True)
+    layout = commands.add_parser(
+        "restructure-parameters", help="核验已有实时备份，迁移两张正常参数表及专属明细"
+    )
+    layout.add_argument("--run", required=True)
+    layout.add_argument("--config", type=Path, required=True)
+    layout.add_argument("--migration-dir", type=Path, required=True)
     repair = commands.add_parser(
         "repair", help="按网页实际spec页请求补采清单内失败配置，保留原始证据"
     )
@@ -83,6 +89,12 @@ def main():
     if not re.fullmatch(r"[a-zA-Z0-9_-]+", args.run):
         parser.error("run must contain only letters, digits, underscores or hyphens")
     root = assert_external(args.data_root / args.run)
+    if args.command == "restructure-parameters":
+        from .human_layout import finish, migrate
+
+        migrate(args.config, root, args.migration_dir)
+        print(json.dumps(finish(args.config, args.migration_dir), ensure_ascii=False))
+        return
     if args.command in {"plan", "apply", "verify"}:
         from . import feishu
 

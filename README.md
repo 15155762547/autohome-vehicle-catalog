@@ -37,6 +37,18 @@ uv run autohome-catalog repair --run full-catalog
 uv run autohome-catalog export-full --run full-catalog
 ```
 
+2026-10-17的人类查表布局采用四张日常表：车系、配置、配置参数扩展、专属配置明细。正常参数按汽车之家顺序分在配置表（基本参数至主动安全，211项）和一张扩展表（其余289项）；932种选装包和133种特色配置改为按配置关联的明细行。首批明细3022条，保留原文和来源项目ID，同名不同ID不直接合并。model_id紧随名称，品牌、车系和配置ID靠前，提供品牌/车系分组以及在售、预售、选装包、特色配置筛选视图。
+
+迁移先保存实时记录、字段、视图、版本和SHA256，再建立替代表；数值条件原文紧邻对应数值，完整数值原文另存隐藏的`参数原文存档`。逐格和双向关联验证后，旧六张参数表改名并移入历史备份文件夹，不删除记录。以下命令要求`migration-dir`中已有经过版本、数量和哈希核对的完整备份（`backup-verification.json`、`backup/*/records.json`、`tables-before.json`）：
+
+```bash
+uv run autohome-catalog restructure-parameters --run full-20261017 \
+  --config "$AUTOHOME_DATA_ROOT/control/feishu.json" \
+  --migration-dir "$AUTOHOME_DATA_ROOT/human-layout-20261017"
+```
+
+迁移后的配置标记`layout_version: 2`。旧版`sync-full`及独立列写入会拒绝作用于新版布局，避免重新生成大量选装包列；下一批增量或全量写入须先审查新版字段预算和明细更新计划。下面的横向扩展说明和命令仅供尚未迁移的旧版实验Base使用。
+
 全量导出为`完整车型.csv`、`完整配置.csv`和`字段目录.csv`，完整文本保留区间、多个取值、位置、标配／选装符号及条件。数字筛选列不强转这些条件，飞书保留必要的原文对照。全量源站字段先归并，再按300列预算准备扩展批次；新增的品牌专属参数横向展开，只有实际有本批参数的配置才创建对应扩展记录。
 
 ```bash
@@ -57,11 +69,11 @@ uv run autohome-catalog sync-full --config "$AUTOHOME_DATA_ROOT/private-config.j
 
 `model_id` 使用 `AUT-车系ID-BEV/PHEV/EREV/FCEV` 格式，动力类型取自每条配置的能源类型；未识别时留空。FCEV用于源站氢燃料车型，本次为Mirai；[丰田官方说明其为燃料电池电动车](https://global.toyota/en/newsroom/toyota/33558148.html)。车型表保持一车系一行，多动力编号换行列出；trim和配置扩展表每行对应一个编号。编号列在默认视图紧随名称。
 
-配置输出独立列CSV及飞书计划，原始JSON仅用于证据。88个数值参数另有一一对应的“原文”文本列，保留原始短横杠、符号和条件；默认检查视图隐藏这些证据列，需要查错时可显示。参数列优先使用源站原名和单位，仅在重名时加上必要的分组或参数ID，完整来源分组仍保留在字典及字段说明中。新增字段输出审计清单，先审查字典和列预算，再用 `schema-sync --config ...` 仅追加缺失列，已有列类型或关联目标不符会拒绝；不静默丢字段。●显示为“标配（●）”，○显示为“选配（○）”，短横杠保留原符号待字段语义核对，不变成false或0。不计算气囊总数。只有明确纯数值才转数字，缺失留空，无法转换的数值进入审计。
+旧版布局输出独立列CSV及飞书计划，原始JSON仅用于证据。旧版88个数值参数另有一一对应的“原文”文本列，保留原始短横杠、符号和条件；默认检查视图隐藏这些证据列，需要查错时可显示。参数列优先使用源站原名和单位，仅在重名时加上必要的分组或参数ID，完整来源分组仍保留在字典及字段说明中。新增字段输出审计清单，先审查字典和列预算，再用 `schema-sync --config ...` 仅追加缺失列，已有列类型或关联目标不符会拒绝；不静默丢字段。●显示为“标配（●）”，○显示为“选配（○）”，短横杠保留原符号待字段语义核对，不变成false或0。不计算气囊总数。只有明确纯数值才转数字，缺失留空，无法转换的数值进入审计。
 
 运行目录包含原始响应、URL/时间/SHA256清单、目录包含/排除/待复核清单、逐配置单元格证据、三张独立列CSV、请求统计与异常。源站图片URL附来源页面和配置身份，且代码拒绝图片二进制请求。
 
-飞书采用车型主表、配置主表和一对一配置参数扩展表。主表粒度分别为来源车系ID和配置ID；厂商、尺寸、座位、能源、续航、充电等参数属于具体配置。旧表迁移与试验目标通过仓库外的本地配置提供。生产目标不能写入。所有写入先plan，再apply，再verify；复跑不应新增重复记录。命令细节见 `autohome-catalog --help`。本地目标配置留在仓库外，包含 `purpose: experiment`、显式 `profile`、`base_token`、`allowed_base_token`、`production_base_tokens`、`legacy_tables`、`tables`。`tables` 映射 `models/trims/equipment` 到新表ID；`legacy_tables` 仅保存旧两表ID。代码拒绝向旧表写记录，且不提供删除命令。
+旧版飞书采用车型主表、配置主表和一对一配置参数扩展表。主表粒度分别为来源车系ID和配置ID；厂商、尺寸、座位、能源、续航、充电等参数属于具体配置。旧表迁移与试验目标通过仓库外的本地配置提供。生产目标不能写入。所有写入先plan，再apply，再verify；复跑不应新增重复记录。命令细节见 `autohome-catalog --help`。本地目标配置留在仓库外，包含 `purpose: experiment`、显式 `profile`、`base_token`、`allowed_base_token`、`production_base_tokens`、`legacy_tables`、`tables`。`tables` 映射 `models/trims/equipment` 到新表ID；`legacy_tables` 仅保存旧两表ID。代码拒绝向旧表写记录，且不提供删除命令。
 
 ```bash
 # 把配置放在数据盘上的 private-config.json，实际ID不得提交公开仓库。
@@ -83,6 +95,7 @@ uv run autohome-catalog verify --config "$AUTOHOME_DATA_ROOT/private-config.json
 - `feishu.py`、`migration.py`：指定试验表的备份核验、旧表改名、新表创建、计划、写入和回读。
 - `discovery.py`：新能源在售／预售分页目录与证据校验。
 - `repair.py`：按网页真实spec页请求补采缺失参数，按源字段身份重映射每个响应的titleid；保持每个配置实际来源。
+- `human_layout.py`：已核验备份到两张正常参数表及专属明细的迁移、视图和关联核验。
 - `full_export.py` / `full_sync.py`：源站完整CSV导出、300列横向扩展批次和已授权实验Base同步。
 - `cli.py`：显式范围的命令行入口。
 
