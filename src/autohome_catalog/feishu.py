@@ -33,6 +33,10 @@ def assert_target(config):
 
 
 def assert_operation(config, command, args):
+    if config.get("_image_operation"):
+        from .image_sync import assert_image_operation
+
+        return assert_image_operation(config, command, args)
     if config.get("human_layout_migration"):
         from .human_layout import assert_migration_operation
 

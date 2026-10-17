@@ -74,6 +74,15 @@ def main():
         command = commands.add_parser(name, help=f"飞书试验表 {name}")
         command.add_argument("--config", type=Path, required=True)
         command.add_argument("--run", required=True)
+    for name in ["images-prepare", "images-collect", "images-sync"]:
+        image = commands.add_parser(name, help="最新年款官图URL任务（不下载图片）")
+        image.add_argument("--run", required=True)
+        if name == "images-prepare":
+            image.add_argument("--source", type=Path, required=True)
+        if name == "images-collect":
+            image.add_argument("--model-id", action="append", default=[])
+        if name == "images-sync":
+            image.add_argument("--config", type=Path, required=True)
     args = parser.parse_args()
     if args.command == "schema-sync":
         from .feishu import Client, sync_schema
@@ -89,6 +98,19 @@ def main():
     if not re.fullmatch(r"[a-zA-Z0-9_-]+", args.run):
         parser.error("run must contain only letters, digits, underscores or hyphens")
     root = assert_external(args.data_root / args.run)
+    if args.command.startswith("images-"):
+        from . import images
+
+        if args.command == "images-prepare":
+            result = images.prepare(args.source, root)
+        elif args.command == "images-collect":
+            result = images.collect(root, args.model_id)
+        else:
+            from .image_sync import sync
+
+            result = sync(args.config, root)
+        print(json.dumps(result, ensure_ascii=False))
+        return
     if args.command == "restructure-parameters":
         from .human_layout import finish, migrate
 

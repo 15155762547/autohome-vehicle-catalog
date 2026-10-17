@@ -86,17 +86,102 @@ uv run autohome-catalog verify --config "$AUTOHOME_DATA_ROOT/private-config.json
 
 发生访问限制会同时写入当前运行的 `PAUSED.json`、数据根目录的 `ACCESS_PAUSED.json` 和外接盘固定位置 `.autohome-catalog-control/ACCESS_PAUSED.json`；换运行目录或 `--data-root` 也会被阻止。人工检查原因并明确处理前，不删除暂停标记。
 
-## 工程职责
+## 文件布局
 
-- `models.py`：Pydantic响应与身份契约。
-- `parse.py`：目录范围和参数单元格解析。
-- `spider.py`、`storage.py`：Scrapy请求、外接盘证据、限制暂停。
-- `export.py`：中文字典、参数展开及审计。
-- `feishu.py`、`migration.py`：指定试验表的备份核验、旧表改名、新表创建、计划、写入和回读。
-- `discovery.py`：新能源在售／预售分页目录与证据校验。
-- `repair.py`：按网页真实spec页请求补采缺失参数，按源字段身份重映射每个响应的titleid；保持每个配置实际来源。
-- `human_layout.py`：已核验备份到两张正常参数表及专属明细的迁移、视图和关联核验。
-- `full_export.py` / `full_sync.py`：源站完整CSV导出、300列横向扩展批次和已授权实验Base同步。
-- `cli.py`：显式范围的命令行入口。
+下面列出仓库全部Git跟踪文件（运行数据、虚拟环境和登录配置位于仓库外）：
+
+```text
+autohome-vehicle-catalog/
+├── .gitignore                       # 排除缓存、运行数据和本地秘密文件
+├── README.md                        # 安装、命令、数据含义及文件导航
+├── pyproject.toml                   # Python依赖、命令入口及检查配置
+├── uv.lock                          # 固定依赖版本，便于同事复现环境
+├── docs/
+│   ├── implementation-plan.md       # 重建工程的原始实施方案
+│   ├── request-measurements.md      # 采集请求耗时及并发测量记录
+│   ├── schema-changes.md            # 中文字段字典与结构变更说明
+│   └── verified-sample.md           # 小样本参数验证结果及边界
+├── schema/
+│   └── fields.json                  # 初始中文字段字典、来源ID和类型
+├── src/
+│   └── autohome_catalog/
+│       ├── __init__.py              # Python包入口说明
+│       ├── cli.py                   # 采集、导出、写表和图片任务命令
+│       ├── discovery.py             # 发现新能源在售和预售车系清单
+│       ├── export.py                # 参数字段映射、CSV导出及原文审计
+│       ├── feishu.py                # lark CLI调用、目标保护及参数回读
+│       ├── full_export.py           # 全量原始参数导出及字段顺序
+│       ├── full_sync.py             # 旧版横向扩展分批同步（新版禁用）
+│       ├── human_layout.py          # 两张参数表与专属明细的迁移及视图
+│       ├── image_sync.py            # 图片表备份、幂等更新和关联核验
+│       ├── images.py                # 最新年款官图解析、URL检查及断点续跑
+│       ├── migration.py             # 历史实验表备份检查及新表初始化
+│       ├── models.py                # Pydantic响应模型与数据契约
+│       ├── parse.py                 # 源站参数、选配符号及配置身份解析
+│       ├── repair.py                # 通过真实配置页补采失败参数
+│       ├── spider.py                # Scrapy参数采集、并发及证据中间件
+│       └── storage.py               # 外接盘边界、原始快照及访问暂停
+└── tests/
+    ├── conftest.py                  # 隔离测试用挂载盘，避免依赖个人环境
+    ├── test_discovery.py            # 目录分页、范围和重复车系检查
+    ├── test_export.py               # 字段导出、动力编号及原文审计检查
+    ├── test_feishu.py               # 实验表写入保护、差异及回读检查
+    ├── test_full_export.py          # 全量字段导出及缺漏检查
+    ├── test_human_layout.py         # 人类查表布局、字段和明细迁移检查
+    ├── test_images.py               # 官图归属、限流暂停、链接及写表检查
+    ├── test_parse.py                # 配置参数及源站符号解析检查
+    └── test_storage.py              # 外接盘、来源证据和访问限制检查
+```
 
 首次默认并发2、超时20秒、有限重试；可在小样本上测并发1/2/4，依据成功率、延迟和完整性选择。访问限制、验证码、意外跳转会停止后续请求；不使用代理、验证码破解或变更身份绕过访问控制。遇到问题先保留证据，不能把一次完成称为全站完整。
+
+## 最新年款官图URL
+
+图片任务按已验收配置中的 `model_id` 分组，分别选择最新年款。本次范围为1,010组、4,292个候选配置。仅取源站分类53“官图”，优先官图数量最多的同组配置，不足时补同年款、同动力的其他已验收配置；按图片ID及URL去重，每组最多15张。最新年款没有官图时留空，不混用老款或实拍。
+
+```bash
+# source 是已完成飞书回读核验的配置快照，位于仓库外。
+uv run autohome-catalog images-prepare --run images-20261017 \
+  --source "$AUTOHOME_DATA_ROOT/human-layout-20261017/verified-trims.json"
+# 小样；同一目录重跑复用已完成组，失败组重新检查，暂停来源仍保持暂停。
+uv run autohome-catalog images-collect --run images-20261017 \
+  --model-id AUT-5346-BEV --model-id AUT-6762-BEV \
+  --model-id AUT-8562-PHEV --model-id AUT-8100-EREV --model-id AUT-5535-BEV
+uv run autohome-catalog images-sync --run images-20261017 \
+  --config "$AUTOHOME_DATA_ROOT/control/feishu.json"
+# 继续完整范围；完成后再同步全部结果。
+uv run autohome-catalog images-collect --run images-20261017
+uv run autohome-catalog images-sync --run images-20261017 \
+  --config "$AUTOHOME_DATA_ROOT/control/feishu.json"
+```
+
+“车型图片”每个model_id一行，字段如下：
+
+| 字段 | 用途 |
+|---|---|
+| 车型、model_id、品牌 | 人类查找与程序稳定标识 |
+| 动力、年款 | 明确图片归属；混合动力车系分别保存 |
+| 所属车系 | 关联原车型表，反向入口为“官图组” |
+| 官图URL清单 | 同一文本单元格，一行一个裸URL，便于复制 |
+| 图片数 | 经过HTTP状态及图片类型检查的URL数量，0至15 |
+| 检查结果、说明 | 满15张、不足15张、无匹配官图、失败或访问受阻及原因 |
+| 来源页 | 实际配置官图页；无图时保留车系官图查询页 |
+| 检查时间 | 此次源站检查时间（UTC） |
+
+原车型表的列表封面字段保留原值，从默认视图隐藏，改用“官图组”入口。同步前备份车型、图片和视图，按model_id生成增改计划，不清空表；写入后回读URL逐行、数量和双向关联，并检查原车型字段未变化。只向显式配置的实验Base写入图片表，不写已验收参数表及生产表。
+
+图片URL仅发HEAD请求，确认HTTP 200和`image/*`响应类型，不保存图片二进制。网页HTML与来源URL、时间和SHA256保存在外接盘的`sources/`。JSON中`images`只包含通过检查的URL；`problems`保留失败URL和原因。状态“无匹配官图”表示指定最新年款候选已逐一查询且没有匹配照片；解析失败、意外跳转、404、非图片响应不会冒充无图。401、403、429或验证页面会写`pauses/域名.json`并停止该来源的后续请求；暂停同时保存在外接盘固定控制目录`image-source-pauses/`，换运行目录也会加载；保留暂停标记，不能靠换目录或身份继续请求。同一运行可在根目录放`STOP`文件停止新请求，检查后由人工处理暂停。
+
+第三方原始URL不能保证永久可访问。HEAD验证也不能证明飞书点击路径一定正常；当前任务仅通过CLI核对URL写入及回读，不进行浏览器或飞书界面操作。
+
+运行目录的`groups/`保存逐组结果，`images.json`汇总所有已处理组，`summary.json`和`图片采集报告.md`列出满15张、不足、无匹配、失败、受阻及未处理数量。运行数据与登录配置不提交Git。
+
+```python
+import json
+from pathlib import Path
+
+rows = json.loads(Path('/数据盘/任务目录/images.json').read_text())
+by_model = {row['target']['model_id']: row for row in rows}
+urls = [photo['url'] for photo in by_model['AUT-5535-BEV']['images']]
+# 每张还有 picture_id、spec_id、source_page、http_status、content_type、checked_at。
+```
