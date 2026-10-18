@@ -29,7 +29,7 @@ def guard(config, command, args):
     tid = args[args.index("--table-id") + 1] if "--table-id" in args else None
     if command == "+table-create" and args[args.index("--name") + 1] in state["pending_names"]:
         return
-    if command == "+base-block-create" and args == ["--type", "folder", "--name", ARCHIVE_FOLDER]:
+    if command == "+base-block-create" and args == ["--type", "folder", "--name", state.get("archive_folder_name", ARCHIVE_FOLDER)]:
         return
     if tid in state["new_tables"] and command in {
         "+record-batch-create",

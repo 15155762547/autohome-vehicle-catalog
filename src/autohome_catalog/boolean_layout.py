@@ -344,7 +344,7 @@ def clean_text(value):
     return re.sub(r"(?:标配|选配|选装)*[（(]?[●○][）)]?", "", value).strip()
 
 
-def compile_tables(root, plan):
+def compile_tables(root, plan, *, output=None):
     """Replace each original parameter slot with its typed children, in source order."""
     if plan["issues"]:
         raise ValueError("Unresolved source interpretation issues; no writes")
@@ -476,7 +476,7 @@ def compile_tables(root, plan):
             "optional_rows": len(plan["options"]),
         },
     }
-    save_json(root / "typed-tables.json", result)
+    save_json(output or root / "typed-tables.json", result)
     return result
 
 

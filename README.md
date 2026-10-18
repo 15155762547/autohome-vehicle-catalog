@@ -2,6 +2,8 @@
 
 使用 Python、Scrapy、Pydantic 采集汽车之家在售及已确认预售的新能源汽车。按车型（车系＋动力）保存身份、按具体配置保存参数；保留原始字段、位置差异、选配及来源证据。图片只保存 URL，不下载文件、不上传附件。
 
+当前采用**紧凑单选布局**：配置主表＋一张参数扩展表，各6,586行；专属配置明细3,022行。纯功能为“标配／选配／无”单选，未披露留空；复合功能恢复分行文字，规格和选配价格完整保留。每张表只有默认视图。下方布尔布局仅为历史记录，现行规则见[紧凑单选](#紧凑单选2026-10-18)。
+
 ## 安装
 
 需要 Python 3.12+、[uv](https://docs.astral.sh/uv/)，写入飞书另需已授权的 `lark-cli`。`uv.lock` 固定本次依赖版本。
@@ -102,8 +104,9 @@ autohome-vehicle-catalog/
 │   ├── schema-changes.md            # 中文字段字典与结构变更说明
 │   └── verified-sample.md           # 小样本参数验证结果及边界
 ├── schema/
-│   ├── boolean-fields.json          # 现行布尔字段、原参数对应及跨表布局
-│   └── fields.json                  # 初始中文字段字典、来源ID和类型
+│   ├── boolean-fields.json          # 历史布尔字段、原参数对应及跨表布局
+│   ├── fields.json                  # 初始中文字段字典、来源ID和类型
+│   └── single-select-fields.json     # 当前单选字段、规格及紧凑布局映射
 ├── src/
 │   └── autohome_catalog/
 │       ├── __init__.py              # Python包入口说明
@@ -125,6 +128,7 @@ autohome-vehicle-catalog/
 │       ├── models.py                # Pydantic响应模型与数据契约
 │       ├── parse.py                 # 源站参数、选配符号及配置身份解析
 │       ├── repair.py                # 通过真实配置页补采失败参数
+│       ├── single_select.py         # 从原始备份批量恢复紧凑单选并核验关联
 │       ├── spider.py                # Scrapy参数采集、并发及证据中间件
 │       └── storage.py               # 外接盘边界、原始快照及访问暂停
 └── tests/
@@ -139,6 +143,7 @@ autohome-vehicle-catalog/
     ├── test_images.py               # 官图归属、限流暂停、链接及写表检查
     ├── test_model_grain.py           # 编号唯一、动力名称及错关联拒绝检查
     ├── test_parse.py                # 配置参数及源站符号解析检查
+    ├── test_single_select.py        # 三态与空值、LED规格和选配价格检查
     └── test_storage.py              # 外接盘、来源证据和访问限制检查
 ```
 
@@ -244,7 +249,9 @@ uv run python -m autohome_catalog.compact_display \
 ```
 
 
-## 是否标配：真正布尔字段（2026-10-18）
+## 历史方案：真正布尔字段（2026-10-18）
+
+此方案已由下方紧凑单选布局替代；本节保留用于解释历史文件，不要在当前Base重跑布尔迁移。
 
 现行规范采用方案A：`true`表示标配，`false`表示选装或明确未配；未披露保留空值，不推断为false。选装项目、价格、方向数、位置和其他条件保存在关联明细。源站只给整体状态时只转换整体字段，具体子功能保持未披露。飞书字段类型为`checkbox`，界面显示复选框；JSON中的状态是布尔值，不是`"true"`/`"false"`文本，不使用option作为第三种状态。
 
@@ -283,3 +290,25 @@ for row in payload["configurations"]:
 ```
 
 `boolean-option-details.json`通过`来源配置ID`关联同一配置，保留选装项目与价格；`delivery-verification.json`记录合并后的行列数量及布尔类型检查。
+
+
+## 紧凑单选（2026-10-18）
+
+使用布尔化以前的哈希验证备份及原始响应重新映射，不将旧false统一改成选配。186个纯功能字段使用单选，选项固定为标配、选配、无，未披露留空。驾驶模式、座椅调节、APP功能等复合字段恢复简短分行文字，保留每个子项状态和位置、方向数、价格；不再为每个子项展开一列。
+
+9个状态与规格混用的字段增加相邻状态列。近光灯可以表示为“光源=LED、状态=标配、选配规格=激光（10000元）”；只有同时存在标配和选配规格时才建立必要的选配规格列。只有选配规格时主规格配合“选配”状态表示。纯状态字段的报价另存`选配价格说明`，不在单选选项中拼价格。数值条件原文仍保留在原文证据列，默认隐藏，需要时显示核对。
+
+参数恢复为两张表，每张6,586行；510个原字段槽位均有映射，见`schema/single-select-fields.json`。普通参数的24,826条选配信息回到对应参数字段及原文证据中；专属配置表恢复原有3,022条选装包/特色配置明细，因此明细行数减少不代表删掉选配数据。旧布尔表归档保留，车型和图片表的记录身份保持。
+
+```bash
+uv run python -m autohome_catalog.single_select \
+  --config "$AUTOHOME_DATA_ROOT/control/feishu.json" \
+  --run "$AUTOHOME_DATA_ROOT/single-select-20261018" --prepare
+uv run python -m autohome_catalog.single_select \
+  --config "$AUTOHOME_DATA_ROOT/control/feishu.json" \
+  --run "$AUTOHOME_DATA_ROOT/single-select-20261018"
+```
+
+批量输入为运行目录的`conversion.json`及`字段映射.json`。迁移只创建登记的新表，按稳定配置ID入库；逐格检查字段值和类型、核验正反向关联后切换车型入口。以表版本号完全一致为条件复用已核验备份，发生变化的表重新通过CLI读取，不重复全量回读未变化的历史表。断点状态保存在`migration-state.json`，已完成重跑直接返回核验结果。
+
+当前配置读取`tables.trims`、`parameter_extension_tables`与`detail_tables`。飞书API中单选单元格是单项列表（例如`["标配"]`），交付JSON将这195个状态列规范为字符串或null；其他选项字段保持原类型。`single-select-configurations.json`保存配置，`single-select-details.json`保存3,022条独立明细，`source-coverage.json`记录全部选配项目及价格的对应核验。运行数据和登录配置不提交Git。
