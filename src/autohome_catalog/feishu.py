@@ -14,6 +14,16 @@ from .storage import assert_external, save_json
 
 KEY_FIELDS = {"models": "来源车系ID", "trims": "来源配置ID", "equipment": "来源配置ID"}
 TABLE_NAMES = {"models": "vehicle_models", "trims": "vehicle_trims", "equipment": "配置参数扩展"}
+# User keeps the combined dimension field and explicitly removed these display columns.
+OMITTED_DIMENSIONS = {"长度(mm)", "宽度(mm)", "高度(mm)"}
+
+
+def reject_dimension_restore(command, body):
+    if command not in {"+field-create", "+field-update", "+table-create"} or body is None:
+        return
+    fields = body if isinstance(body, list) else body.get("fields", [body])
+    if any(field.get("name") in OMITTED_DIMENSIONS for field in fields):
+        raise ValueError("User removed separate length/width/height columns; do not restore them")
 
 
 def assert_target(config):
@@ -33,6 +43,10 @@ def assert_target(config):
 
 
 def assert_operation(config, command, args):
+    if config.get("_multi_select"):
+        from .multi_select import guard
+
+        return guard(config, command, args)
     if config.get("_primary_titles"):
         from .primary_titles import guard
 
@@ -215,6 +229,8 @@ def table_schemas(dictionary, tables):
         }
     )
     for field in dictionary:
+        if field["column"] in OMITTED_DIMENSIONS:
+            continue
         definition = {
             "name": field["column"],
             "type": field["kind"],
@@ -268,6 +284,7 @@ class Client:
         self.root.mkdir(exist_ok=True)
 
     def call(self, command, args=(), body=None, dry_run=False):
+        reject_dimension_restore(command, body)
         assert_target(self.config)
         assert_operation(self.config, command, args)
         prefix = self.root / f"{time.time_ns()}-{command.lstrip('+')}"

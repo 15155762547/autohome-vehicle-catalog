@@ -1,0 +1,3210 @@
+{
+  "semantics": "标配项为原功能名；选配项保留选配及价格；无和未披露区分；整体价格条件独立保留；完整原文隐藏备份。",
+  "omitted_dimensions": [
+    "长度(mm)",
+    "宽度(mm)",
+    "高度(mm)"
+  ],
+  "tables": {
+    "trims": [
+      {
+        "name": "安全带未系提醒",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "全车",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "无",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "前排",
+            "hue": "Purple",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "全车（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "支持（未列明功能）",
+            "hue": "Wathet",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "主驾驶位",
+            "hue": "Carmine",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "前排（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "第二排（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "第二排",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家安全配置/主动安全；原始参数ID=148；原名=安全带未系提醒。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "限滑差速器/差速锁",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "后桥限滑差速器（选配，2.30万元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "后桥限滑差速器",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "后桥差速锁",
+            "hue": "Purple",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "后桥限滑差速器（选配，1.38万元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "后桥差速锁（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "前桥限滑差速器",
+            "hue": "Carmine",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "前桥差速锁",
+            "hue": "Lime",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "前桥差速锁（选配，6000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "后桥差速锁（选配，6000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "前桥差速锁（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "后桥限滑差速器（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "前桥差速锁（选配，5000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "后桥差速锁（选配，4000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "前桥差速锁（选配，5999元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "前桥限滑差速器（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家操控配置/四驱/越野；原始参数ID=153；原名=限滑差速器/差速锁。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "膝部气囊",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "主驾膝部气囊",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "副驾膝部气囊",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家安全配置/被动安全；原始参数ID=382；原名=膝部气囊。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "可变悬架功能",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "悬架软硬调节",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "悬架高低调节",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "悬架软硬调节（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "悬架高低调节（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "悬架高低调节（选配，2.70万元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "悬架软硬调节（选配，5000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "悬架软硬调节（选配，3999元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "悬架软硬调节（选配，3000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家操控配置/驾驶操控；原始参数ID=152；原名=可变悬架功能。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "加/吸水口",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "重力加水口",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "压力加水口",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家参数信息/车身；原始参数ID=185；原名=加/吸水口。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "主/副驾驶座安全气囊",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "主",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "副",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "无",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "主（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "副（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "副（无）",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家安全配置/被动安全；原始参数ID=1；原名=主/副驾驶座安全气囊。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "前/后驻车雷达",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "无",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "前",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "后",
+            "hue": "Purple",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "前（无）",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "后（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "前（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "后（无）",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家智能/辅助驾驶/驾驶硬件；原始参数ID=42；原名=前/后驻车雷达。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "驾驶模式",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "标准/舒适",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "雪地",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "运动",
+            "hue": "Purple",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "无",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "经济",
+            "hue": "Wathet",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "自定义/个性化",
+            "hue": "Carmine",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "越野",
+            "hue": "Lime",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "越野（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "雪地（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "支持（未列明功能）",
+            "hue": "Purple",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "运动（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "支持（选配，未列明功能，1500元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家操控配置/驾驶操控；原始参数ID=197；原名=驾驶模式切换。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "前/后排头部气囊(气帘)",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "前",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "后",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "无",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "后（无）",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "前（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "后（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家安全配置/被动安全；原始参数ID=3；原名=前/后排头部气囊(气帘)。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "线控智能底盘",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "主动悬架（选配，5.00万元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "线控转向",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "主动悬架",
+            "hue": "Purple",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "无",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "线控制动",
+            "hue": "Wathet",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "线控转向（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "主动悬架（选配，8.00万元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家参数信息/底盘转向；原始参数ID=192；原名=线控智能底盘。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "前/后排侧气囊",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "前",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "后（无）",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "无",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "后",
+            "hue": "Green",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "后（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "价格条件：4600元",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "前（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "价格条件：3400元",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "价格条件：3100元",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "价格条件：5000元",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "价格条件：5700元",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "价格条件：2500元",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家安全配置/被动安全；原始参数ID=2；原名=前/后排侧气囊。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "辅助影像",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "倒车影像",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "车侧盲区影像",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "无",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "360度全景影像",
+            "hue": "Green",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "倒车影像（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "360度全景影像（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "360度全景影像（选配，3500元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "车侧盲区影像（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "360度全景影像（选配，6000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "360度全景影像（选配，1.20万元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "360度全景影像（选配，5500元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "360度全景影像（选配，1000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "360度全景影像（选配，3000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家智能/辅助驾驶/驾驶硬件；原始参数ID=149；原名=驾驶辅助影像。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "胎压监测功能",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "胎压显示",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "无",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "胎压报警",
+            "hue": "Purple",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "支持（选配，未列明功能）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "支持（未列明功能）",
+            "hue": "Wathet",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "胎压报警（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "胎压显示（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家安全配置/主动安全；原始参数ID=147；原名=胎压监测功能。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      }
+    ],
+    "equipment": [
+      {
+        "name": "零重力座椅",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "主驾驶（选配，10000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "副驾驶（选配，10000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "第一排",
+            "hue": "Purple",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "第二排（右侧）",
+            "hue": "Green",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "第二排",
+            "hue": "Wathet",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "第二排（右侧）（选配，2.00万元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "副驾驶",
+            "hue": "Lime",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "副驾驶（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "主驾驶（选配，8500元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "副驾驶（选配，8500元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "第一排（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "副驾驶（选配，6000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "主驾驶（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "主驾驶",
+            "hue": "Lime",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "副驾驶（选配，9000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "第二排（选配，8000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "副驾驶（选配，8000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "第二排（右侧）（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "第一排（选配，10000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "第一排（选配，2.00万元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "主驾驶（选配，8000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "主驾驶（选配，9000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "第二排（右侧）（选配，1.20万元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "副驾驶（选配，6999元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "第一排（选配，1.80万元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "第二排（选配，1.80万元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "第一排（选配，1.20万元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "第二排（右侧）（选配，10000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "第二排（选配，1.70万元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "主驾驶（选配，6000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "主驾驶（选配，5000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家内部配置/座椅配置；原始参数ID=384；原名=零重力座椅。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "化妆镜",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "主驾+照明灯",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "副驾+照明灯",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "无",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "后排+照明灯（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "副驾",
+            "hue": "Wathet",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "主驾位",
+            "hue": "Carmine",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "后排+照明灯",
+            "hue": "Lime",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "支持（选配，未列明功能）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "支持（未列明功能）",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "主驾位（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "主驾+照明灯（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "副驾+照明灯（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "副驾（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家外部配置/天窗/玻璃；原始参数ID=188；原名=车内化妆镜。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "接口",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "Type-C",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "USB",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "无",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "SD",
+            "hue": "Green",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "AUX",
+            "hue": "Wathet",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "HDMI（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "HDMI",
+            "hue": "Lime",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "USB（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "Type-C（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家内部配置/车内充电；原始参数ID=176；原名=多媒体/充电接口。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "第三排座椅调节",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "前后调节",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "靠背调节",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "靠背调节（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "腿托调节（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "腿托调节",
+            "hue": "Wathet",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "高低调节",
+            "hue": "Carmine",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家内部配置/座椅配置；原始参数ID=305；原名=第三排座椅调节。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "语音控制",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "多媒体系统",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "导航",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "电话",
+            "hue": "Purple",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "空调",
+            "hue": "Green",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "车窗",
+            "hue": "Wathet",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "座椅加热",
+            "hue": "Carmine",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "座椅通风",
+            "hue": "Lime",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "无",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "座椅按摩",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "天窗",
+            "hue": "Purple",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "支持（未列明功能）",
+            "hue": "Green",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "多媒体系统（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "导航（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "电话（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "座椅通风（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "支持（选配，未列明功能）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "空调（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "天窗（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "座椅加热（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "座椅按摩（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "车窗（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "支持（选配，未列明功能，3000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家内部配置/互联/智能化；原始参数ID=211；原名=语音识别控制系统。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "前排座椅",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "加热",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "通风",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "无",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "按摩",
+            "hue": "Green",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "头枕扬声器",
+            "hue": "Wathet",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "加热(仅驾驶位)",
+            "hue": "Carmine",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "通风(仅驾驶位)（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "按摩（选配，1.62万元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "按摩（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "通风（选配，1.25万元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "按摩（选配，2.26万元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "通风（选配，1.36万元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "头枕扬声器(仅驾驶位)",
+            "hue": "Carmine",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "通风（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "通风（选配，6700元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "加热（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "通风（选配，1.15万元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "按摩（选配，7500元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "通风（选配，7700元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "头枕扬声器(仅驾驶位)（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "通风(仅驾驶位)",
+            "hue": "Lime",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "通风（选配，1.03万元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "按摩(仅驾驶位)",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "加热(仅驾驶位)（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "头枕扬声器（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "通风（选配，5000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "按摩（选配，5000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "通风（选配，1.17万元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "按摩（选配，2.40万元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "按摩（选配，1.15万元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "加热（选配，2000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "头枕加热",
+            "hue": "Green",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "通风（选配，7000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "按摩(仅副驾)（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "按摩(仅副驾)",
+            "hue": "Lime",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "按摩（选配，4000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "加热（选配，3000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "按摩（选配，6500元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "按摩(仅驾驶位)（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "加热（选配，1099元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "通风（选配，1099元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "按摩（选配，800元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "加热（选配，2900元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "通风（选配，9700元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "头枕扬声器(仅副驾)",
+            "hue": "Purple",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "头枕扬声器（选配，3500元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "头枕扬声器(仅副驾)（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "按摩(仅驾驶位)（选配，3000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "通风（选配，1500元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "按摩（选配，7000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "加热(仅副驾)（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "加热（选配，1000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "通风（选配，2000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "通风（选配，3000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家内部配置/座椅配置；原始参数ID=167；原名=前排座椅功能。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "座椅记忆",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "主驾",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "无",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "副驾",
+            "hue": "Purple",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "后排（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "后排",
+            "hue": "Wathet",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "副驾（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "主驾（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "主驾（选配，2500元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "支持（未列明功能）",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "主驾（选配，800元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家内部配置/座椅配置；原始参数ID=166；原名=电动座椅记忆功能。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "副驾调节",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "前后",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "靠背",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "高低(4向)",
+            "hue": "Purple",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "无",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "腿托",
+            "hue": "Wathet",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "腿托（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "腰撑(4向)",
+            "hue": "Lime",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "肩部调节（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "腰撑(4向)（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "肩部调节",
+            "hue": "Purple",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "侧翼支撑（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "侧翼支撑",
+            "hue": "Wathet",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "高低(2向)",
+            "hue": "Carmine",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "腰撑(2向)",
+            "hue": "Lime",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "腿托（选配，2000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "侧翼支撑（主动）",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "旋转调节",
+            "hue": "Purple",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "高低(4向)（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "高低(2向)（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "前后（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "靠背（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "侧翼支撑（主动）（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "坐垫软硬调节",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "旋转调节（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "坐垫软硬调节（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家内部配置/座椅配置；原始参数ID=165；原名=副座椅调节方式。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "APP远程",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "车门控制",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "车窗控制",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "车辆启动",
+            "hue": "Purple",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "充电管理",
+            "hue": "Green",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "车灯控制",
+            "hue": "Wathet",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "空调控制",
+            "hue": "Carmine",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "座椅加热",
+            "hue": "Lime",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "座椅通风",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "车况查询/诊断",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "车辆定位/寻车",
+            "hue": "Purple",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "车主服务（查找充电桩、加油站、停车场等）",
+            "hue": "Green",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "预约保养/维修",
+            "hue": "Wathet",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "方向盘加热",
+            "hue": "Carmine",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "支持（未列明功能）",
+            "hue": "Lime",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "车门控制（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "车窗控制（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "车辆启动（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "充电管理（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "空调控制（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "车况查询/诊断（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "车辆定位/寻车（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "预约保养/维修（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "方向盘加热（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "座椅加热（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "座椅通风（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "多媒体控制",
+            "hue": "Wathet",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "车灯控制（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "多媒体控制（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "支持（选配，未列明功能）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家内部配置/互联/智能化；原始参数ID=278；原名=手机APP远程功能。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "主/副驾电调",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "主",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "副",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "无",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "副（无）",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "主（无）",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "主（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "副（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家内部配置/座椅配置；原始参数ID=51；原名=主/副驾驶座电动调节。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "电子外后视镜功能",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "支持（选配，未列明功能，1.60万元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "自动防眩目",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "电动调节（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "倒车辅助（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "自动防眩目（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "电动调节",
+            "hue": "Carmine",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "倒车辅助",
+            "hue": "Lime",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "视野放大",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "透雾功能",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "支持（选配，未列明功能，10000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "支持（选配，未列明功能，1.20万元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "后视镜记忆",
+            "hue": "Wathet",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "后视镜记忆（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "视野放大（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "支持（选配，未列明功能）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "支持（选配，未列明功能，2.00万元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "支持（选配，未列明功能，1.38万元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "支持（未列明功能）",
+            "hue": "Green",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家外部配置/外后视镜；原始参数ID=294；原名=电子外后视镜功能。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "侧窗多层隔音玻璃",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "前排",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "后排",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "全车（选配，2.09万元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "全车",
+            "hue": "Green",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "前排（选配，7100元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "全车（选配，1.43万元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "前排（选配，5400元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "全车（选配，9400元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "全车（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "全车（选配，1.05万元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "全车（选配，9600元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "前排（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "后排（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家外部配置/天窗/玻璃；原始参数ID=218；原名=侧窗多层隔音玻璃。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "二排座椅",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "加热",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "通风",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "按摩",
+            "hue": "Purple",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "头枕扬声器",
+            "hue": "Green",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "通风（选配，1.64万元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "按摩（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "加热（选配，5400元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "通风（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "通风（选配，1.25万元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "加热（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "加热（选配，4500元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "加热（选配，4000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "加热（选配，5000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "加热（选配，4400元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "头枕加热",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "加热（选配，3300元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "加热（选配，3900元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "加热（选配，3000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "加热（选配，1099元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "加热（选配，5500元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "头枕扬声器（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "加热（选配，3500元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "脚部按摩（右侧座椅）",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家内部配置/座椅配置；原始参数ID=168；原名=第二排座椅功能。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "床类型",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "额头床",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "车尾横置床",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "卡座拼床",
+            "hue": "Purple",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家内部配置/座椅配置；原始参数ID=409；原名=床类型。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "钥匙",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "遥控钥匙（选配，990元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "蓝牙钥匙",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "UWB数字钥匙",
+            "hue": "Purple",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "NFC/RFID钥匙",
+            "hue": "Green",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "无",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "遥控钥匙",
+            "hue": "Carmine",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "机械钥匙",
+            "hue": "Lime",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "星闪钥匙",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "智能手表/手环钥匙",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "遥控钥匙（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "蓝牙钥匙（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "遥控钥匙（选配，399元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "智能手表/手环钥匙（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "NFC/RFID钥匙（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "遥控钥匙（选配，599元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "遥控钥匙（选配，199元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "UWB数字钥匙（选配，2000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "UWB数字钥匙（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "遥控钥匙（选配，2199元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "UWB数字钥匙（选配，699元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家外部配置/外观/防盗；原始参数ID=158；原名=钥匙类型。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "辅助驾驶路段",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "城市路段（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "高速路段（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "高速路段",
+            "hue": "Purple",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "城市路段",
+            "hue": "Green",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "高速路段（选配，2.00万元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "城市路段（选配，10000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家智能/辅助驾驶/驾驶功能；原始参数ID=326；原名=辅助驾驶路段。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "手机互联",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "无",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "CarPlay",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "HUAWEI HiCar",
+            "hue": "Purple",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "支持（未列明功能）",
+            "hue": "Green",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "支持CarLife",
+            "hue": "Wathet",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "亿连",
+            "hue": "Carmine",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "原厂互联/映射",
+            "hue": "Lime",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "支持Android Auto",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "支持（选配，未列明功能）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "Carlink",
+            "hue": "Purple",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "原厂互联/映射（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "Flyme link",
+            "hue": "Wathet",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "荣耀车联",
+            "hue": "Carmine",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "HUAWEI HiCar（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "Carlink（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "CarPlay（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "支持MagicRing",
+            "hue": "Purple",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "支持T-LINK",
+            "hue": "Green",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家内部配置/互联/智能化；原始参数ID=174；原名=手机互联/映射。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "车窗一键升降功能",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "全车",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "无",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "驾驶位",
+            "hue": "Purple",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "前排",
+            "hue": "Green",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "驾驶位（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "全车（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "前排（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家外部配置/天窗/玻璃；原始参数ID=184；原名=车窗一键升降功能。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "空间模式",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "会客/对坐模式",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "大床模式",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "会客/对坐模式（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家内部配置/座椅配置；原始参数ID=451；原名=空间模式。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "内后视镜功能",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "自动防眩目",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "无",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "手动防眩目",
+            "hue": "Purple",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "流媒体（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "流媒体",
+            "hue": "Wathet",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "流媒体（选配，3800元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "手动防眩目（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "流媒体（选配，2000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "自动防眩目（选配，2000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "自动防眩目（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "多媒体后视镜",
+            "hue": "Green",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "流媒体（选配，1500元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "多媒体后视镜（选配，1800元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "流媒体（选配，1800元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家内部配置/方向盘/内后视镜；原始参数ID=186；原名=内后视镜功能。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "电动吸合车门",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "全车",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "全车（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "全车（选配，6500元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "全车（选配，5900元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "前排",
+            "hue": "Wathet",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "后排",
+            "hue": "Carmine",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "全车（选配，8000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "尾门",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "支持（未列明功能）",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "前排（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "后排（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "全车（选配，5000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "全车（选配，2000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "尾门（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家外部配置/外观/防盗；原始参数ID=156；原名=电动吸合车门。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "加热/制冷杯架",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "加热/制冷",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家内部配置/座椅配置；原始参数ID=169；原名=加热/制冷杯架。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "无钥匙进入功能",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "全车",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "无",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "驾驶位",
+            "hue": "Purple",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "前排",
+            "hue": "Green",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "支持（未列明功能）",
+            "hue": "Wathet",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "支持（选配，未列明功能）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "全车（选配，3900元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "全车（选配，3500元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "全车（选配，8600元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "前排（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "全车（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "驾驶位（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家外部配置/外观/防盗；原始参数ID=191；原名=无钥匙进入功能。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "投影感应开启",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "后备厢",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "后排车门",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "后排车门（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "后备厢（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家外部配置/外观/防盗；原始参数ID=391；原名=投影感应开启。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "三排座椅",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "加热",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "通风",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "按摩",
+            "hue": "Purple",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "加热（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家内部配置/座椅配置；原始参数ID=307；原名=第三排座椅功能。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "第二排座椅调节",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "无",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "靠背调节",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "前后调节",
+            "hue": "Purple",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "高低调节",
+            "hue": "Green",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "腰部调节",
+            "hue": "Wathet",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "腿托调节",
+            "hue": "Carmine",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "前后调节（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "高低调节（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "腰部调节（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "旋转调节（选配，2.00万元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "腿托调节（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "电动扶手",
+            "hue": "Wathet",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "靠背调节（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "旋转调节",
+            "hue": "Lime",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "左右调节",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "脚踏调节（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "肩部调节",
+            "hue": "Purple",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "脚踏调节",
+            "hue": "Green",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "旋转调节（选配，1.20万元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "侧翼支撑(主动)",
+            "hue": "Carmine",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "靠背调节（选配，4000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "左右调节（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "腿托调节（选配，4000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "电动扶手（选配，6000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "侧翼支撑(主动)（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家内部配置/座椅配置；原始参数ID=170；原名=第二排座椅调节。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "外镜功能",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "电调",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "电动折叠",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "记忆",
+            "hue": "Purple",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "加热",
+            "hue": "Green",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "倒车自动下翻",
+            "hue": "Wathet",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "锁车自动折叠",
+            "hue": "Carmine",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "自动防眩目",
+            "hue": "Lime",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "无",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "电调（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "记忆（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "倒车自动下翻（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "加热（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "电动折叠（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "锁车自动折叠（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "自动防眩目（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "自动防眩目（选配，1000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家外部配置/外后视镜；原始参数ID=185；原名=外后视镜功能。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "手机无线充电功能",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "前排",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "支持（未列明功能）",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "前排（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "前排（选配，1900元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "无",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "后排",
+            "hue": "Carmine",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "后排（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "前排（选配，2000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "支持（选配，未列明功能）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "前排（选配，1500元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家内部配置/车内充电；原始参数ID=163；原名=手机无线充电功能。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "主驾调节",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "前后",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "靠背",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "高低(4向)",
+            "hue": "Purple",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "腰撑(4向)",
+            "hue": "Green",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "无",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "腿托",
+            "hue": "Carmine",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "高低(2向)",
+            "hue": "Lime",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "腿托（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "侧翼支撑",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "腰撑(2向)",
+            "hue": "Purple",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "肩部调节（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "腰撑(4向)（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "肩部调节",
+            "hue": "Carmine",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "侧翼支撑（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "侧翼支撑(主动)",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "高低(4向)（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "高低(2向)（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "座垫侧翼",
+            "hue": "Green",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "旋转调节",
+            "hue": "Wathet",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "腰撑(2向)（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "侧翼支撑(主动)（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "坐垫软硬调节（选配，2000元）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "坐垫软硬调节",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "旋转调节（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "坐垫软硬调节（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家内部配置/座椅配置；原始参数ID=164；原名=主座椅调节方式。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "前/后中央扶手",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "前",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "后",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "无",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "后（无）",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "前（无）",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "后（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "前（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家内部配置/座椅配置；原始参数ID=61；原名=前/后中央扶手。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      },
+      {
+        "name": "前/后电动车窗",
+        "type": "select",
+        "multiple": true,
+        "options": [
+          {
+            "name": "前",
+            "hue": "Blue",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "后",
+            "hue": "Turquoise",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "无",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "后（无）",
+            "hue": "Gray",
+            "lightness": "Lighter"
+          },
+          {
+            "name": "前（选配）",
+            "hue": "Orange",
+            "lightness": "Lighter"
+          }
+        ],
+        "default_value": null,
+        "description": "汽车之家外部配置/天窗/玻璃；原始参数ID=85；原名=前/后电动车窗。完整符号和条件保留，不把缺失当不支持。 多选：无后缀为明确标配；选配、价格、无及整项价格条件保留文字标记。空白为未披露。完整原值在隐藏字段“多选转换原文JSON”。"
+      }
+    ]
+  }
+}
