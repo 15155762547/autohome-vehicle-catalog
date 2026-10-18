@@ -2,10 +2,29 @@ import json
 
 import pytest
 
-from autohome_catalog.historical_images import collect, image_patch, matching_power, menu
+from autohome_catalog.historical_images import (
+    collect,
+    gallery_redirect,
+    image_patch,
+    matching_power,
+    menu,
+)
 
 
-def test_historical_menu_excludes_latest_and_empty_and_prefers_recent_year():
+def test_only_known_missing_gallery_redirect_is_skippable():
+    url = "https://www.autohome.com.cn/cars/imglist-x-x-2576-x-53-x-x-x-x-1.html"
+    assert gallery_redirect(307, "/cars/imglist", url)
+    for status, location in [
+        (403, "/cars/imglist"),
+        (429, "/cars/imglist"),
+        (307, "/captcha"),
+        (307, "/login"),
+        (302, "/cars/imglist"),
+    ]:
+        assert not gallery_redirect(status, location, url)
+
+
+def test_historical_menu_prefers_accepted_year_and_excludes_newer_and_empty():
     data = {
         "specOtherList": [
             {"year": 2025, "list": [{"specid": 1, "count": 100}]},
@@ -13,7 +32,8 @@ def test_historical_menu_excludes_latest_and_empty_and_prefers_recent_year():
             {"year": 2019, "list": [{"specid": 4, "count": 100}, {"specid": 5, "count": 0}]},
         ]
     }
-    assert [r["specid"] for r in menu(data, 2025)] == [3, 2, 4]
+    assert [r["specid"] for r in menu(data, 2025)] == [1, 3, 2, 4]
+    assert [r["specid"] for r in menu(data, 2024)] == [3, 2, 4]
 
 
 def payload():
@@ -44,6 +64,20 @@ def test_exact_configuration_year_series_and_power_identity():
     ]:
         with pytest.raises(ValueError):
             matching_power(payload(), bad_target, spec, year)
+
+
+def test_repeated_energy_rows_agree_and_missing_is_not_guessed():
+    from autohome_catalog.historical_images import PowerUnavailable
+
+    d = payload()
+    d["result"]["titlelist"][0]["items"].append({"itemname": "能源类型", "titleid": 51})
+    d["result"]["datalist"][0]["paramconflist"].append({"titleid": 51, "itemname": "纯电动"})
+    target = {"series_id": 2761, "power": "纯电动"}
+    assert matching_power(d, target, 39780, 2019)
+    for item in d["result"]["datalist"][0]["paramconflist"]:
+        item["itemname"] = "-"
+    with pytest.raises(PowerUnavailable):
+        matching_power(d, target, 39780, 2019)
 
 
 def test_historical_patch_keeps_actual_year_and_excludes_deleted_status():

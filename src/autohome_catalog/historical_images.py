@@ -17,17 +17,21 @@ from .storage import assert_external, assert_run_allowed, guard_response, save_j
 
 
 def menu(data, latest_year):
-    """Prefer the newest available older year, then configurations with most official photos."""
+    """Prefer the accepted latest year, then older years; never use unaccepted newer years."""
     return sorted(
         [
             {**row, "year": int(bucket["year"])}
             for bucket in data.get("specList", []) + data.get("specOtherList", [])
-            if int(bucket["year"]) < latest_year
+            if int(bucket["year"]) <= latest_year
             for row in bucket.get("list", [])
             if int(row.get("count") or 0) > 0
         ],
         key=lambda row: (-row["year"], -int(row["count"]), int(row["specid"])),
     )
+
+
+class PowerUnavailable(ValueError):
+    pass
 
 
 def matching_power(payload, target, spec, year):
@@ -45,10 +49,16 @@ def matching_power(payload, target, spec, year):
         for item in group["items"]
         if item["itemname"] == "能源类型"
     ]
-    energies = [item["itemname"] for item in rows[0]["paramconflist"] if item["titleid"] in titles]
-    if len(energies) != 1 or not energies[0]:
-        raise ValueError("Historical power type missing")
-    return energies[0] == target["power"]
+    energies = {
+        item["itemname"]
+        for item in rows[0]["paramconflist"]
+        if item["titleid"] in titles and item["itemname"] not in (None, "", "-", "—")
+    }
+    if not energies:
+        raise PowerUnavailable("历史配置未返回能源类型，不能确认动力")
+    if len(energies) != 1:
+        raise ValueError("Historical power types conflict")
+    return energies == {target["power"]}
 
 
 def image_patch(result):
@@ -56,6 +66,12 @@ def image_patch(result):
     year = result["image_year"]
     if not images or len(images) > 15 or len({p["url"] for p in images}) != len(images):
         raise ValueError("Missing, duplicate or excessive historical images")
+    scope = (
+        f"当前车型最新年款为{target['year']}款；本次使用{year}款{target['power']}历史官图，"
+        "不代表最新年款外观或配置。历史车型可能已停售，仅用作车型展示参考。"
+        if year < target["year"]
+        else f"本次使用当前{year}款{target['power']}官图，不涉及历史年款替代。"
+    )
     return {
         "图片年款": str(year),
         "图片URL清单": json.dumps([p["url"] for p in images], ensure_ascii=False),
@@ -63,9 +79,7 @@ def image_patch(result):
         "图片类别": "官图",
         "图片验证方式": "源页面HTTP200；核对配置、年款及动力；URL未直连验证",
         "图片说明": (
-            f"当前车型最新年款为{target['year']}款；本次使用{year}款{target['power']}历史官图，"
-            "不代表最新年款外观或配置。历史车型可能已停售，仅用作车型展示参考。"
-            f"本次提取{len(images)}张，最多15张；同批图片未混用不同年款或动力。"
+            scope + f"本次提取{len(images)}张，最多15张；同批图片未混用不同年款或动力。"
             f"来源配置ID：{','.join(str(s) for s in sorted({p['spec_id'] for p in images}))}。"
             "只保存原始URL，未下载图片文件。"
         ),
@@ -77,6 +91,16 @@ def image_patch(result):
 class NoRedirect(HTTPRedirectHandler):
     def redirect_request(self, req, fp, code, msg, headers, newurl):
         return None
+
+
+class GalleryUnavailable(ValueError):
+    pass
+
+
+def gallery_redirect(status, location, url):
+    # A missing series gallery returns to the generic gallery landing page.
+    # Do not follow it or confuse its unrelated pictures with this model's pictures.
+    return status == 307 and location == "/cars/imglist" and "/cars/imglist-x-x-" in url
 
 
 class Fetcher:
@@ -105,6 +129,7 @@ class Fetcher:
             raw = response.read()
             status = response.status
             content_type = response.headers.get("Content-Type", "")
+            location = response.headers.get("Location", "")
         digest = hashlib.sha256(raw).hexdigest()
         raw_path = self.root / "sources" / f"{digest}.raw"
         raw_path.parent.mkdir(parents=True, exist_ok=True)
@@ -115,7 +140,11 @@ class Fetcher:
             sha256=digest,
             file=str(raw_path.relative_to(self.root)),
             checked_at=now(),
+            location=location,
         )
+        if gallery_redirect(status, location, url):
+            save_json(self.root / "problems" / f"{key}.json", receipt)
+            raise GalleryUnavailable("该车型图库入口跳转通用图库页，未跟随，未采入其他车型图片")
         try:
             guard_response(status, raw, content_type)
         except ValueError as exc:
@@ -130,6 +159,7 @@ class Fetcher:
 def collect(fetcher, target):
     data = page_data(fetcher.get(gallery_url(target["series_id"])), target["series_id"])
     selected_year, images, ids, urls = None, [], set(), set()
+    problems = []
     for candidate in menu(data, target["year"]):
         year, spec = candidate["year"], int(candidate["specid"])
         if selected_year is not None and year != selected_year:
@@ -138,7 +168,11 @@ def collect(fetcher, target):
         payload = json.loads(
             fetcher.get(endpoint + urlencode({"mode": 1, "site": 2, "specid": spec}))
         )
-        if not matching_power(payload, target, spec, year):
+        try:
+            if not matching_power(payload, target, spec, year):
+                continue
+        except PowerUnavailable as exc:
+            problems.append({"spec_id": spec, "year": year, "reason": str(exc)})
             continue
         for page in range(1, 3):
             url = gallery_url(target["series_id"], spec, page)
@@ -162,7 +196,8 @@ def collect(fetcher, target):
         image_year=selected_year,
         images=images,
         checked_at=now(),
-        status="已补历史官图" if images else "无匹配历史官图",
+        status="已补历史官图" if images else "动力待核实" if problems else "无匹配历史官图",
+        problems=problems,
     )
 
 
@@ -177,6 +212,11 @@ def run(config, root, prior, apply=False):
     if not before_path.exists():
         save_json(before_path, live)
     before = json.loads(before_path.read_text())
+    previous = (
+        json.loads((root / "models-after.json").read_text())
+        if (root / "models-after.json").exists()
+        else {}
+    )
     targets = {
         mid: json.loads((prior / "groups" / f"{mid}.json").read_text())["target"]
         for mid, row in before.items()
@@ -190,6 +230,10 @@ def run(config, root, prior, apply=False):
             continue
         try:
             result = collect(fetcher, target)
+        except GalleryUnavailable as exc:
+            result = dict(
+                target=target, images=[], status="图库入口不可用", reason=str(exc), checked_at=now()
+            )
         except Exception as exc:
             if (root / "PAUSED.json").exists():
                 print(f"PAUSED {mid}: {exc}", flush=True)
@@ -222,7 +266,11 @@ def run(config, root, prior, apply=False):
         if live[mid]["record_id"] != before[mid]["record_id"]:
             raise ValueError("Model record identity changed")
         for name in patch:
-            if live[mid]["fields"].get(name) not in (before[mid]["fields"].get(name), patch[name]):
+            if live[mid]["fields"].get(name) not in (
+                before[mid]["fields"].get(name),
+                patch[name],
+                previous.get(mid, {}).get("fields", {}).get(name),
+            ):
                 raise ValueError(f"Image field edited concurrently: {mid}/{name}")
         expected[mid] = patch
         if any(live[mid]["fields"].get(k) != v for k, v in patch.items()):
@@ -264,6 +312,8 @@ def run(config, root, prior, apply=False):
         under15=sum(0 < len(r["images"]) < 15 for r in results),
         no_match=sum(r["status"] == "无匹配历史官图" for r in results),
         failed=sum(r["status"] == "失败" for r in results),
+        gallery_unavailable=sum(r["status"] == "图库入口不可用" for r in results),
+        power_unverified=sum(r["status"] == "动力待核实" for r in results),
         remaining=len(targets) - len(results),
         updated=len(patches) if apply else 0,
         verified=apply,

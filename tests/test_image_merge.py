@@ -115,3 +115,25 @@ def test_existing_json_model_images_sync_without_writes(tmp_path, monkeypatch):
     assert result["created"] == 0 and result["updated"] == 0
     assert before[0]["fields"]["车系名称"] == "current name"
     assert before[0]["fields"]["配置版本"] == [{"id": "trim-id"}]
+
+    # Replaying old cover-only results must retain an accepted historical replacement.
+    from autohome_catalog.historical_images import image_patch
+    from autohome_catalog.storage import save_json
+
+    override = {
+        "target": t,
+        "image_year": 2024,
+        "images": [
+            {
+                "url": "https://car3.autoimg.cn/old.jpg",
+                "spec_id": 2,
+                "source_page": "https://www.autohome.com.cn/1/",
+            }
+        ],
+        "checked_at": "later",
+    }
+    save_json(tmp_path / "historical-overrides" / f"{t['model_id']}.json", override)
+    before[0]["fields"].update(image_patch(override))
+    result = module.sync_models(Client(), tmp_path)
+    assert result["updated"] == 0
+    assert before[0]["fields"]["图片年款"] == "2024"
