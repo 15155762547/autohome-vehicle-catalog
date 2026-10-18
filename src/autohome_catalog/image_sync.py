@@ -19,6 +19,11 @@ def assert_image_operation(config, command, args):
         "+view-get-visible-fields",
     }:
         return
+    if config.get("image_storage") == "models_json":
+        tid = args[args.index("--table-id") + 1] if "--table-id" in args else None
+        if tid == config["tables"]["models"] and command == "+record-batch-update":
+            return
+        raise ValueError(f"Merged image sync only updates model image columns: {command}")
     if command == "+table-create" and args[args.index("--name") + 1] == "车型图片":
         return
     tid = args[args.index("--table-id") + 1] if "--table-id" in args else None
@@ -43,9 +48,20 @@ def assert_image_operation(config, command, args):
 
 
 def url_lines(value):
+    text = (value or "").strip()
+    if not text:
+        return []
+    if text.startswith("[") and not re.match(r'^\[[^\[\]\n"]*\]\(https?://', text):
+        items = json.loads(text)
+        if not isinstance(items, list) or not all(isinstance(item, str) for item in items):
+            raise ValueError("Image JSON must be a string array")
+        urls = [re.sub(r"^\[[^\]]*\]\((https://[^\s]+)\)$", r"\1", item) for item in items]
+        if not all(re.fullmatch(r"https://[^\s\[\]()]+", url) for url in urls):
+            raise ValueError("JSON image list contains a non-URL value")
+        return urls
     return [
         re.sub(r"^\[[^\]]*\]\((https://[^\s]+)\)$", r"\1", line.strip())
-        for line in (value or "").splitlines()
+        for line in text.splitlines()
         if line.strip()
     ]
 
@@ -80,7 +96,7 @@ def fields(result):
         if images and all(p.get("scope") == "series" for p in images)
         else str(t["year"]),
         "所属车系": [{"id": t["model_record"]}],
-        "图片URL清单": "\n".join(p["url"] for p in images),
+        "图片URL清单": json.dumps([p["url"] for p in images], ensure_ascii=False),
         "图片数": len(images),
         "图片类别": "、".join(dict.fromkeys(p.get("category", "官图") for p in images)),
         "验证方式": "源站提供URL，未直连验证"
@@ -101,7 +117,11 @@ def normalize(records):
     for row in records:
         for key in ["官图URL清单", "图片URL清单", "来源页"]:
             if key in row["fields"]:
-                row["fields"][key] = "\n".join(url_lines(row["fields"][key]))
+                row["fields"][key] = (
+                    "\n".join(url_lines(row["fields"][key]))
+                    if key == "来源页"
+                    else json.dumps(url_lines(row["fields"][key]), ensure_ascii=False)
+                )
     return records
 
 
@@ -109,6 +129,10 @@ def sync(config_path, root):
     root = assert_external(root)
     client = Client(config_path)
     client.config["_image_operation"] = True
+    if client.config.get("image_storage") == "models_json":
+        from .image_merge import sync_models
+
+        return sync_models(client, root)
     tables = client.call("+table-list")["tables"]
     before_models = client.records("models")
     backup = root / "backups" / now().replace(":", "-")

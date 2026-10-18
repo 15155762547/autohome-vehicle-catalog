@@ -250,7 +250,9 @@ def test_repeat_plan_and_cli_readback_urls():
             "key": "AUT-1-BEV",
             "fields": {
                 "model_id": "AUT-1-BEV",
-                "官图URL清单": "https://car2.autoimg.cn/1.jpg\nhttps://car2.autoimg.cn/2.jpg",
+                "官图URL清单": json.dumps(
+                    ["https://car2.autoimg.cn/1.jpg", "https://car2.autoimg.cn/2.jpg"]
+                ),
                 "图片数": 2,
                 "所属车系": [{"id": "rec1"}],
             },
@@ -324,7 +326,7 @@ def test_source_only_rows_require_explicit_policy_and_series_year_blank():
     f = fields(result)
     assert f["年款"] == "" and f["图片类别"] == "车系封面"
     assert "未直连验证" in f["验证方式"]
-    assert f["图片URL清单"] == photo["url"]
+    assert json.loads(f["图片URL清单"]) == [photo["url"]]
 
 
 def test_cover_fallback_uses_hash_proven_protocol_relative_url(tmp_path):

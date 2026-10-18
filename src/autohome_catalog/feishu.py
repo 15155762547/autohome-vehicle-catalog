@@ -33,6 +33,10 @@ def assert_target(config):
 
 
 def assert_operation(config, command, args):
+    if config.get("_image_merge"):
+        from .image_merge import guard
+
+        return guard(config, command, args)
     if config.get("_boolean_migration"):
         from .boolean_migration import guard
 

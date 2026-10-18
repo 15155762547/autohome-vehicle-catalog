@@ -1,6 +1,6 @@
 # 汽车之家新能源汽车目录
 
-使用 Python、Scrapy、Pydantic 采集汽车之家在售及已确认预售的新能源汽车。按车型（车系＋动力）保存身份、按具体配置保存参数；保留原始字段、位置差异、选配及来源证据。图片只保存 URL，不下载文件、不上传附件。
+使用 Python、Scrapy、Pydantic 采集汽车之家在售及已确认预售的新能源汽车。按车型（车系＋动力）保存身份、按具体配置保存参数；保留原始字段、位置差异、选配及来源证据。图片只保存URL，不下载文件、不上传附件；当前直接保存在models的“图片URL清单”文本列中，内容为纯URL的JSON数组字符串。
 
 当前采用**紧凑单选布局**：配置主表＋一张参数扩展表，各6,586行；专属配置明细3,022行。纯功能为“标配／选配／无”单选，未披露留空；复合功能恢复分行文字，规格和选配价格完整保留。每张表只有默认视图。下方布尔布局仅为历史记录，现行规则见[紧凑单选](#紧凑单选2026-10-18)。
 
@@ -121,7 +121,8 @@ autohome-vehicle-catalog/
 │       ├── full_sync.py             # 旧版横向扩展分批同步（新版禁用）
 │       ├── human_layout.py          # 两张参数表与专属明细的迁移及视图
 │       ├── image_urls.py            # 官图优先，补采其他图库URL及车系封面
-│       ├── image_sync.py            # 图片表备份、幂等更新和关联核验
+│       ├── image_merge.py           # 图片并入车型表、旧表归档与限定字段更新
+│       ├── image_sync.py            # 图片JSON读写、幂等更新与历史格式兼容
 │       ├── images.py                # 最新年款官图解析、URL检查及断点续跑
 │       ├── migration.py             # 历史实验表备份检查及新表初始化
 │       ├── model_grain.py           # models按动力拆分、保留历史关联及逐条核验
@@ -140,6 +141,7 @@ autohome-vehicle-catalog/
     ├── test_compact_display.py       # 精简后位置、价格、状态及原文保护检查
     ├── test_full_export.py          # 全量字段导出及缺漏检查
     ├── test_human_layout.py         # 人类查表布局、字段和明细迁移检查
+    ├── test_image_merge.py          # JSON格式、车型身份保护及合并后无重复写入
     ├── test_images.py               # 官图归属、限流暂停、链接及写表检查
     ├── test_model_grain.py           # 编号唯一、动力名称及错关联拒绝检查
     ├── test_parse.py                # 配置参数及源站符号解析检查
@@ -169,14 +171,14 @@ uv run autohome-catalog images-sync --run images-20261017 \
   --config "$AUTOHOME_DATA_ROOT/control/feishu.json"
 ```
 
-“车型图片”每个model_id一行，字段如下：
+以下为历史独立图片表的结构，当前已合并至models，见[图片并入车型表](#图片并入车型表2026-10-18)：
 
 | 字段 | 用途 |
 |---|---|
 | 车型、model_id、品牌 | 人类查找与程序稳定标识 |
 | 动力、年款 | 明确图片归属；混合动力车系分别保存 |
 | 所属车型 | 按model_id关联当前车型表，反向入口为“图片组”；旧“所属车系”关联保留隐藏 |
-| 图片URL清单 | 同一文本单元格，一行一个裸URL，便于复制 |
+| 图片URL清单 | 历史为换行文本；现为纯URL的JSON数组字符串 |
 | 图片数 | 已提取URL数量，0至15；是否直连验证另看验证方式 |
 | 图片类别、验证方式 | 区分官图、外观、内饰等，以及HTTP验证或仅源站提供URL |
 | 检查结果、说明 | 满15张、不足15张、无匹配官图、失败或访问受阻及原因 |
@@ -216,7 +218,7 @@ uv run autohome-catalog images-sync --run image-urls-20261017 \
   --config "$AUTOHOME_DATA_ROOT/control/feishu.json"
 ```
 
-补采沿用原“车型图片”表和model_id，不另建重复表。原“官图URL清单”字段改名为“图片URL清单”，增加“图片类别”“验证方式”；每行一个URL，原单元格内容写前备份。图片来源和采集时间保存在JSON中，运行结果及暂停记录留在数据盘，完整采集后再回读全部分组并进行重复运行检查。
+补采最初沿用独立“车型图片”表和model_id，原“官图URL清单”改名为“图片URL清单”，增加“图片类别”“验证方式”；当时每行一个URL。当前图片直接写入models，URL为JSON数组字符串，原独立表归档。图片来源和采集时间保存在JSON中，运行结果及暂停记录留在数据盘，完整采集后再回读全部分组并进行重复运行检查。
 
 ## models一行一个model_id（2026-10-18）
 
@@ -312,3 +314,27 @@ uv run python -m autohome_catalog.single_select \
 批量输入为运行目录的`conversion.json`及`字段映射.json`。迁移只创建登记的新表，按稳定配置ID入库；逐格检查字段值和类型、核验正反向关联后切换车型入口。以表版本号完全一致为条件复用已核验备份，发生变化的表重新通过CLI读取，不重复全量回读未变化的历史表。断点状态保存在`migration-state.json`，已完成重跑直接返回核验结果。
 
 当前配置读取`tables.trims`、`parameter_extension_tables`与`detail_tables`。飞书API中单选单元格是单项列表（例如`["标配"]`），交付JSON将这195个状态列规范为字符串或null；其他选项字段保持原类型。`single-select-configurations.json`保存配置，`single-select-details.json`保存3,022条独立明细，`source-coverage.json`记录全部选配项目及价格的对应核验。运行数据和登录配置不提交Git。
+
+
+## 图片并入车型表（2026-10-18）
+
+两表按唯一model_id严格一一对应后，将1,010组、12,956个图片URL及元数据写入现有models记录；不创建新车型，不复制车型名、品牌、动力，不改变配置关联或参数表。新增图片年款、图片URL清单、图片数、图片类别、图片验证方式、图片检查结果、图片说明、图片采集来源页、图片检查时间共9列。默认视图只把URL清单和图片数放在右侧，其余图片信息可按需显示；旧封面和图片组关联保留但隐藏。
+
+`图片URL清单`仍是文本字段，但值为JSON数组字符串：`["https://car2.autoimg.cn/a.jpg", "https://car3.autoimg.cn/b.jpg"]`。元素必须是纯URL；解析时不按换行拆分。`url_lines`兼容历史换行、Markdown链接和JSON格式，写入统一使用JSON。图库类别和验证方式沿用源数据，没有重新访问图片域名。
+
+```python
+import json
+urls = json.loads(model_row["图片URL清单"])
+```
+
+迁移命令（同一已完成运行目录重跑不会重复写入）：
+
+```bash
+uv run python -m autohome_catalog.image_merge \
+  --config "$AUTOHOME_DATA_ROOT/control/feishu.json" \
+  --run "$AUTOHOME_DATA_ROOT/merge-images-20261018"
+```
+
+合并前备份两表记录、字段及配置；核对唯一model_id与原图片关联，新增图片列后批量更新，回读核验全部URL顺序、图片数和元数据，确认原车型记录ID及全部旧字段保留、参数表未变，再归档原图片表。备份保存在数据盘，不删除历史数据。当前配置为`image_storage: models_json`，`tables.images`移除，原图片表ID保存在`archived_images_table`。
+
+原`images-sync`命令继续可用：合并模式只允许更新models中的9个图片字段，不能创建车型或独立图片表。按model_id定位既有记录；同步前后检查原车型字段及配置关联，图片未变化时不重复写入。图片表已归档，后续读取直接取`tables.models`，不再读取旧图片表。
