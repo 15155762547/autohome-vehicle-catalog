@@ -184,8 +184,21 @@ def sync(config_path, root):
     current = normalize(read_records(client, tid, "model_id"))
     save_json(backup / "images.json", current)
     desired = []
+    model_key = client.config.get("key_fields", {}).get("models", "来源车系ID")
+    model_index = record_index(before_models, model_key)
+    relation = client.config.get("model_relation_field", "所属车系")
+    reverse = client.config.get("models_image_field", "官图组")
     for result in all_results(root):
-        desired.append({"key": result["target"]["model_id"], "fields": fields(result)})
+        target = result["target"]
+        parent = model_index[
+            target["model_id"] if model_key == "model_id" else str(target["series_id"])
+        ]
+        values = fields(result)
+        values.pop("所属车系")
+        values[relation] = [{"id": parent["record_id"]}]
+        if model_key == "model_id":
+            values["车型"] = parent["fields"]["车系名称"]
+        desired.append({"key": target["model_id"], "fields": values})
     changes = diff_records(desired, current, "model_id")
     save_json(backup / "write-plan.json", changes)
     for offset in range(0, len(changes["create"]), 200):
@@ -211,28 +224,31 @@ def sync(config_path, root):
         save_json(root / "readback-differences.json", remaining)
         raise ValueError("Image table differs after read-back")
     by_id = record_index(actual, "model_id")
-    models = record_index(client.records("models"), "来源车系ID")
+    models = record_index(client.records("models"), model_key)
     targets_by_id = {
         t["model_id"]: t for t in json.loads((root / "targets.json").read_text())["targets"]
     }
     for row in desired:
         result = targets_by_id[row["key"]]
-        linked = models[str(result["series_id"])]["fields"].get("官图组") or []
+        parent_key = row["key"] if model_key == "model_id" else str(result["series_id"])
+        linked = models[parent_key]["fields"].get(reverse) or []
         if by_id[row["key"]]["record_id"] not in {r["id"] for r in linked}:
             raise ValueError("Missing reverse model image relation")
     # Only image association and hidden card fields may differ in the original model table.
-    before = record_index(before_models, "来源车系ID")
+    before = record_index(before_models, model_key)
     for key, row in models.items():
         for name, value in before[key]["fields"].items():
-            if name != "官图组" and not same_value(value, row["fields"].get(name)):
+            if name != reverse and not same_value(value, row["fields"].get(name)):
                 raise ValueError(f"Model field unexpectedly changed: {key}/{name}")
     for view in views:
         if view.get("name") != "表格":
             continue
         args = ["--table-id", model_table, "--view-id", view["id"]]
         visible = client.call("+view-get-visible-fields", args)["visible_fields"]
-        visible = [x for x in visible if x not in {"车系图片URL", "图片来源页", "官图组"}]
-        visible.insert(min(2, len(visible)), "官图组")
+        visible = [x for x in visible if x not in {"车系图片URL", "图片来源页"}]
+        if model_key != "model_id":
+            visible = [x for x in visible if x != reverse]
+            visible.insert(min(2, len(visible)), reverse)
         set_visible(client, args, visible)
     image_views = client.call("+view-list", ["--table-id", tid])["views"]
     for view in image_views:
@@ -250,7 +266,7 @@ def sync(config_path, root):
                     "图片类别",
                     "图片URL清单",
                     "验证方式",
-                    "所属车系",
+                    relation,
                     "检查结果",
                     "说明",
                     "来源页",

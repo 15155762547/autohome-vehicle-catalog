@@ -51,7 +51,7 @@ def prepare(source, root):
                 brand=f["品牌"],
                 power=f["能源类型"],
                 year=year,
-                model_record=f["所属车系"][0]["id"],
+                model_record=(f.get("所属车型") or f["所属车系"])[0]["id"],
                 specs=[],
             ),
         )

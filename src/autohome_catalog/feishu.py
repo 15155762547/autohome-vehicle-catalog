@@ -33,6 +33,10 @@ def assert_target(config):
 
 
 def assert_operation(config, command, args):
+    if config.get("_model_grain_operation"):
+        from .model_grain import guard
+
+        return guard(config, command, args)
     if config.get("_image_operation"):
         from .image_sync import assert_image_operation
 
@@ -341,7 +345,7 @@ class Client:
                 for rid, values in zip(data["record_id_list"], data["data"], strict=True)
             )
             if not data["has_more"]:
-                record_index(rows, KEY_FIELDS[role])
+                record_index(rows, self.config.get("key_fields", {}).get(role, KEY_FIELDS[role]))
                 return rows
             if not data["data"]:
                 raise ValueError("Empty record page with has_more=true")

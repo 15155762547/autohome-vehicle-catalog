@@ -1,6 +1,6 @@
 # 汽车之家新能源汽车目录
 
-使用 Python、Scrapy、Pydantic 采集汽车之家在售及已确认预售的新能源汽车。按车系保存身份、按具体配置保存参数；保留原始字段、位置差异、选配及来源证据。图片只保存 URL，不下载文件、不上传附件。
+使用 Python、Scrapy、Pydantic 采集汽车之家在售及已确认预售的新能源汽车。按车型（车系＋动力）保存身份、按具体配置保存参数；保留原始字段、位置差异、选配及来源证据。图片只保存 URL，不下载文件、不上传附件。
 
 ## 安装
 
@@ -67,7 +67,7 @@ uv run autohome-catalog sync-full --config "$AUTOHOME_DATA_ROOT/private-config.j
 
 `schema/fields.json` 是五品牌137配置、25个历史响应的427项初始中文参数字典（实时特斯拉样本补审后为434项），保留源站大组/分组/原名/单位/原始参数ID。该字典不是全站永久全集。每份响应独立建立titleid映射，按specid匹配具体配置；不能跨年份复用列号。
 
-`model_id` 使用 `AUT-车系ID-BEV/PHEV/EREV/FCEV` 格式，动力类型取自每条配置的能源类型；未识别时留空。FCEV用于源站氢燃料车型，本次为Mirai；[丰田官方说明其为燃料电池电动车](https://global.toyota/en/newsroom/toyota/33558148.html)。车型表保持一车系一行，多动力编号换行列出；trim和配置扩展表每行对应一个编号。编号列在默认视图紧随名称。
+`model_id` 使用 `AUT-车系ID-BEV/PHEV/EREV/FCEV` 格式，动力类型取自每条配置的能源类型；未识别时留空。FCEV用于源站氢燃料车型，本次为Mirai；[丰田官方说明其为燃料电池电动车](https://global.toyota/en/newsroom/toyota/33558148.html)。2026-10-18起车型表按车系＋动力拆成1,010行，一行一个唯一model_id；名称如“秦PLUS（BEV）”“秦PLUS（PHEV）”，原始车系名另列保留。来源车系ID仍只有897种，可重复，不能作为车型表唯一键；trim和配置扩展表每行对应一个具体配置及其model_id。编号列在默认视图紧随名称。
 
 旧版布局输出独立列CSV及飞书计划，原始JSON仅用于证据。旧版88个数值参数另有一一对应的“原文”文本列，保留原始短横杠、符号和条件；默认检查视图隐藏这些证据列，需要查错时可显示。参数列优先使用源站原名和单位，仅在重名时加上必要的分组或参数ID，完整来源分组仍保留在字典及字段说明中。新增字段输出审计清单，先审查字典和列预算，再用 `schema-sync --config ...` 仅追加缺失列，已有列类型或关联目标不符会拒绝；不静默丢字段。●显示为“标配（●）”，○显示为“选配（○）”，短横杠保留原符号待字段语义核对，不变成false或0。不计算气囊总数。只有明确纯数值才转数字，缺失留空，无法转换的数值进入审计。
 
@@ -117,6 +117,7 @@ autohome-vehicle-catalog/
 │       ├── image_sync.py            # 图片表备份、幂等更新和关联核验
 │       ├── images.py                # 最新年款官图解析、URL检查及断点续跑
 │       ├── migration.py             # 历史实验表备份检查及新表初始化
+│       ├── model_grain.py           # models按动力拆分、保留历史关联及逐条核验
 │       ├── models.py                # Pydantic响应模型与数据契约
 │       ├── parse.py                 # 源站参数、选配符号及配置身份解析
 │       ├── repair.py                # 通过真实配置页补采失败参数
@@ -130,6 +131,7 @@ autohome-vehicle-catalog/
     ├── test_full_export.py          # 全量字段导出及缺漏检查
     ├── test_human_layout.py         # 人类查表布局、字段和明细迁移检查
     ├── test_images.py               # 官图归属、限流暂停、链接及写表检查
+    ├── test_model_grain.py           # 编号唯一、动力名称及错关联拒绝检查
     ├── test_parse.py                # 配置参数及源站符号解析检查
     └── test_storage.py              # 外接盘、来源证据和访问限制检查
 ```
@@ -162,7 +164,7 @@ uv run autohome-catalog images-sync --run images-20261017 \
 |---|---|
 | 车型、model_id、品牌 | 人类查找与程序稳定标识 |
 | 动力、年款 | 明确图片归属；混合动力车系分别保存 |
-| 所属车系 | 关联原车型表，反向入口为“官图组” |
+| 所属车型 | 按model_id关联当前车型表，反向入口为“图片组”；旧“所属车系”关联保留隐藏 |
 | 图片URL清单 | 同一文本单元格，一行一个裸URL，便于复制 |
 | 图片数 | 已提取URL数量，0至15；是否直连验证另看验证方式 |
 | 图片类别、验证方式 | 区分官图、外观、内饰等，以及HTTP验证或仅源站提供URL |
@@ -204,3 +206,18 @@ uv run autohome-catalog images-sync --run image-urls-20261017 \
 ```
 
 补采沿用原“车型图片”表和model_id，不另建重复表。原“官图URL清单”字段改名为“图片URL清单”，增加“图片类别”“验证方式”；每行一个URL，原单元格内容写前备份。图片来源和采集时间保存在JSON中，运行结果及暂停记录留在数据盘，完整采集后再回读全部分组并进行重复运行检查。
+
+## models一行一个model_id（2026-10-18）
+
+原models的897行按车系汇总，曾把同车系多个model_id换行放在一格。现行models为1,010行，唯一键为`model_id`，显示名称使用“原车系名称（动力代码）”，例如秦PLUS（BEV）和秦PLUS（PHEV）。`原车系名称`、`来源车系ID`保留源站车系身份；`动力类型`提供中文解释。来源车系ID可重复，关联和程序读取以model_id为准。
+
+迁移先逐表备份记录、字段、视图、版本和SHA256，核对每条配置的能源类型、model_id、来源车系ID及图片分组。只在所有配置和图片都能唯一归组时创建新models。原897行表改名后移入历史备份文件夹，不删记录、不改变历史关联。当前配置和图片增加双向“所属车型”字段关联新models，旧“所属车系”保留隐藏；配置主记录ID、全部参数、图片URL、参数扩展和专属明细均保留。反向关联按每个车型的完整配置清单一次核对、补齐；迁移后逐字段核对保护值及全部正反向关联，再发布新表。
+
+```bash
+uv run autohome-catalog split-models --run model-grain-20261018 \
+  --config "$AUTOHOME_DATA_ROOT/control/feishu.json" --prepare-only
+uv run autohome-catalog split-models --run model-grain-20261018 \
+  --config "$AUTOHOME_DATA_ROOT/control/feishu.json"
+```
+
+运行目录的`plan.json`保存每个model_id的配置和图片记录映射，`model-record-map.json`保存新飞书记录ID，`verification.json`保存逐条核验结果。重复执行复用已建立的模型记录和关联，不重复建表或新增记录。运行配置切换`key_fields.models`为`model_id`，并指定`model_relation_field: 所属车型`与`models_image_field: 图片组`。图片同步按实时models的model_id解析父记录，不能把历史采集JSON里的旧model_record直接写回新关联。

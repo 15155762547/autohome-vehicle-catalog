@@ -89,6 +89,12 @@ def main():
     urls.add_argument("--run", required=True)
     urls.add_argument("--official-run", type=Path, required=True)
     urls.add_argument("--source-run", type=Path, required=True)
+    models_split = commands.add_parser(
+        "split-models", help="按model_id重建models并核验全部关联，原表归档"
+    )
+    models_split.add_argument("--run", required=True)
+    models_split.add_argument("--config", type=Path, required=True)
+    models_split.add_argument("--prepare-only", action="store_true")
     args = parser.parse_args()
     if args.command == "schema-sync":
         from .feishu import Client, sync_schema
@@ -104,6 +110,11 @@ def main():
     if not re.fullmatch(r"[a-zA-Z0-9_-]+", args.run):
         parser.error("run must contain only letters, digits, underscores or hyphens")
     root = assert_external(args.data_root / args.run)
+    if args.command == "split-models":
+        from .model_grain import migrate
+
+        print(json.dumps(migrate(args.config, root, args.prepare_only), ensure_ascii=False))
+        return
     if args.command.startswith("images-"):
         from . import images
 
