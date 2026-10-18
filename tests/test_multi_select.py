@@ -1,7 +1,9 @@
+from types import SimpleNamespace
+
 import pytest
 
 from autohome_catalog.feishu import reject_dimension_restore
-from autohome_catalog.multi_select import guard, tokens
+from autohome_catalog.multi_select import all_options, guard, tokens
 
 
 def test_standard_features_become_individual_labels_without_splitting_slashes():
@@ -30,6 +32,22 @@ def test_position_pairs_negative_and_unknown_are_distinct():
 
 def test_source_standard_prices_are_not_discarded():
     assert tokens("通风 标配（价格条件详询）") == ["通风（价格条件详询）"]
+
+
+def test_truncated_field_metadata_is_not_treated_as_missing_options():
+    def call(command, args):
+        offset = int(args[args.index("--offset") + 1])
+        return {
+            "total": 3,
+            "options": [{"name": x} for x in (["a", "b"] if offset == 0 else ["c"])],
+        }
+
+    field = {"id": "field", "options": [{"name": "a"}], "truncated": True}
+    assert [o["name"] for o in all_options(SimpleNamespace(call=call), "table", field)] == [
+        "a",
+        "b",
+        "c",
+    ]
 
 
 def test_guard_keeps_existing_status_fields_outside_conversion():

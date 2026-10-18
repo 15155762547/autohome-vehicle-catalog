@@ -65,7 +65,13 @@ def candidates(fields):
 
 
 def guard(config, command, args):
-    if command in {"+field-list", "+record-list", "+view-list", "+view-get-visible-fields"}:
+    if command in {
+        "+field-list",
+        "+field-search-options",
+        "+record-list",
+        "+view-list",
+        "+view-get-visible-fields",
+    }:
         return
     tid = args[args.index("--table-id") + 1] if "--table-id" in args else None
     allowed = config["_multi_select"]
@@ -86,6 +92,31 @@ def guard(config, command, args):
 
 def indexed(client, tid):
     return record_index(read_records(client, tid, "来源配置ID"), "来源配置ID")
+
+
+def all_options(client, tid, field):
+    if not field.get("truncated"):
+        return field["options"]
+    result = []
+    while True:
+        data = client.call(
+            "+field-search-options",
+            [
+                "--table-id",
+                tid,
+                "--field-id",
+                field["id"],
+                "--limit",
+                "200",
+                "--offset",
+                str(len(result)),
+            ],
+        )
+        result.extend(data["options"])
+        if len(result) == data["total"]:
+            return result
+        if not data["options"] or len(result) > data["total"]:
+            raise ValueError("Option pagination is inconsistent")
 
 
 def write(client, tid, updates):
@@ -229,7 +260,7 @@ def apply(config, root):
         for p in plan[role]:
             existing = next(f for f in actual if f["id"] == p["id"])
             if existing["type"] == "select" and existing.get("multiple") is True:
-                if {o["name"] for o in existing["options"]} != {
+                if {o["name"] for o in all_options(client, tid, existing)} != {
                     o["name"] for o in p["definition"]["options"]
                 }:
                     raise ValueError("Existing multiselect options differ")
