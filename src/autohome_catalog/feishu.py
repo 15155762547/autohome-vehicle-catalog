@@ -33,6 +33,10 @@ def assert_target(config):
 
 
 def assert_operation(config, command, args):
+    if config.get("_compact_display"):
+        from .compact_display import guard
+
+        return guard(config, command, args)
     if config.get("_model_grain_operation"):
         from .model_grain import guard
 

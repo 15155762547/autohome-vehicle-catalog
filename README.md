@@ -107,6 +107,7 @@ autohome-vehicle-catalog/
 │   └── autohome_catalog/
 │       ├── __init__.py              # Python包入口说明
 │       ├── cli.py                   # 采集、导出、写表和图片任务命令
+│       ├── compact_display.py       # 参数短名称、符号换行与原值备份回读
 │       ├── discovery.py             # 发现新能源在售和预售车系清单
 │       ├── export.py                # 参数字段映射、CSV导出及原文审计
 │       ├── feishu.py                # lark CLI调用、目标保护及参数回读
@@ -128,6 +129,7 @@ autohome-vehicle-catalog/
     ├── test_discovery.py            # 目录分页、范围和重复车系检查
     ├── test_export.py               # 字段导出、动力编号及原文审计检查
     ├── test_feishu.py               # 实验表写入保护、差异及回读检查
+    ├── test_compact_display.py       # 精简后位置、价格、状态及原文保护检查
     ├── test_full_export.py          # 全量字段导出及缺漏检查
     ├── test_human_layout.py         # 人类查表布局、字段和明细迁移检查
     ├── test_images.py               # 官图归属、限流暂停、链接及写表检查
@@ -221,3 +223,18 @@ uv run autohome-catalog split-models --run model-grain-20261018 \
 ```
 
 运行目录的`plan.json`保存每个model_id的配置和图片记录映射，`model-record-map.json`保存新飞书记录ID，`verification.json`保存逐条核验结果。重复执行复用已建立的模型记录和关联，不重复建表或新增记录。运行配置切换`key_fields.models`为`model_id`，并指定`model_relation_field: 所属车型`与`models_image_field: 图片组`。图片同步按实时models的model_id解析父记录，不能把历史采集JSON里的旧model_record直接写回新关联。
+
+
+## 参数显示精简（2026-10-18）
+
+现有参数表保持行列数量、字段ID、类型、顺序和关联，仅修改中文显示名称与参数文本。`标配（●）`精简为`●`，`选配（○）`精简为`○`，同一格的多项功能分行显示；选装价格、适用位置、方向数和限制条件保留。原文只写标配时仍只显示●，不推断子项；空白和短横杠保持原值。来源字段、“原文”列和参数原文存档不修改。不增加主题表或分类视图。
+
+短列名对应原字段的完整清单见`compact_display.py`中的`ALIASES`，原字段说明保留来源原名。运行目录的原始记录、字段定义、视图和SHA256用于回溯；`display-plan.json`记录完整转换结果，`verification.json`记录逐项回读。显示文本经过简化，不替代原始采集JSON证据。
+
+下面的迁移命令仅接受已经完成记录、字段、视图备份及版本一致性校验的外接盘目录；不直接接受空目录。重复执行仅补写与备份或预期值一致的单元格，遇到其他编辑会停止。
+
+```bash
+uv run python -m autohome_catalog.compact_display \
+  --config "$AUTOHOME_DATA_ROOT/control/feishu.json" \
+  --run "$AUTOHOME_DATA_ROOT/compact-display-20261018"
+```
