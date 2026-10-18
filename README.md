@@ -114,6 +114,7 @@ autohome-vehicle-catalog/
 │       ├── boolean_migration.py     # 布尔表分阶段入库、逐格核验及归档切换
 │       ├── cli.py                   # 采集、导出、写表和图片任务命令
 │       ├── compact_display.py       # 参数短名称、符号换行与原值备份回读
+│       ├── dealer_prices.py         # 按城市补采经销商报价、断点复用及单列回读
 │       ├── discovery.py             # 发现新能源在售和预售车系清单
 │       ├── export.py                # 参数字段映射、CSV导出及原文审计
 │       ├── feishu.py                # lark CLI调用、目标保护及参数回读
@@ -140,6 +141,7 @@ autohome-vehicle-catalog/
     ├── test_feishu.py               # 实验表写入保护、差异及回读检查
     ├── test_boolean_layout.py       # 布尔语义、位置价格、空值与迁移边界检查
     ├── test_compact_display.py       # 精简后位置、价格、状态及原文保护检查
+    ├── test_dealer_prices.py         # 报价、正常无报价、异常响应和更新范围检查
     ├── test_full_export.py          # 全量字段导出及缺漏检查
     ├── test_human_layout.py         # 人类查表布局、字段和明细迁移检查
     ├── test_image_merge.py          # JSON格式、车型身份保护及合并后无重复写入
@@ -352,3 +354,15 @@ uv run python -m autohome_catalog.number_format \
 ```
 
 去掉`--apply`只检查并生成计划。每次使用新的运行目录保留备份，输出`数字显示调整.md`及JSON审计文件。
+
+## 经销商报价补采
+
+参数接口的“暂无报价”不能代表网页没有经销商报价。补采使用网页另行调用的`/web-main/car/spec/getspecinfo`接口，按已有配置ID查询`askprice.newsprice`，当前统一北京（cityid=110100），与单配置试采一致。正数显示为“14.58万起”，正常响应为0显示“暂无报价”；请求失败、缺少配置或无效价格不当作无报价，保留原值并记录问题。报价与地区、采集时间有关，不代表最终成交价。
+
+```bash
+uv run python -m autohome_catalog.dealer_prices \
+  --config "$AUTOHOME_DATA_ROOT/control/feishu.json" \
+  --root "$AUTOHOME_DATA_ROOT/dealer-full-新时间戳" --apply
+```
+
+每批查询50个已有配置，串行限速。原始响应、地区、时间及SHA256留在外接盘；相同运行目录中断后可继续，复用前核对配置ID和响应哈希。只更新trim中已有的“经销商报价”字段，不新建记录、字段或视图；写后回读全部报价及配置身份。HTTP 401/403/429或验证页面会暂停来源。最终结果为`经销商报价交付说明.md`及JSON，运行数据不提交GitHub。
