@@ -124,6 +124,7 @@ autohome-vehicle-catalog/
 │       ├── human_layout.py          # 两张参数表与专属明细的迁移及视图
 │       ├── image_urls.py            # 官图优先，补采其他图库URL及车系封面
 │       ├── image_merge.py           # 图片并入车型表、旧表归档与限定字段更新
+│       ├── historical_images.py     # 封面兜底车型补同动力历史官图，注明真实年款
 │       ├── image_sync.py            # 图片JSON读写、幂等更新与历史格式兼容
 │       ├── images.py                # 最新年款官图解析、URL检查及断点续跑
 │       ├── migration.py             # 历史实验表备份检查及新表初始化
@@ -147,6 +148,7 @@ autohome-vehicle-catalog/
     ├── test_dealer_prices.py         # 报价、正常无报价、异常响应和更新范围检查
     ├── test_full_export.py          # 全量字段导出及缺漏检查
     ├── test_human_layout.py         # 人类查表布局、字段和明细迁移检查
+    ├── test_historical_images.py    # 历史官图的年款、动力、去重及已删除字段保护检查
     ├── test_image_merge.py          # JSON格式、车型身份保护及合并后无重复写入
     ├── test_images.py               # 官图归属、限流暂停、链接及写表检查
     ├── test_model_grain.py           # 编号唯一、动力名称及错关联拒绝检查
@@ -162,7 +164,19 @@ autohome-vehicle-catalog/
 
 ## 最新年款官图URL
 
-图片任务按已验收配置中的 `model_id` 分组，分别选择最新年款。本次范围为1,010组、4,292个候选配置。仅取源站分类53“官图”，优先官图数量最多的同组配置，不足时补同年款、同动力的其他已验收配置；按图片ID及URL去重，每组最多15张。最新年款没有官图时留空，不混用老款或实拍。
+图片任务按已验收配置中的 `model_id` 分组，分别选择最新年款。本次范围为1,010组、4,292个候选配置。基础官图入口仅取源站分类53“官图”，优先官图数量最多的同组配置，不足时补同年款、同动力的其他已验收配置；按图片ID及URL去重，每组最多15张。
+
+2026-10-18确认放宽：对于目前只有车系封面的车型，允许补同动力的历史官图。补采入口按历史年款从新到旧检查，使用源站参数核对具体配置的能源类型；选定一个年款后，仅在该年款中补齐最多15张，不把不同历史年款混在一组。“图片年款”填写图片实际年款，“图片说明”同时交代当前车型最新年款、图片历史年款、配置ID与仅供展示参考。用户删除的“图片检查结果”不重建、不写入，状态原因写进已有备注。
+
+```bash
+# 只修复已有车型中的车系封面兜底记录，支持断点继续；数据保存在仓库外。
+uv run python -m autohome_catalog.historical_images \
+  --config "$AUTOHOME_DATA_ROOT/control/feishu.json" \
+  --run "$AUTOHOME_DATA_ROOT/historical-images-20261018" \
+  --prior "$AUTOHOME_DATA_ROOT/image-urls-20261017" --apply
+```
+
+补采先备份当前记录，按model_id更新已有图片列并回读，保留其他值和关联；不会新建表、视图或字段。来源跳转、访问限制或验证页面触发暂停，保留已提取结果和未完成数量。每个URL只从源页面提取，不请求图片文件；源页面可读不等于图片URL已通过HTTP验证。
 
 ```bash
 # source 是已完成飞书回读核验的配置快照，位于仓库外。

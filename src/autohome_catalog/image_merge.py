@@ -242,18 +242,36 @@ def sync_models(client, root):
     """Only image columns may be updated; existing model IDs must already exist."""
     tid = client.config["tables"]["models"]
     before = record_index(read_records(client, tid, "model_id"), "model_id")
+    active = set(IMAGE_FIELDS.values()) & {
+        name for row in before.values() for name in row["fields"]
+    }
+
+    def existing_columns(values):
+        return {name: value for name, value in canonical(values).items() if name in active}
+
     backup = root / "backups" / ("models-images-" + now().replace(":", "-"))
     save_json(backup / "models.json", before)
-    desired = {r["target"]["model_id"]: projected(fields(r)) for r in all_results(root)}
+    desired = {
+        r["target"]["model_id"]: existing_columns(projected(fields(r))) for r in all_results(root)
+    }
+    # Explicitly accepted historical replacements must survive later ordinary image syncs.
+    from .historical_images import image_patch
+
+    for path in (root / "historical-overrides").glob("*.json"):
+        override = json.loads(path.read_text())
+        mid = override["target"]["model_id"]
+        if path.stem != mid or mid not in desired:
+            raise ValueError("Historical image override identity mismatch")
+        desired[mid] = existing_columns(image_patch(override))
     if not desired or desired.keys() - before.keys():
         raise ValueError("Image collection does not match existing model IDs")
     current = [
-        {"record_id": row["record_id"], "fields": {"model_id": mid, **canonical(row["fields"])}}
+        {"record_id": row["record_id"], "fields": {"model_id": mid, **existing_columns(row["fields"])}}
         for mid, row in before.items()
     ]
     changes = diff_records(
         [
-            {"key": mid, "fields": {"model_id": mid, **canonical(values)}}
+            {"key": mid, "fields": {"model_id": mid, **existing_columns(values)}}
             for mid, values in desired.items()
         ],
         current,
@@ -280,7 +298,7 @@ def sync_models(client, root):
             row["fields"],
         )
         if mid in desired:
-            check(desired[mid], row["fields"])
+            verify_fields(existing_columns(desired[mid]), existing_columns(row["fields"]))
     result = {
         "verified_rows": len(desired),
         "table_id": tid,

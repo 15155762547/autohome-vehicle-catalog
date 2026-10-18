@@ -89,6 +89,8 @@ def test_existing_json_model_images_sync_without_writes(tmp_path, monkeypatch):
         "checked_at": "then",
     }
     expected = projected(module.fields(r))
+    # The user deleted this column; an ordinary image sync must not restore or write it.
+    expected.pop("图片检查结果")
     before = [
         {
             "record_id": "keep-id",
