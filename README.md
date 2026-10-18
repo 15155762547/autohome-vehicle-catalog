@@ -124,7 +124,7 @@ autohome-vehicle-catalog/
 │       ├── human_layout.py          # 两张参数表与专属明细的迁移及视图
 │       ├── image_urls.py            # 官图优先，补采其他图库URL及车系封面
 │       ├── image_merge.py           # 图片并入车型表、旧表归档与限定字段更新
-│       ├── historical_images.py     # 封面兜底车型补同动力历史官图，注明真实年款
+│       ├── historical_images.py     # 封面车型补官图或授权普通图库，核对动力及年款
 │       ├── image_sync.py            # 图片JSON读写、幂等更新与历史格式兼容
 │       ├── images.py                # 最新年款官图解析、URL检查及断点续跑
 │       ├── migration.py             # 历史实验表备份检查及新表初始化
@@ -177,6 +177,16 @@ uv run python -m autohome_catalog.historical_images \
 ```
 
 补采先备份当前记录，按model_id更新已有图片列并回读，保留其他值和关联；不会新建表、视图或字段。已核实的HTTP307跳转至通用图库页`/cars/imglist`仅记为该车型入口不可用，不跟随跳转，继续其他车型。其他意外跳转、401/403/429或验证页面仍暂停来源并保留未完成数量。每个URL只从源页面提取，不请求图片文件；源页面可读不等于图片URL已通过HTTP验证。已接受的历史替换保存在原图片运行目录的`historical-overrides/`，后续普通同步不会退回旧封面。
+
+2026-10-19继续放宽：对上述31组官图入口不可用的车型，允许补普通图库中的外观、内饰等图片，备注说明来源并非官图专属。仍核对车系、具体配置、能源类型及实际年款，最多15张，不混年款或动力。此前3组动力待核实和1组无同动力官图的记录按用户要求保留原样，不在本批中处理。通用图库首页不能作为任意车型的图片来源，程序只读取指定车系、配置的图库页面。
+
+```bash
+uv run python -m autohome_catalog.historical_images \
+  --config "$AUTOHOME_DATA_ROOT/control/feishu.json" \
+  --run "$AUTOHOME_DATA_ROOT/general-images-20261018" \
+  --prior "$AUTOHOME_DATA_ROOT/image-urls-20261017" \
+  --general-history "$AUTOHOME_DATA_ROOT/historical-images-20261018" --apply
+```
 
 ```bash
 # source 是已完成飞书回读核验的配置快照，位于仓库外。

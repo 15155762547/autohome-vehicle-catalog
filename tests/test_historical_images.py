@@ -138,3 +138,61 @@ def test_collection_does_not_fetch_images_or_cross_power_or_mix_years(monkeypatc
 
     result = collect(Fetcher(), {"series_id": 2761, "power": "纯电动", "year": 2025})
     assert result["image_year"] == 2019 and len(result["images"]) == 1
+
+
+def test_general_gallery_preserves_category_and_marks_non_official_source():
+    result = {
+        "target": {"year": 2025, "power": "纯电动"},
+        "image_year": 2025,
+        "gallery_mode": "general",
+        "checked_at": "now",
+        "images": [
+            {
+                "url": "https://car3.autoimg.cn/a.jpg",
+                "spec_id": 1,
+                "source_page": "https://www.autohome.com.cn/1/",
+                "category": "外观",
+            }
+        ],
+    }
+    patch = image_patch(result)
+    assert patch["图片类别"] == "外观"
+    assert "普通图库" in patch["图片说明"] and "并非官图专属" in patch["图片说明"]
+    assert "不涉及历史年款替代" in patch["图片说明"]
+    assert "图片检查结果" not in patch
+
+
+def test_general_collection_rejects_other_power_and_deduplicates(monkeypatch):
+    import autohome_catalog.historical_images as module
+
+    data = {
+        "specOtherList": [
+            {"year": 2024, "list": [{"specid": 10, "count": 100}, {"specid": 20, "count": 30}]}
+        ]
+    }
+    seen = []
+    monkeypatch.setattr(module, "any_data", lambda *args: data)
+    monkeypatch.setattr(module, "matching_power", lambda p, t, s, y: s == 20)
+
+    def photo_rows(d, t, spec, url):
+        seen.append(spec)
+        return [
+            {
+                "picture_id": 1,
+                "spec_id": spec,
+                "url": "https://car3.autoimg.cn/a.jpg",
+                "source_page": url,
+                "category": "内饰",
+            }
+        ] * 2
+
+    monkeypatch.setattr(module, "any_photos", photo_rows)
+
+    class Fetcher:
+        def get(self, url):
+            assert "autoimg" not in url
+            return "{}"
+
+    result = module.collect_general(Fetcher(), {"series_id": 1, "year": 2025, "power": "纯电动"})
+    assert set(seen) == {20} and len(result["images"]) == 1
+    assert result["image_year"] == 2024 and result["gallery_mode"] == "general"

@@ -1,4 +1,4 @@
-"""Replace cover-only models with explicitly dated, same-power historical official URLs."""
+"""Replace cover-only models with dated, same-power official or authorized general-gallery URLs."""
 
 import argparse
 import hashlib
@@ -12,6 +12,7 @@ from urllib.request import HTTPRedirectHandler, build_opener
 from .boolean_migration import verify_fields, write_updates
 from .feishu import Client, record_index
 from .human_layout import read_records
+from .image_urls import all_url, any_data, any_photos
 from .images import gallery_url, now, page_data, photos
 from .storage import assert_external, assert_run_allowed, guard_response, save_json
 
@@ -66,22 +67,25 @@ def image_patch(result):
     year = result["image_year"]
     if not images or len(images) > 15 or len({p["url"] for p in images}) != len(images):
         raise ValueError("Missing, duplicate or excessive historical images")
+    general = result.get("gallery_mode") == "general"
+    kind = "普通图库图片" if general else "官图"
     scope = (
-        f"当前车型最新年款为{target['year']}款；本次使用{year}款{target['power']}历史官图，"
+        f"当前车型最新年款为{target['year']}款；本次使用{year}款{target['power']}历史{kind}，"
         "不代表最新年款外观或配置。历史车型可能已停售，仅用作车型展示参考。"
         if year < target["year"]
-        else f"本次使用当前{year}款{target['power']}官图，不涉及历史年款替代。"
+        else f"本次使用当前{year}款{target['power']}{kind}，不涉及历史年款替代。"
     )
     return {
         "图片年款": str(year),
         "图片URL清单": json.dumps([p["url"] for p in images], ensure_ascii=False),
         "图片数": len(images),
-        "图片类别": "官图",
+        "图片类别": "、".join(dict.fromkeys(p.get("category", "官图") for p in images)),
         "图片验证方式": "源页面HTTP200；核对配置、年款及动力；URL未直连验证",
         "图片说明": (
             scope + f"本次提取{len(images)}张，最多15张；同批图片未混用不同年款或动力。"
             f"来源配置ID：{','.join(str(s) for s in sorted({p['spec_id'] for p in images}))}。"
             "只保存原始URL，未下载图片文件。"
+            + ("本次经授权改用普通图库，包含外观、内饰等类别，并非官图专属。" if general else "")
         ),
         "图片采集来源页": "\n".join(dict.fromkeys(p["source_page"] for p in images)),
         "图片检查时间": result["checked_at"],
@@ -201,7 +205,55 @@ def collect(fetcher, target):
     )
 
 
-def run(config, root, prior, apply=False):
+def collect_general(fetcher, target):
+    data = any_data(fetcher.get(all_url(target["series_id"])), target)
+    selected_year, images, ids, urls = None, [], set(), set()
+    problems = []
+    for candidate in menu(data, target["year"]):
+        year, spec = candidate["year"], int(candidate["specid"])
+        if selected_year is not None and year != selected_year:
+            break
+        endpoint = "https://www.autohome.com.cn/web-main/car/param/getParamConf?"
+        payload = json.loads(
+            fetcher.get(endpoint + urlencode({"mode": 1, "site": 2, "specid": spec}))
+        )
+        try:
+            if not matching_power(payload, target, spec, year):
+                continue
+        except PowerUnavailable as exc:
+            problems.append({"spec_id": spec, "year": year, "reason": str(exc)})
+            continue
+        for page in range(1, 3):
+            url = all_url(target["series_id"], spec).replace("-1.html", f"-{page}.html")
+            detail = any_data(fetcher.get(url), {**target, "year": year}, spec)
+            rows = any_photos(detail, target, spec, url)
+            added = 0
+            for photo in rows:
+                if photo["picture_id"] in ids or photo["url"] in urls:
+                    continue
+                ids.add(photo["picture_id"])
+                urls.add(photo["url"])
+                images.append(photo)
+                selected_year = year
+                added += 1
+                if len(images) == 15:
+                    break
+            if len(images) == 15 or not added:
+                break
+        if len(images) == 15:
+            break
+    return dict(
+        target=target,
+        image_year=selected_year,
+        images=images,
+        checked_at=now(),
+        gallery_mode="general",
+        problems=problems,
+        status="已补普通图库" if images else "动力待核实" if problems else "无匹配普通图库",
+    )
+
+
+def run(config, root, prior, apply=False, general_history=None):
     root = assert_external(root)
     root.mkdir(parents=True, exist_ok=True)
     client = Client(config)
@@ -222,6 +274,14 @@ def run(config, root, prior, apply=False):
         for mid, row in before.items()
         if row["fields"].get("图片数") == 1 and row["fields"].get("图片类别") == "车系封面"
     }
+    if general_history:
+        general_history = assert_external(general_history)
+        allowed = {
+            p.stem
+            for p in (general_history / "groups").glob("*.json")
+            if json.loads(p.read_text())["status"] == "图库入口不可用"
+        }
+        targets = {mid: target for mid, target in targets.items() if mid in allowed}
     save_json(root / "targets.json", list(targets.values()))
     fetcher = Fetcher(root)
     for index, (mid, target) in enumerate(targets.items(), 1):
@@ -229,7 +289,9 @@ def run(config, root, prior, apply=False):
         if path.exists():
             continue
         try:
-            result = collect(fetcher, target)
+            result = (
+                collect_general(fetcher, target) if general_history else collect(fetcher, target)
+            )
         except GalleryUnavailable as exc:
             result = dict(
                 target=target, images=[], status="图库入口不可用", reason=str(exc), checked_at=now()
@@ -258,9 +320,10 @@ def run(config, root, prior, apply=False):
             if not {"图片年款", "图片URL清单", "图片数", "图片说明"} <= patch.keys():
                 raise ValueError("Required image fields were removed")
         else:
+            source_kind = "普通图库" if general_history else "历史官图"
             patch = {
                 "图片说明": before[mid]["fields"].get("图片说明", "")
-                + f"；{result['checked_at']}复查历史官图：{result['status']}。"
+                + f"；{result['checked_at']}复查{source_kind}：{result['status']}。"
                 + result.get("reason", "")
             }
         if live[mid]["record_id"] != before[mid]["record_id"]:
@@ -310,7 +373,7 @@ def run(config, root, prior, apply=False):
         processed=len(results),
         full15=sum(len(r["images"]) == 15 for r in results),
         under15=sum(0 < len(r["images"]) < 15 for r in results),
-        no_match=sum(r["status"] == "无匹配历史官图" for r in results),
+        no_match=sum(r["status"] in {"无匹配历史官图", "无匹配普通图库"} for r in results),
         failed=sum(r["status"] == "失败" for r in results),
         gallery_unavailable=sum(r["status"] == "图库入口不可用" for r in results),
         power_unverified=sum(r["status"] == "动力待核实" for r in results),
@@ -331,5 +394,13 @@ if __name__ == "__main__":
     parser.add_argument("--run", type=Path, required=True)
     parser.add_argument("--prior", type=Path, required=True)
     parser.add_argument("--apply", action="store_true")
+    parser.add_argument(
+        "--general-history", type=Path, help="授权普通图库补采，仅选该运行中官图入口不可用的组"
+    )
     args = parser.parse_args()
-    print(json.dumps(run(args.config, args.run, args.prior, args.apply), ensure_ascii=False))
+    print(
+        json.dumps(
+            run(args.config, args.run, args.prior, args.apply, args.general_history),
+            ensure_ascii=False,
+        )
+    )
