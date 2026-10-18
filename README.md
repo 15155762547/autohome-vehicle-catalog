@@ -127,6 +127,7 @@ autohome-vehicle-catalog/
 │       ├── migration.py             # 历史实验表备份检查及新表初始化
 │       ├── model_grain.py           # models按动力拆分、保留历史关联及逐条核验
 │       ├── models.py                # Pydantic响应模型与数据契约
+│       ├── number_format.py         # 按真实数字设置显示精度并回读确认数值不变
 │       ├── parse.py                 # 源站参数、选配符号及配置身份解析
 │       ├── repair.py                # 通过真实配置页补采失败参数
 │       ├── single_select.py         # 从原始备份批量恢复紧凑单选并核验关联
@@ -144,6 +145,7 @@ autohome-vehicle-catalog/
     ├── test_image_merge.py          # JSON格式、车型身份保护及合并后无重复写入
     ├── test_images.py               # 官图归属、限流暂停、链接及写表检查
     ├── test_model_grain.py           # 编号唯一、动力名称及错关联拒绝检查
+    ├── test_number_format.py         # 整数、小数、空值和限定字段更新检查
     ├── test_parse.py                # 配置参数及源站符号解析检查
     ├── test_single_select.py        # 三态与空值、LED规格和选配价格检查
     └── test_storage.py              # 外接盘、来源证据和访问限制检查
@@ -338,3 +340,15 @@ uv run python -m autohome_catalog.image_merge \
 合并前备份两表记录、字段及配置；核对唯一model_id与原图片关联，新增图片列后批量更新，回读核验全部URL顺序、图片数和元数据，确认原车型记录ID及全部旧字段保留、参数表未变，再归档原图片表。备份保存在数据盘，不删除历史数据。当前配置为`image_storage: models_json`，`tables.images`移除，原图片表ID保存在`archived_images_table`。
 
 原`images-sync`命令继续可用：合并模式只允许更新models中的9个图片字段，不能创建车型或独立图片表。按model_id定位既有记录；同步前后检查原车型字段及配置关联，图片未变化时不重复写入。图片表已归档，后续读取直接取`tables.models`，不再读取旧图片表。
+
+## 数字显示精度
+
+数字列按当前全列数据设置最少必要的小数位：全为整数设为0位，有真实小数则保留所需位数（飞书最多4位），全空列保持原设置。飞书按整列统一设置，因此混有整数与小数的列中，整数仍可能显示补零。此命令只更新数字字段的显示精度，不写记录、不转成文本；备份并回读核对全部数字及记录ID。
+
+```bash
+uv run python -m autohome_catalog.number_format \
+  --config "$AUTOHOME_DATA_ROOT/control/feishu.json" \
+  --root "$AUTOHOME_DATA_ROOT/number-format-新时间戳" --apply
+```
+
+去掉`--apply`只检查并生成计划。每次使用新的运行目录保留备份，输出`数字显示调整.md`及JSON审计文件。
