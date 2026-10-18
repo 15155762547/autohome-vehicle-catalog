@@ -33,6 +33,10 @@ def assert_target(config):
 
 
 def assert_operation(config, command, args):
+    if config.get("_primary_titles"):
+        from .primary_titles import guard
+
+        return guard(config, command, args)
     if config.get("_dealer_prices"):
         from .dealer_prices import guard
 

@@ -130,6 +130,7 @@ autohome-vehicle-catalog/
 │       ├── models.py                # Pydantic响应模型与数据契约
 │       ├── number_format.py         # 按真实数字设置显示精度并回读确认数值不变
 │       ├── parse.py                 # 源站参数、选配符号及配置身份解析
+│       ├── primary_titles.py        # 主字段展示车型全称、保留拆分原值及逐格核验
 │       ├── repair.py                # 通过真实配置页补采失败参数
 │       ├── single_select.py         # 从原始备份批量恢复紧凑单选并核验关联
 │       ├── spider.py                # Scrapy参数采集、并发及证据中间件
@@ -149,6 +150,7 @@ autohome-vehicle-catalog/
     ├── test_model_grain.py           # 编号唯一、动力名称及错关联拒绝检查
     ├── test_number_format.py         # 整数、小数、空值和限定字段更新检查
     ├── test_parse.py                # 配置参数及源站符号解析检查
+    ├── test_primary_titles.py       # 品牌前缀去重、缺失组件及主字段修改边界检查
     ├── test_single_select.py        # 三态与空值、LED规格和选配价格检查
     └── test_storage.py              # 外接盘、来源证据和访问限制检查
 ```
@@ -366,3 +368,19 @@ uv run python -m autohome_catalog.dealer_prices \
 ```
 
 每批查询50个已有配置，串行限速。原始响应、地区、时间及SHA256留在外接盘；相同运行目录中断后可继续，复用前核对配置ID和响应哈希。只更新trim中已有的“经销商报价”字段，不新建记录、字段或视图；写后回读全部报价及配置身份。HTTP 401/403/429或验证页面会暂停来源。最终结果为`经销商报价交付说明.md`及JSON，运行数据不提交GitHub。
+
+## 首列车型全称
+
+配置、参数扩展和专属明细的主字段显示“车型全称”：品牌＋车系＋配置。若车系已以品牌开头，只保留车系原文，例如问界＋问界M9成为问界M9；特斯拉＋Model 3成为特斯拉 Model 3。源品牌的空格分隔别名也参与前缀判断，例如AITO 问界＋问界M9成为AITO 问界M9。只在显示名中去除明确重复的品牌，不在原始名称里删字。品牌、车系名称、配置名称均保留并显示。
+
+CLI无法直接更换主字段或设置冻结区域，因此保留原主字段ID用于全称展示，将原主字段的数据完整保存到同名新增字段：配置/扩展为“配置名称”，专属明细为“品牌”。每表增加一列，不新增表。源字段语义和全部记录/关联ID保留，但这三个源字段的field_id改为新增列ID；直接按旧field_id读取的调用方应使用迁移目录`state.json`映射，不能将其误认为品牌/配置原值。按字段名读取不变。源站“车型名称”原文另行保留，不强行修正源站特殊命名。
+
+执行前在外接盘备份三个表的完整记录、字段和默认视图到同一运行目录，包含`metadata-before.json`及`trims-before.json`、`equipment-before.json`、`special-before.json`；然后：
+
+```bash
+uv run python -m autohome_catalog.primary_titles \
+  --config "$AUTOHOME_DATA_ROOT/control/feishu.json" \
+  --root "$AUTOHOME_DATA_ROOT/title-primary-20261018"
+```
+
+同目录支持按已有字段和实际值续跑。写入仅限全称及原主字段副本，完整回读确认原有字段值、记录ID和链接未变；专属明细把项目名称放全称后面，同一配置的多个项目仍以明细ID区分。冻结额外列、列宽和行高需在界面设置；命令不修改这些设置。
