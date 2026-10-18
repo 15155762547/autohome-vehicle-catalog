@@ -33,6 +33,10 @@ def assert_target(config):
 
 
 def assert_operation(config, command, args):
+    if config.get("_boolean_migration"):
+        from .boolean_migration import guard
+
+        return guard(config, command, args)
     if config.get("_compact_display"):
         from .compact_display import guard
 
@@ -283,8 +287,10 @@ class Client:
                 failure = json.loads(output).get("error", {})
             except ValueError:
                 failure = {}
-            transient = failure.get("code") in (800100001, 800004135) or (
-                failure.get("type") == "network" and failure.get("subtype") == "transport"
+            transient = (
+                failure.get("code") in (800100001, 800004135)
+                or (failure.get("code") == 2200 and failure.get("retryable") is True)
+                or (failure.get("type") == "network" and failure.get("subtype") == "transport")
             )
             if (
                 command

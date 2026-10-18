@@ -264,8 +264,9 @@ def test_extension_snapshot_reads_parent_ids_and_reverse_link_without_unrelated_
     assert client.calls == [("trims", ["来源配置ID", "参数扩展2"]), ("equipment", None)]
 
 
+@pytest.mark.parametrize("error", [{"code": 800100001}, {"code": 2200, "retryable": True}])
 def test_transient_read_retries_but_uncertain_record_write_is_never_blindly_replayed(
-    tmp_path, monkeypatch
+    tmp_path, monkeypatch, error
 ):
     import json
     import subprocess
@@ -284,7 +285,7 @@ def test_transient_read_retries_but_uncertain_record_write_is_never_blindly_repl
                 argv, 0, json.dumps({"ok": True, "identity": "user", "data": {"fields": []}}), ""
             )
         return subprocess.CompletedProcess(
-            argv, 1, "", json.dumps({"ok": False, "identity": "user", "error": {"code": 800100001}})
+            argv, 1, "", json.dumps({"ok": False, "identity": "user", "error": error})
         )
 
     monkeypatch.setattr(module.subprocess, "run", execute)

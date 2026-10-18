@@ -102,10 +102,13 @@ autohome-vehicle-catalog/
 │   ├── schema-changes.md            # 中文字段字典与结构变更说明
 │   └── verified-sample.md           # 小样本参数验证结果及边界
 ├── schema/
+│   ├── boolean-fields.json          # 现行布尔字段、原参数对应及跨表布局
 │   └── fields.json                  # 初始中文字段字典、来源ID和类型
 ├── src/
 │   └── autohome_catalog/
 │       ├── __init__.py              # Python包入口说明
+│       ├── boolean_layout.py        # 原始功能拆分、选装证据及布尔字段预算
+│       ├── boolean_migration.py     # 布尔表分阶段入库、逐格核验及归档切换
 │       ├── cli.py                   # 采集、导出、写表和图片任务命令
 │       ├── compact_display.py       # 参数短名称、符号换行与原值备份回读
 │       ├── discovery.py             # 发现新能源在售和预售车系清单
@@ -129,6 +132,7 @@ autohome-vehicle-catalog/
     ├── test_discovery.py            # 目录分页、范围和重复车系检查
     ├── test_export.py               # 字段导出、动力编号及原文审计检查
     ├── test_feishu.py               # 实验表写入保护、差异及回读检查
+    ├── test_boolean_layout.py       # 布尔语义、位置价格、空值与迁移边界检查
     ├── test_compact_display.py       # 精简后位置、价格、状态及原文保护检查
     ├── test_full_export.py          # 全量字段导出及缺漏检查
     ├── test_human_layout.py         # 人类查表布局、字段和明细迁移检查
@@ -238,3 +242,44 @@ uv run python -m autohome_catalog.compact_display \
   --config "$AUTOHOME_DATA_ROOT/control/feishu.json" \
   --run "$AUTOHOME_DATA_ROOT/compact-display-20261018"
 ```
+
+
+## 是否标配：真正布尔字段（2026-10-18）
+
+现行规范采用方案A：`true`表示标配，`false`表示选装或明确未配；未披露保留空值，不推断为false。选装项目、价格、方向数、位置和其他条件保存在关联明细。源站只给整体状态时只转换整体字段，具体子功能保持未披露。飞书字段类型为`checkbox`，界面显示复选框；JSON中的状态是布尔值，不是`"true"`/`"false"`文本，不使用option作为第三种状态。
+
+复合功能按原始响应的子项拆列，品牌、尺寸和数值仍保留原类型。原始普通参数槽位按源站顺序对应到新列，映射见`schema/boolean-fields.json`。参数分成3张表，每张覆盖相同的6,586条配置，仅保留默认表格视图。通过来源配置ID逐行对应，model_id继续关联同一个车型；车型表的当前入口保持“配置版本”，历史文本链接改名为“历史配置版本”并隐藏。原来的文本参数表和专属明细完整归档，禁止直接把旧text列强转checkbox。
+
+“专属配置明细”和“专属配置明细2”保留原特色配置、选装包和新增选装参数明细。实际写入触发单表记录数上限后，按完整model_id分成两张，每张低于18,000行，同一车型的明细集中在同一张表；`是否标配`为真正布尔字段，`选装价格`保留源站金额原文。`类别`是明细业务分类，不是布尔状态。采集原文、历史表、来源JSON和隐藏的原文证据不作为标准化状态字段。
+
+7类同时包含状态和规格的参数保留规格文本，并增加相邻“标配”布尔列：雾灯、雨刷、遮阳帘、显示屏和氛围灯。总计409列功能状态，规格未披露时不编造尺寸或类型。
+
+必须用`--format json`回读以保留checkbox的空值。本机CLI的NDJSON导出会把空checkbox规范化成false，不可用于区分未披露和明确未配。飞书“未勾选/等于false”筛选也可能同时包含空值；程序读取时用`value is False`与`value is None`区分。
+
+```bash
+uv run python -m autohome_catalog.boolean_migration \
+  --config "$AUTOHOME_DATA_ROOT/control/feishu.json" \
+  --run "$AUTOHOME_DATA_ROOT/boolean-20261018" --prepare
+uv run python -m autohome_catalog.boolean_migration \
+  --config "$AUTOHOME_DATA_ROOT/control/feishu.json" \
+  --run "$AUTOHOME_DATA_ROOT/boolean-20261018"
+```
+
+此迁移使用已完成版本一致性校验的全量备份。`boolean-plan.json`保存子项状态和选装证据，`typed-tables.json`、`typed-details.json`保存目标值，`migration-state.json`支持未完成阶段续跑，`verification.json`仅在全部数据和正反向关联核验并切换配置后生成。写入失败先按稳定键回读，再补缺失记录，不能盲目重放新增请求。最终表回读为JSON字典，保留真正的布尔值及空值。程序读取参数需要合并当前主表和配置文件`boolean_extension_tables`列出的两张扩展表，不能只读取`tables.equipment`。明细需要遍历`boolean_detail_tables`，不能只读取`tables.special`。选装金额保留源站报价原文；同一来源项目的整体报价可能被多个拆分子项引用，不能直接把明细金额逐行相加。
+
+
+同事读取本次合并交付文件（运行数据在外接盘，不提交Git）：
+
+```python
+import json
+from pathlib import Path
+
+payload = json.loads(Path("boolean-configurations.json").read_text())
+for row in payload["configurations"]:
+    for name in payload["boolean_fields"]:
+        value = row[name]
+        assert type(value) is bool or value is None
+        # 用 is True / is False / is None 区分标配、非标配与未披露。
+```
+
+`boolean-option-details.json`通过`来源配置ID`关联同一配置，保留选装项目与价格；`delivery-verification.json`记录合并后的行列数量及布尔类型检查。
