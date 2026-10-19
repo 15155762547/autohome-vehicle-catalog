@@ -5,9 +5,9 @@ import json
 import time
 from pathlib import Path
 
-from .export import load_dictionary
-from .feishu import TABLE_NAMES, table_schemas
-from .storage import assert_external, save_json
+from ..export import load_dictionary
+from ..feishu import TABLE_NAMES, table_schemas
+from ..storage import assert_external, save_json
 
 
 def bootstrap(client, backup: Path):

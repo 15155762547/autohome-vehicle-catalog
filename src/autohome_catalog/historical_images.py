@@ -9,9 +9,8 @@ from urllib.error import HTTPError
 from urllib.parse import urlencode
 from urllib.request import HTTPRedirectHandler, build_opener
 
-from .boolean_migration import verify_fields, write_updates
+from .base_utils import read_records, verify_fields, write_updates
 from .feishu import Client, record_index
-from .human_layout import read_records
 from .image_urls import all_url, any_data, any_photos
 from .images import gallery_url, now, page_data, photos
 from .storage import assert_external, assert_run_allowed, guard_response, save_json

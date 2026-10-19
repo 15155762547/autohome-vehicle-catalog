@@ -6,10 +6,9 @@ import re
 import time
 from pathlib import Path
 
-from .boolean_layout import FAMILIES
+from .base_utils import read_records, set_visible, settled_fields
 from .feishu import OMITTED_DIMENSIONS, Client, record_index
-from .human_layout import read_records, set_visible
-from .primary_titles import settled_fields
+from .parse import FAMILIES
 from .storage import assert_external, save_json
 
 BACKUP = "多选转换原文JSON"

@@ -3,13 +3,13 @@
 import copy
 import hashlib
 import json
-import time
 from collections import Counter
 from pathlib import Path
 
-from .export import EQUIPMENT_FIELDS, TRIM_FIELDS, key_of, raw_column
-from .feishu import Client, record_index, same_value
-from .storage import assert_external, save_json
+from ..base_utils import read_records, set_visible
+from ..export import EQUIPMENT_FIELDS, TRIM_FIELDS, key_of, raw_column
+from ..feishu import Client, record_index, same_value
+from ..storage import assert_external, save_json
 
 SPECIAL = {"选装包", "特色配置"}
 FIRST_SECTIONS = {
@@ -101,17 +101,6 @@ def field_definition(name, kind="text", description=""):
         options = ["在售", "预售"] if name == "销售状态" else ["特色配置", "选装包"]
         field.update(type="select", multiple=False, options=[{"name": x} for x in options])
     return field
-
-
-def set_visible(client, args, visible):
-    visible = list(dict.fromkeys(visible))
-    client.call("+view-set-visible-fields", args, body={"visible_fields": visible})
-    for attempt in range(5):
-        actual = client.call("+view-get-visible-fields", args)["visible_fields"]
-        if actual == visible:
-            return actual
-        time.sleep(0.5 * (attempt + 1))
-    raise ValueError("Visible parameter order differs after bounded read-back")
 
 
 def build_layout(source: Path, migration: Path):
@@ -302,37 +291,6 @@ def build_layout(source: Path, migration: Path):
     }
     save_json(migration / "layout-plan.json", result)
     return result
-
-
-def read_records(client, table_id, key):
-    for attempt in range(4):
-        try:
-            return _read_records_once(client, table_id, key)
-        except ValueError as error:
-            if str(error) != "Table changed during layout read-back" or attempt == 3:
-                raise
-            time.sleep(min(2**attempt, 4))
-
-
-def _read_records_once(client, table_id, key):
-    rows, offset, revision = [], 0, None
-    while True:
-        data = client.call(
-            "+record-list", ["--table-id", table_id, "--limit", "200", "--offset", str(offset)]
-        )
-        if revision is not None and revision != data["rev"]:
-            raise ValueError("Table changed during layout read-back")
-        revision = data["rev"]
-        rows.extend(
-            {"record_id": rid, "fields": dict(zip(data["fields"], values, strict=True))}
-            for rid, values in zip(data["record_id_list"], data["data"], strict=True)
-        )
-        if not data["has_more"]:
-            record_index(rows, key)
-            return rows
-        if not data["data"]:
-            raise ValueError("Empty page before end")
-        offset += len(data["data"])
 
 
 def migrate(config_path: Path, source: Path, migration: Path):

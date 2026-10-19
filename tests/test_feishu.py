@@ -332,3 +332,41 @@ def test_transport_eof_only_retries_reads(tmp_path, monkeypatch, command):
         with pytest.raises(RuntimeError):
             client.call(command, ["--table-id", "t"])
         assert len(attempts) == 1
+
+
+def test_default_cli_excludes_old_migrations(capsys):
+    from autohome_catalog.cli import main
+
+    with pytest.raises(SystemExit) as result:
+        main(["--help"])
+    assert result.value.code == 0
+    help_text = capsys.readouterr().out
+    assert "crawl" in help_text and "images-sync" in help_text
+    assert "bootstrap" not in help_text and "sync-full" not in help_text
+    with pytest.raises(SystemExit) as rejected:
+        main(["bootstrap"])
+    assert rejected.value.code == 2
+
+
+def test_old_migrations_require_explicit_legacy_cli(capsys):
+    from autohome_catalog.cli import main
+
+    with pytest.raises(SystemExit) as result:
+        main(["--legacy", "--help"])
+    assert result.value.code == 0
+    help_text = capsys.readouterr().out
+    assert "bootstrap" in help_text and "sync-full" in help_text
+    assert "images-sync" not in help_text
+
+
+def test_current_image_and_multiselect_imports_do_not_load_legacy_modules():
+    import subprocess
+    import sys
+
+    subprocess.run(
+        [sys.executable, "-c",
+         "import sys; import autohome_catalog.image_sync; "
+         "import autohome_catalog.historical_images; import autohome_catalog.multi_select; "
+         "assert not any(n.startswith('autohome_catalog.legacy') for n in sys.modules)"],
+        check=True, capture_output=True, text=True,
+    )

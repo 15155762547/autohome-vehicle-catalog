@@ -6,11 +6,10 @@ import time
 from collections import defaultdict
 from pathlib import Path
 
+from ..base_utils import read_records, set_visible, verify_fields, write_updates
+from ..feishu import Client, record_index, same_value
+from ..storage import assert_external, save_json
 from .boolean_layout import build, compile_details, compile_tables, partition_details
-from .feishu import Client, record_index, same_value
-from .human_layout import read_records, set_visible
-from .image_sync import url_lines
-from .storage import assert_external, save_json
 
 ARCHIVE_FOLDER = "历史备份｜布尔迁移20261018"
 
@@ -29,7 +28,12 @@ def guard(config, command, args):
     tid = args[args.index("--table-id") + 1] if "--table-id" in args else None
     if command == "+table-create" and args[args.index("--name") + 1] in state["pending_names"]:
         return
-    if command == "+base-block-create" and args == ["--type", "folder", "--name", state.get("archive_folder_name", ARCHIVE_FOLDER)]:
+    if command == "+base-block-create" and args == [
+        "--type",
+        "folder",
+        "--name",
+        state.get("archive_folder_name", ARCHIVE_FOLDER),
+    ]:
         return
     if tid in state["new_tables"] and command in {
         "+record-batch-create",
@@ -74,36 +78,6 @@ def settled(client, tid, key, count):
             return rows
         time.sleep(1 + attempt)
     raise ValueError("Destination row count not settled")
-
-
-def write_updates(client, tid, updates):
-    items = list(updates.items())
-    for start in range(0, len(items), 200):
-        client.call(
-            "+record-batch-update",
-            ["--table-id", tid],
-            {"update_records": dict(items[start : start + 200])},
-        )
-
-
-def verify_fields(expected, actual):
-    for name, value in expected.items():
-        if value is None and actual.get(name) in (None, ""):
-            continue
-        if isinstance(value, list) and not value and actual.get(name) in (None, []):
-            continue
-        if type(value) is bool or value is None:
-            if actual.get(name) is not value:
-                raise ValueError(f"Typed cell differs: {name}")
-        elif (
-            name == "图片URL清单"
-            and isinstance(value, str)
-            and isinstance(actual.get(name), str)
-            and url_lines(value) == url_lines(actual[name])
-        ):
-            continue
-        elif not same_value(value, actual.get(name)):
-            raise ValueError(f"Cell differs: {name}")
 
 
 def create_checked(client, tid, key, batch):

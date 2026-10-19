@@ -3,39 +3,17 @@
 import argparse
 import copy
 import json
-import re
 import time
 from pathlib import Path
 
-from .feishu import Client, record_index
-from .human_layout import read_records, set_visible
-from .storage import assert_external, save_json
+from ..base_utils import read_records, set_visible, settled_fields
+from ..feishu import Client, record_index
+from ..parse import full_title
+from ..storage import assert_external, save_json
 
 TITLE = "车型全称"
 KEYS = {"trims": "来源配置ID", "equipment": "来源配置ID", "special": "明细ID"}
 OLD_PRIMARY = {"trims": "配置名称", "equipment": "配置名称", "special": "品牌"}
-
-
-def full_title(fields):
-    brand, series, spec = [fields.get(k) for k in ("品牌", "车系名称", "配置名称")]
-    if not all(isinstance(s, str) and s.strip() for s in (brand, series, spec)):
-        raise ValueError("Missing source component for vehicle title")
-    brand, series, spec = brand.strip(), series.strip(), spec.strip()
-
-    def normalize(s):
-        return re.sub(r"\s+", "", s).casefold()
-
-    base = brand + " " + series
-    if normalize(series).startswith(normalize(brand)):
-        base = series
-    else:
-        # Source brands can contain explicit aliases, e.g. "AITO 问界".
-        tokens = brand.split()
-        for index, token in enumerate(tokens):
-            if len(token) >= 2 and normalize(series).startswith(normalize(token)):
-                base = " ".join(tokens[:index] + tokens[index + 1 :] + [series])
-                break
-    return base + " " + spec
 
 
 def guard(config, command, args):
@@ -56,15 +34,6 @@ def guard(config, command, args):
     ):
         return
     raise ValueError(f"Outside primary-title migration: {command}")
-
-
-def settled_fields(client, tid, predicate):
-    for attempt in range(6):
-        fields = client.call("+field-list", ["--table-id", tid])["fields"]
-        if predicate(fields):
-            return fields
-        time.sleep(1 + attempt)
-    raise ValueError("Field definition has not propagated; resume this run later")
 
 
 def run(config, root):

@@ -6,9 +6,9 @@ import re
 import time
 from collections import Counter, defaultdict
 
-from .feishu import Client, record_index, same_value
-from .human_layout import read_records, set_visible
-from .storage import assert_external, save_json
+from ..base_utils import read_records, set_visible
+from ..feishu import Client, record_index, same_value
+from ..storage import assert_external, save_json
 
 PENDING = "vehicle_models（动力拆分中）"
 ARCHIVE = "vehicle_models（按车系备份20261018）"

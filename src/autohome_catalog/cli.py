@@ -5,37 +5,14 @@ import json
 import os
 import re
 import shutil
+import sys
 from pathlib import Path
 
 from .export import export_run
 from .storage import assert_external, assert_run_allowed, save_json
 
 
-def main():
-    parser = argparse.ArgumentParser(description="汽车之家车系/配置采集：Scrapy + Pydantic")
-    parser.add_argument(
-        "--data-root",
-        type=Path,
-        default=Path(
-            os.environ.get(
-                "AUTOHOME_DATA_ROOT", "/Volumes/奥睿科1TB/代码程序/autohome-vehicle-catalog-data"
-            )
-        ),
-    )
-    commands = parser.add_subparsers(dest="command", required=True)
-    discover = commands.add_parser("discover", help="保存新能源在售及预售目录的完整分页清单")
-    discover.add_argument("--expected-on-sale", type=int, required=True)
-    discover.add_argument("--expected-presale", type=int, required=True)
-    discover.add_argument("--run", required=True)
-    discover.set_defaults(concurrency=2, timeout=20)
-    crawl = commands.add_parser("crawl", help="按已验证目录清单采集，或仅采指定品牌／车系")
-    crawl.add_argument("--brand", type=int, action="append", default=[])
-    crawl.add_argument("--manifest", type=Path, help="已验证的新能源在售及预售目录清单")
-    crawl.add_argument("--series", type=int, action="append", default=[])
-    crawl.add_argument("--presale-series", type=int, action="append", default=[])
-    crawl.add_argument("--run", required=True)
-    crawl.add_argument("--concurrency", type=int, choices=[1, 2, 4], default=2)
-    crawl.add_argument("--timeout", type=int, choices=[15, 20, 30], default=20)
+def _legacy_commands(commands):
     prepare_full = commands.add_parser(
         "prepare-full-sync", help="把完整字段按300列预算划分为横向扩展批次"
     )
@@ -51,18 +28,6 @@ def main():
     layout.add_argument("--run", required=True)
     layout.add_argument("--config", type=Path, required=True)
     layout.add_argument("--migration-dir", type=Path, required=True)
-    repair = commands.add_parser(
-        "repair", help="按网页实际spec页请求补采清单内失败配置，保留原始证据"
-    )
-    repair.add_argument("--run", required=True)
-    repair.set_defaults(concurrency=2, timeout=20)
-    full_export = commands.add_parser(
-        "export-full", help="校验完整清单并导出全部原文参数CSV，不受飞书列数限制"
-    )
-    full_export.add_argument("--run", required=True)
-    export = commands.add_parser("export", help="校验快照，生成独立列CSV及字段审计")
-    export.add_argument("--run", required=True)
-    export.add_argument("--dictionary", type=Path)
     bootstrap_command = commands.add_parser("bootstrap", help="核验备份，旧两表改名并创建新三表")
     bootstrap_command.add_argument("--config", type=Path, required=True)
     bootstrap_command.add_argument("--backup", type=Path, required=True)
@@ -74,28 +39,73 @@ def main():
         command = commands.add_parser(name, help=f"飞书试验表 {name}")
         command.add_argument("--config", type=Path, required=True)
         command.add_argument("--run", required=True)
-    for name in ["images-prepare", "images-collect", "images-sync"]:
-        image = commands.add_parser(name, help="最新年款官图URL任务（不下载图片）")
-        image.add_argument("--run", required=True)
-        if name == "images-prepare":
-            image.add_argument("--source", type=Path, required=True)
-        if name == "images-collect":
-            image.add_argument("--model-id", action="append", default=[])
-        if name == "images-sync":
-            image.add_argument("--config", type=Path, required=True)
-    urls = commands.add_parser(
-        "images-collect-urls", help="官图优先，提取源站各类图片URL，不访问图片域名"
-    )
-    urls.add_argument("--run", required=True)
-    urls.add_argument("--official-run", type=Path, required=True)
-    urls.add_argument("--source-run", type=Path, required=True)
     models_split = commands.add_parser(
         "split-models", help="按model_id重建models并核验全部关联，原表归档"
     )
     models_split.add_argument("--run", required=True)
     models_split.add_argument("--config", type=Path, required=True)
     models_split.add_argument("--prepare-only", action="store_true")
-    args = parser.parse_args()
+
+
+def main(argv=None):
+    argv = list(sys.argv[1:] if argv is None else argv)
+    legacy = "--legacy" in argv
+    parser = argparse.ArgumentParser(description="汽车之家车系/配置采集：Scrapy + Pydantic")
+    parser.add_argument(
+        "--data-root",
+        type=Path,
+        default=Path(
+            os.environ.get(
+                "AUTOHOME_DATA_ROOT", "/Volumes/奥睿科1TB/代码程序/autohome-vehicle-catalog-data"
+            )
+        ),
+    )
+    parser.add_argument("--legacy", action="store_true", help="显示历史迁移命令，日常采集无需使用")
+    commands = parser.add_subparsers(dest="command", required=True)
+    if legacy:
+        _legacy_commands(commands)
+    else:
+        discover = commands.add_parser("discover", help="保存新能源在售及预售目录的完整分页清单")
+        discover.add_argument("--expected-on-sale", type=int, required=True)
+        discover.add_argument("--expected-presale", type=int, required=True)
+        discover.add_argument("--run", required=True)
+        discover.set_defaults(concurrency=2, timeout=20)
+        crawl = commands.add_parser("crawl", help="按已验证目录清单采集，或仅采指定品牌／车系")
+        crawl.add_argument("--brand", type=int, action="append", default=[])
+        crawl.add_argument("--manifest", type=Path, help="已验证的新能源在售及预售目录清单")
+        crawl.add_argument("--series", type=int, action="append", default=[])
+        crawl.add_argument("--presale-series", type=int, action="append", default=[])
+        crawl.add_argument("--run", required=True)
+        crawl.add_argument("--concurrency", type=int, choices=[1, 2, 4], default=2)
+        crawl.add_argument("--timeout", type=int, choices=[15, 20, 30], default=20)
+        repair = commands.add_parser(
+            "repair", help="按网页实际spec页请求补采清单内失败配置，保留原始证据"
+        )
+        repair.add_argument("--run", required=True)
+        repair.set_defaults(concurrency=2, timeout=20)
+        full_export = commands.add_parser(
+            "export-full", help="校验完整清单并导出全部原文参数CSV，不受飞书列数限制"
+        )
+        full_export.add_argument("--run", required=True)
+        export = commands.add_parser("export", help="校验快照，生成独立列CSV及字段审计")
+        export.add_argument("--run", required=True)
+        export.add_argument("--dictionary", type=Path)
+        for name in ["images-prepare", "images-collect", "images-sync"]:
+            image = commands.add_parser(name, help="最新年款官图URL任务（不下载图片）")
+            image.add_argument("--run", required=True)
+            if name == "images-prepare":
+                image.add_argument("--source", type=Path, required=True)
+            if name == "images-collect":
+                image.add_argument("--model-id", action="append", default=[])
+            if name == "images-sync":
+                image.add_argument("--config", type=Path, required=True)
+        urls = commands.add_parser(
+            "images-collect-urls", help="官图优先，提取源站各类图片URL，不访问图片域名"
+        )
+        urls.add_argument("--run", required=True)
+        urls.add_argument("--official-run", type=Path, required=True)
+        urls.add_argument("--source-run", type=Path, required=True)
+    args = parser.parse_args(argv)
     if args.command == "schema-sync":
         from .feishu import Client, sync_schema
 
@@ -103,7 +113,7 @@ def main():
         return
     if args.command == "bootstrap":
         from .feishu import Client
-        from .migration import bootstrap
+        from .legacy.migration import bootstrap
 
         print(json.dumps(bootstrap(Client(args.config), args.backup), ensure_ascii=False))
         return
@@ -111,7 +121,7 @@ def main():
         parser.error("run must contain only letters, digits, underscores or hyphens")
     root = assert_external(args.data_root / args.run)
     if args.command == "split-models":
-        from .model_grain import migrate
+        from .legacy.model_grain import migrate
 
         print(json.dumps(migrate(args.config, root, args.prepare_only), ensure_ascii=False))
         return
@@ -133,7 +143,7 @@ def main():
         print(json.dumps(result, ensure_ascii=False))
         return
     if args.command == "restructure-parameters":
-        from .human_layout import finish, migrate
+        from .legacy.human_layout import finish, migrate
 
         migrate(args.config, root, args.migration_dir)
         print(json.dumps(finish(args.config, args.migration_dir), ensure_ascii=False))
@@ -145,13 +155,13 @@ def main():
         print(json.dumps(result, ensure_ascii=False))
         return
     if args.command == "prepare-full-sync":
-        from .full_sync import prepare_batches
+        from .legacy.full_sync import prepare_batches
 
         print(json.dumps(prepare_batches(root), ensure_ascii=False))
         return
     if args.command == "sync-full":
         from .feishu import Client
-        from .full_sync import sync_batches
+        from .legacy.full_sync import sync_batches
 
         print(json.dumps(sync_batches(Client(args.config), root), ensure_ascii=False))
         return

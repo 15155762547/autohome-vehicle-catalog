@@ -6,6 +6,9 @@ import json
 from collections import defaultdict
 from pathlib import Path
 
+from ..feishu import record_index
+from ..parse import render_cell
+from ..storage import assert_external, save_json
 from .boolean_layout import (
     FAMILIES,
     GENERIC,
@@ -17,9 +20,6 @@ from .boolean_layout import (
     source_key,
 )
 from .compact_display import compact
-from .feishu import record_index
-from .parse import render_cell
-from .storage import assert_external, save_json
 
 OPTIONS = ["标配", "选配", "无"]
 FOLDER = "历史备份｜单选整理20261018"
@@ -272,9 +272,9 @@ def prepare(root, previous, source):
 
 
 def migrate(config, root, previous):
+    from ..base_utils import read_records, set_visible
+    from ..feishu import Client, record_index
     from .boolean_migration import fill, publish_model_entry, verify_fields, write_updates
-    from .feishu import Client, record_index
-    from .human_layout import read_records, set_visible
 
     root = assert_external(root)
     plan = json.loads((root / "conversion.json").read_text())

@@ -1,6 +1,6 @@
 import pytest
 
-from autohome_catalog.single_select import choice, specification, state, words
+from autohome_catalog.legacy.single_select import choice, specification, state, words
 
 
 @pytest.mark.parametrize(

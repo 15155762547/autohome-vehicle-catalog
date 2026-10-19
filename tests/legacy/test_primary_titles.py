@@ -2,7 +2,8 @@ from types import SimpleNamespace
 
 import pytest
 
-from autohome_catalog.primary_titles import full_title, guard, settled_fields
+from autohome_catalog.base_utils import settled_fields
+from autohome_catalog.legacy.primary_titles import full_title, guard
 
 
 @pytest.mark.parametrize(
@@ -41,7 +42,7 @@ def test_guard_cannot_rename_unrelated_fields_or_delete_records():
 
 
 def test_waits_for_field_rename_to_propagate(monkeypatch):
-    monkeypatch.setattr("autohome_catalog.primary_titles.time.sleep", lambda _: None)
+    monkeypatch.setattr("autohome_catalog.base_utils.time.sleep", lambda _: None)
     responses = iter([[{"id": "id", "name": "配置名称"}], [{"id": "id", "name": "车型全称"}]])
     client = SimpleNamespace(call=lambda *args: {"fields": next(responses)})
     fields = settled_fields(client, "table", lambda fs: fs[0]["name"] == "车型全称")

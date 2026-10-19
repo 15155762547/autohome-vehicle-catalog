@@ -1,4 +1,4 @@
-from autohome_catalog.compact_display import compact
+from autohome_catalog.legacy.compact_display import compact
 
 
 def test_seat_conditions_prices_positions_and_statuses_survive():

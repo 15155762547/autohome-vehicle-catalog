@@ -4,9 +4,8 @@ import argparse
 import json
 from pathlib import Path
 
-from .boolean_migration import verify_fields, write_updates
+from .base_utils import read_records, set_visible, verify_fields, write_updates
 from .feishu import Client, diff_records, record_index
-from .human_layout import read_records, set_visible
 from .image_sync import fields, url_lines
 from .images import all_results, now
 from .storage import assert_external, save_json

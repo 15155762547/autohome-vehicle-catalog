@@ -2,7 +2,7 @@ import copy
 
 import pytest
 
-from autohome_catalog.model_grain import build_plan, guard
+from autohome_catalog.legacy.model_grain import build_plan, guard
 
 
 def dataset():
@@ -112,7 +112,7 @@ def test_client_uses_unique_model_id_when_series_ids_repeat():
 
 
 def test_reverse_repair_writes_complete_membership(monkeypatch, tmp_path):
-    import autohome_catalog.model_grain as migration
+    import autohome_catalog.legacy.model_grain as migration
 
     expected = [{"id": rid} for rid in ["trim1", "trim2", "trim3"]]
     current = [

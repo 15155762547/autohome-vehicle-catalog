@@ -3,8 +3,8 @@
 import json
 from pathlib import Path
 
-from .export import EQUIPMENT_FIELDS, expand_packet, key_of, load_dictionary, verify_packet_sources
-from .storage import assert_external, save_json
+from ..export import EQUIPMENT_FIELDS, expand_packet, key_of, load_dictionary, verify_packet_sources
+from ..storage import assert_external, save_json
 
 
 def prepare_batches(root: Path):
@@ -95,7 +95,7 @@ def sync_batches(client, root: Path):
     import copy
     import time
 
-    from .feishu import Client, apply, digest, plan, sync_schema, table_schemas
+    from ..feishu import Client, apply, digest, plan, sync_schema, table_schemas
 
     if client.config.get("layout_version") == 2:
         raise ValueError("This Base uses the human layout; do not recreate wide option tables")
@@ -236,7 +236,7 @@ def sync_batches(client, root: Path):
 def configure_view(client, directory, catalog, condition_keys):
     import time
 
-    from .export import raw_column
+    from ..export import raw_column
 
     dictionary = load_dictionary(directory / "fields.json")
     rank = {(f["group"], f["section"], f["item_id"], f["name"]): i for i, f in enumerate(catalog)}

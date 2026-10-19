@@ -4,8 +4,8 @@ import json
 import re
 import time
 
+from .base_utils import read_records, set_visible
 from .feishu import Client, diff_records, record_index, same_value
-from .human_layout import read_records, set_visible
 from .images import all_results, fingerprint, image_url, now
 from .storage import assert_external, save_json
 

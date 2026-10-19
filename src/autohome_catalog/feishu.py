@@ -48,7 +48,7 @@ def assert_operation(config, command, args):
 
         return guard(config, command, args)
     if config.get("_primary_titles"):
-        from .primary_titles import guard
+        from .legacy.primary_titles import guard
 
         return guard(config, command, args)
     if config.get("_dealer_prices"):
@@ -64,15 +64,15 @@ def assert_operation(config, command, args):
 
         return guard(config, command, args)
     if config.get("_boolean_migration"):
-        from .boolean_migration import guard
+        from .legacy.boolean_migration import guard
 
         return guard(config, command, args)
     if config.get("_compact_display"):
-        from .compact_display import guard
+        from .legacy.compact_display import guard
 
         return guard(config, command, args)
     if config.get("_model_grain_operation"):
-        from .model_grain import guard
+        from .legacy.model_grain import guard
 
         return guard(config, command, args)
     if config.get("_image_operation"):
@@ -80,7 +80,7 @@ def assert_operation(config, command, args):
 
         return assert_image_operation(config, command, args)
     if config.get("human_layout_migration"):
-        from .human_layout import assert_migration_operation
+        from .legacy.human_layout import assert_migration_operation
 
         return assert_migration_operation(config, command, args)
     if config.get("layout_version") == 2 and command in {

@@ -1,13 +1,14 @@
 import pytest
 
-from autohome_catalog.boolean_layout import (
+from autohome_catalog.base_utils import verify_fields
+from autohome_catalog.legacy.boolean_layout import (
     atom_status,
     clean_text,
     partition_details,
     parts,
     short_label,
 )
-from autohome_catalog.boolean_migration import guard, verify_fields
+from autohome_catalog.legacy.boolean_migration import guard
 
 
 def test_standard_optional_absent_and_unknown_are_distinct():
@@ -73,7 +74,7 @@ def test_guard_cannot_change_original_parameter_rows():
 
 
 def test_create_timeout_only_replays_missing_stable_keys(monkeypatch):
-    import autohome_catalog.boolean_migration as migration
+    import autohome_catalog.legacy.boolean_migration as migration
 
     class Client:
         last_failure = {"code": 800100001}
@@ -104,7 +105,7 @@ def test_plan_preserves_numeric_options_and_inline_rear_option(monkeypatch, tmp_
     import hashlib
     import json
 
-    import autohome_catalog.boolean_layout as layout
+    import autohome_catalog.legacy.boolean_layout as layout
 
     def save(path, value):
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -194,7 +195,7 @@ def test_detail_partition_preserves_every_row_and_keeps_each_model_together():
 def test_hybrid_compilation_keeps_spec_and_boolean_adjacent_without_new_table(tmp_path):
     import json
 
-    from autohome_catalog.boolean_layout import compile_tables
+    from autohome_catalog.legacy.boolean_layout import compile_tables
 
     identity = ["配置名称", "model_id", "来源配置ID", "车系名称", "品牌"]
     for role in ("trims", "equipment"):
