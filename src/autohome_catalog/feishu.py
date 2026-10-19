@@ -43,6 +43,11 @@ def assert_target(config):
 
 
 def assert_operation(config, command, args):
+    if config.get("_colors"):
+        from .color_sync import guard
+
+        return guard(config, command, args)
+
     if config.get("_categories"):
         from .category_tables import guard
 

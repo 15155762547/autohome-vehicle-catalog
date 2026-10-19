@@ -40,7 +40,11 @@ def precision(values):
 
 def read_numbers(client, role, fields):
     tid = client.config["tables"][role]
-    key_field = KEYS.get(role, "明细ID" if role in {"特色配置", "选装包"} else "来源配置ID")
+    key_field = (
+        client.config.get("color_row_key", "颜色明细ID")
+        if role in client.config.get("color_tables", {})
+        else KEYS.get(role, "明细ID" if role in {"特色配置", "选装包"} else "来源配置ID")
+    )
     combined, revision = {}, None
     for start in range(0, len(fields), 49):
         rows, offset = [], 0
