@@ -1,5 +1,77 @@
 # 汽车之家新能源汽车目录
 
+## 文件布局
+
+下面列出仓库全部Git跟踪文件（运行数据、虚拟环境和登录配置位于仓库外）：
+
+```text
+autohome-vehicle-catalog/
+├── .gitignore                       # 排除缓存、运行数据和本地秘密文件
+├── README.md                        # 安装、命令、数据含义及文件导航
+├── pyproject.toml                   # Python依赖、命令入口及检查配置
+├── uv.lock                          # 固定依赖版本，便于同事复现环境
+├── docs/
+│   ├── implementation-plan.md       # 重建工程的原始实施方案
+│   ├── request-measurements.md      # 采集请求耗时及并发测量记录
+│   ├── schema-changes.md            # 中文字段字典与结构变更说明
+│   └── verified-sample.md           # 小样本参数验证结果及边界
+├── schema/
+│   ├── boolean-fields.json          # 历史布尔字段、原参数对应及跨表布局
+│   ├── fields.json                  # 初始中文字段字典、来源ID和类型
+│   ├── multi-select-fields.json      # 复合功能多选、颜色及尺寸列排除规则
+│   └── single-select-fields.json     # 纯状态单选、规格及原始参数映射
+├── src/
+│   └── autohome_catalog/
+│       ├── __init__.py              # Python包入口说明
+│       ├── boolean_layout.py        # 原始功能拆分、选装证据及布尔字段预算
+│       ├── boolean_migration.py     # 布尔表分阶段入库、逐格核验及归档切换
+│       ├── cli.py                   # 采集、导出、写表和图片任务命令
+│       ├── compact_display.py       # 参数短名称、符号换行与原值备份回读
+│       ├── dealer_prices.py         # 按城市补采经销商报价、断点复用及单列回读
+│       ├── discovery.py             # 发现新能源在售和预售车系清单
+│       ├── export.py                # 参数字段映射、CSV导出及原文审计
+│       ├── feishu.py                # lark CLI调用、目标保护及参数回读
+│       ├── full_export.py           # 全量原始参数导出及字段顺序
+│       ├── full_sync.py             # 旧版横向扩展分批同步（新版禁用）
+│       ├── human_layout.py          # 两张参数表与专属明细的迁移及视图
+│       ├── image_urls.py            # 官图优先，补采其他图库URL及车系封面
+│       ├── image_merge.py           # 图片并入车型表、旧表归档与限定字段更新
+│       ├── historical_images.py     # 封面车型补官图或授权普通图库，核对动力及年款
+│       ├── image_sync.py            # 图片JSON读写、幂等更新与历史格式兼容
+│       ├── images.py                # 最新年款官图解析、URL检查及断点续跑
+│       ├── migration.py             # 历史实验表备份检查及新表初始化
+│       ├── model_grain.py           # models按动力拆分、保留历史关联及逐条核验
+│       ├── models.py                # Pydantic响应模型与数据契约
+│       ├── multi_select.py          # 复合功能转彩色多选、隐藏原文备份及全量回读
+│       ├── number_format.py         # 按真实数字设置显示精度并回读确认数值不变
+│       ├── parse.py                 # 源站参数、选配符号及配置身份解析
+│       ├── primary_titles.py        # 主字段展示车型全称、保留拆分原值及逐格核验
+│       ├── repair.py                # 通过真实配置页补采失败参数
+│       ├── single_select.py         # 从原始备份批量恢复紧凑单选并核验关联
+│       ├── spider.py                # Scrapy参数采集、并发及证据中间件
+│       └── storage.py               # 外接盘边界、原始快照及访问暂停
+└── tests/
+    ├── conftest.py                  # 隔离测试用挂载盘，避免依赖个人环境
+    ├── test_discovery.py            # 目录分页、范围和重复车系检查
+    ├── test_export.py               # 字段导出、动力编号及原文审计检查
+    ├── test_feishu.py               # 实验表写入保护、差异及回读检查
+    ├── test_boolean_layout.py       # 布尔语义、位置价格、空值与迁移边界检查
+    ├── test_compact_display.py       # 精简后位置、价格、状态及原文保护检查
+    ├── test_dealer_prices.py         # 报价、正常无报价、异常响应和更新范围检查
+    ├── test_full_export.py          # 全量字段导出及缺漏检查
+    ├── test_human_layout.py         # 人类查表布局、字段和明细迁移检查
+    ├── test_historical_images.py    # 历史官图的年款、动力、去重及已删除字段保护检查
+    ├── test_image_merge.py          # JSON格式、车型身份保护及合并后无重复写入
+    ├── test_images.py               # 官图归属、限流暂停、链接及写表检查
+    ├── test_model_grain.py           # 编号唯一、动力名称及错关联拒绝检查
+    ├── test_multi_select.py          # 功能标签、选配价格、未知状态及尺寸列防恢复检查
+    ├── test_number_format.py         # 整数、小数、空值和限定字段更新检查
+    ├── test_parse.py                # 配置参数及源站符号解析检查
+    ├── test_primary_titles.py       # 品牌前缀去重、缺失组件及主字段修改边界检查
+    ├── test_single_select.py        # 三态与空值、LED规格和选配价格检查
+    └── test_storage.py              # 外接盘、来源证据和访问限制检查
+```
+
 使用 Python、Scrapy、Pydantic 采集汽车之家在售及已确认预售的新能源汽车。按车型（车系＋动力）保存身份、按具体配置保存参数；保留原始字段、位置差异、选配及来源证据。图片只保存URL，不下载文件、不上传附件；当前直接保存在models的“图片URL清单”文本列中，内容为纯URL的JSON数组字符串。
 
 当前采用**紧凑布局**：配置主表＋一张参数扩展表，各6,586行；专属配置明细3,022行。纯状态为“标配／选配／无”单选，未披露留空；44个复合功能字段使用彩色多选，规格和价格保留。每张表只有默认视图。下方布尔及早期分行文字布局为历史记录，最新规则见文末“复合功能多选”。
@@ -88,77 +160,7 @@ uv run autohome-catalog verify --config "$AUTOHOME_DATA_ROOT/private-config.json
 
 发生访问限制会同时写入当前运行的 `PAUSED.json`、数据根目录的 `ACCESS_PAUSED.json` 和外接盘固定位置 `.autohome-catalog-control/ACCESS_PAUSED.json`；换运行目录或 `--data-root` 也会被阻止。人工检查原因并明确处理前，不删除暂停标记。
 
-## 文件布局
 
-下面列出仓库全部Git跟踪文件（运行数据、虚拟环境和登录配置位于仓库外）：
-
-```text
-autohome-vehicle-catalog/
-├── .gitignore                       # 排除缓存、运行数据和本地秘密文件
-├── README.md                        # 安装、命令、数据含义及文件导航
-├── pyproject.toml                   # Python依赖、命令入口及检查配置
-├── uv.lock                          # 固定依赖版本，便于同事复现环境
-├── docs/
-│   ├── implementation-plan.md       # 重建工程的原始实施方案
-│   ├── request-measurements.md      # 采集请求耗时及并发测量记录
-│   ├── schema-changes.md            # 中文字段字典与结构变更说明
-│   └── verified-sample.md           # 小样本参数验证结果及边界
-├── schema/
-│   ├── boolean-fields.json          # 历史布尔字段、原参数对应及跨表布局
-│   ├── fields.json                  # 初始中文字段字典、来源ID和类型
-│   ├── multi-select-fields.json      # 复合功能多选、颜色及尺寸列排除规则
-│   └── single-select-fields.json     # 纯状态单选、规格及原始参数映射
-├── src/
-│   └── autohome_catalog/
-│       ├── __init__.py              # Python包入口说明
-│       ├── boolean_layout.py        # 原始功能拆分、选装证据及布尔字段预算
-│       ├── boolean_migration.py     # 布尔表分阶段入库、逐格核验及归档切换
-│       ├── cli.py                   # 采集、导出、写表和图片任务命令
-│       ├── compact_display.py       # 参数短名称、符号换行与原值备份回读
-│       ├── dealer_prices.py         # 按城市补采经销商报价、断点复用及单列回读
-│       ├── discovery.py             # 发现新能源在售和预售车系清单
-│       ├── export.py                # 参数字段映射、CSV导出及原文审计
-│       ├── feishu.py                # lark CLI调用、目标保护及参数回读
-│       ├── full_export.py           # 全量原始参数导出及字段顺序
-│       ├── full_sync.py             # 旧版横向扩展分批同步（新版禁用）
-│       ├── human_layout.py          # 两张参数表与专属明细的迁移及视图
-│       ├── image_urls.py            # 官图优先，补采其他图库URL及车系封面
-│       ├── image_merge.py           # 图片并入车型表、旧表归档与限定字段更新
-│       ├── historical_images.py     # 封面车型补官图或授权普通图库，核对动力及年款
-│       ├── image_sync.py            # 图片JSON读写、幂等更新与历史格式兼容
-│       ├── images.py                # 最新年款官图解析、URL检查及断点续跑
-│       ├── migration.py             # 历史实验表备份检查及新表初始化
-│       ├── model_grain.py           # models按动力拆分、保留历史关联及逐条核验
-│       ├── models.py                # Pydantic响应模型与数据契约
-│       ├── multi_select.py          # 复合功能转彩色多选、隐藏原文备份及全量回读
-│       ├── number_format.py         # 按真实数字设置显示精度并回读确认数值不变
-│       ├── parse.py                 # 源站参数、选配符号及配置身份解析
-│       ├── primary_titles.py        # 主字段展示车型全称、保留拆分原值及逐格核验
-│       ├── repair.py                # 通过真实配置页补采失败参数
-│       ├── single_select.py         # 从原始备份批量恢复紧凑单选并核验关联
-│       ├── spider.py                # Scrapy参数采集、并发及证据中间件
-│       └── storage.py               # 外接盘边界、原始快照及访问暂停
-└── tests/
-    ├── conftest.py                  # 隔离测试用挂载盘，避免依赖个人环境
-    ├── test_discovery.py            # 目录分页、范围和重复车系检查
-    ├── test_export.py               # 字段导出、动力编号及原文审计检查
-    ├── test_feishu.py               # 实验表写入保护、差异及回读检查
-    ├── test_boolean_layout.py       # 布尔语义、位置价格、空值与迁移边界检查
-    ├── test_compact_display.py       # 精简后位置、价格、状态及原文保护检查
-    ├── test_dealer_prices.py         # 报价、正常无报价、异常响应和更新范围检查
-    ├── test_full_export.py          # 全量字段导出及缺漏检查
-    ├── test_human_layout.py         # 人类查表布局、字段和明细迁移检查
-    ├── test_historical_images.py    # 历史官图的年款、动力、去重及已删除字段保护检查
-    ├── test_image_merge.py          # JSON格式、车型身份保护及合并后无重复写入
-    ├── test_images.py               # 官图归属、限流暂停、链接及写表检查
-    ├── test_model_grain.py           # 编号唯一、动力名称及错关联拒绝检查
-    ├── test_multi_select.py          # 功能标签、选配价格、未知状态及尺寸列防恢复检查
-    ├── test_number_format.py         # 整数、小数、空值和限定字段更新检查
-    ├── test_parse.py                # 配置参数及源站符号解析检查
-    ├── test_primary_titles.py       # 品牌前缀去重、缺失组件及主字段修改边界检查
-    ├── test_single_select.py        # 三态与空值、LED规格和选配价格检查
-    └── test_storage.py              # 外接盘、来源证据和访问限制检查
-```
 
 首次默认并发2、超时20秒、有限重试；可在小样本上测并发1/2/4，依据成功率、延迟和完整性选择。访问限制、验证码、意外跳转会停止后续请求；不使用代理、验证码破解或变更身份绕过访问控制。遇到问题先保留证据，不能把一次完成称为全站完整。
 
