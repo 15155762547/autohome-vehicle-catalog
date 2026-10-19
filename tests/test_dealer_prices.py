@@ -50,6 +50,28 @@ def test_dealer_guard_only_updates_existing_trim_table():
             guard(config, command, args)
 
 
+def test_category_layout_routes_quotes_to_basic_parameters():
+    config = {
+        "tables": {"trims": "index"},
+        "category_tables": {"基本参数": "basic"},
+    }
+    guard(config, "+record-batch-update", ["--table-id", "basic"])
+    with pytest.raises(ValueError):
+        guard(config, "+record-batch-update", ["--table-id", "index"])
+
+    def call(command, args):
+        assert args[args.index("--table-id") + 1] == "basic"
+        return {
+            "rev": 1,
+            "fields": COLUMNS,
+            "record_id_list": ["rec1"],
+            "data": [[78342, "配置", "AUT-1-BEV", "14.58万起"]],
+            "has_more": False,
+        }
+
+    assert records(SimpleNamespace(config=config, call=call))["78342"]["record_id"] == "rec1"
+
+
 def test_json_record_pagination_uses_supported_limit_and_stable_keys():
     def call(command, args):
         assert args[args.index("--limit") + 1] == "200"

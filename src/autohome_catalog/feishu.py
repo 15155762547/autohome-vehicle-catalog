@@ -43,6 +43,11 @@ def assert_target(config):
 
 
 def assert_operation(config, command, args):
+    if config.get("_categories"):
+        from .category_tables import guard
+
+        return guard(config, command, args)
+
     if config.get("_multi_select"):
         from .multi_select import guard
 
@@ -83,7 +88,7 @@ def assert_operation(config, command, args):
         from .legacy.human_layout import assert_migration_operation
 
         return assert_migration_operation(config, command, args)
-    if config.get("layout_version") == 2 and command in {
+    if config.get("layout_version", 0) >= 2 and command in {
         "+table-create",
         "+base-block-rename",
         "+record-batch-create",

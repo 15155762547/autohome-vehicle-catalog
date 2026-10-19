@@ -40,12 +40,13 @@ def precision(values):
 
 def read_numbers(client, role, fields):
     tid = client.config["tables"][role]
+    key_field = KEYS.get(role, "明细ID" if role in {"特色配置", "选装包"} else "来源配置ID")
     combined, revision = {}, None
     for start in range(0, len(fields), 49):
         rows, offset = [], 0
         while True:
             args = ["--table-id", tid, "--limit", "200", "--offset", str(offset)]
-            for field in [KEYS[role], *[f["id"] for f in fields[start : start + 49]]]:
+            for field in [key_field, *[f["id"] for f in fields[start : start + 49]]]:
                 args += ["--field-id", field]
             data = client.call("+record-list", args)
             if revision is not None and revision != data["rev"]:
@@ -60,7 +61,7 @@ def read_numbers(client, role, fields):
             if not data["data"]:
                 raise ValueError("Empty page with has_more")
             offset += len(data["data"])
-        indexed = record_index(rows, KEYS[role])
+        indexed = record_index(rows, key_field)
         if combined and indexed.keys() != combined.keys():
             raise ValueError("Record identity changed between numeric column batches")
         for key, row in indexed.items():
@@ -77,6 +78,12 @@ def run(config, root, apply=False):
     root = assert_external(root)
     root.mkdir(parents=True, exist_ok=True)
     client = Client(config)
+    if client.config.get("category_tables"):
+        client.config["tables"] = {
+            "models": client.config["tables"]["models"],
+            "trims": client.config["tables"]["trims"],
+            **client.config["category_tables"],
+        }
     if (root / "audit.json").exists():
         schemas, before, plan, audit = [
             json.loads((root / name).read_text())
@@ -84,7 +91,7 @@ def run(config, root, apply=False):
         ]
     else:
         schemas, before, plan, audit = {}, {}, [], []
-        for role in KEYS:
+        for role in client.config["tables"]:
             tid = client.config["tables"][role]
             schemas[role] = client.call("+field-list", ["--table-id", tid])["fields"]
             fields = [f for f in schemas[role] if f["type"] == "number"]

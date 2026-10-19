@@ -44,3 +44,20 @@ def test_numeric_projection_batches_at_most_50_columns_and_merges_by_key():
     assert len(calls) == 2
     assert len(result["key"]["fields"]) == 82
     assert result["key"]["record_id"] == "rec1"
+
+
+@pytest.mark.parametrize("role,key", [("车身", "来源配置ID"), ("选装包", "明细ID")])
+def test_category_number_reads_use_configuration_or_detail_key(role, key):
+    def call(command, args):
+        columns = [args[i + 1] for i, arg in enumerate(args) if arg == "--field-id"]
+        assert columns[0] == key
+        return {
+            "rev": 1,
+            "record_id_list": ["rec1"],
+            "fields": columns,
+            "data": [["key", 5]],
+            "has_more": False,
+        }
+
+    client = SimpleNamespace(config={"tables": {role: "category"}}, call=call)
+    assert read_numbers(client, role, [{"id": "number"}])["key"]["fields"]["number"] == 5

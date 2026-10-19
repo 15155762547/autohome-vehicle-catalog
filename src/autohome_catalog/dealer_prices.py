@@ -52,10 +52,14 @@ def parse_quotes(payload, wanted):
     }
 
 
+def quote_table(config):
+    return config.get("category_tables", {}).get("基本参数", config["tables"]["trims"])
+
+
 def guard(config, command, args):
     if command in {"+record-list", "+field-list"}:
         return
-    if command == "+record-batch-update" and args == ["--table-id", config["tables"]["trims"]]:
+    if command == "+record-batch-update" and args == ["--table-id", quote_table(config)]:
         return
     raise ValueError(f"Outside dealer quote update: {command}")
 
@@ -65,7 +69,7 @@ def records(client):
     while True:
         args = [
             "--table-id",
-            client.config["tables"]["trims"],
+            quote_table(client.config),
             "--limit",
             "200",
             "--offset",
@@ -134,7 +138,7 @@ def run(config, root, apply=False):
     root.mkdir(parents=True, exist_ok=True)
     client = Client(config)
     client.config["_dealer_prices"] = True
-    tid = client.config["tables"]["trims"]
+    tid = quote_table(client.config)
     schema = client.call("+field-list", ["--table-id", tid])["fields"]
     if next(f for f in schema if f["name"] == QUOTE)["type"] != "text":
         raise ValueError("Dealer quote column must remain text")
