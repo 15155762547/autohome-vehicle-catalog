@@ -142,3 +142,92 @@ def test_transient_transport_retries_same_url_without_identity_change(tmp_path, 
     result = download(tmp_path, tmp_path, url)
     assert result["sha256"] == hashlib.sha256(body).hexdigest()
     assert calls == [url, url]
+
+
+def test_full_upload_flow_and_repeat_run_do_not_append(tmp_path, monkeypatch):
+    import json
+
+    from autohome_catalog.brochure_cover import run
+    from autohome_catalog.storage import save_json
+
+    config = tmp_path / "control" / "feishu.json"
+    config.parent.mkdir()
+    config.write_text(json.dumps({"tables": {"models": "models"}}))
+    root = tmp_path / "run"
+    root.mkdir()
+    blob = b"\x89PNG\r\n\x1a\nsample"
+    digest = hashlib.sha256(blob).hexdigest()
+    photo = tmp_path / "source.png"
+    photo.write_bytes(blob)
+    rows = [
+        {
+            "record_id": f"rec{i}",
+            "fields": {
+                "model_id": f"AUT-{i}-BEV",
+                "来源车系ID": str(i),
+                "车系名称": f"车{i}",
+                "车系图片URL": "https://car3.autoimg.cn/a.png",
+                "图片数": 15,
+            },
+        }
+        for i in range(1010)
+    ]
+    rows[0]["fields"][FIELD] = [
+        {"name": f"AUT-0-BEV-{digest[:12]}.png", "size": len(blob), "file_token": "old"}
+    ]
+    save_json(root / "models-before.json", rows)
+    current = deepcopy(rows)
+    uploads = []
+    visible = ["车系名称", "model_id"]
+
+    class FakeClient:
+        def __init__(self, path):
+            self.config = {"tables": {"models": "models"}}
+
+        def call(self, command, args, body=None):
+            assert isinstance(command, str), "CLI command must precede the argument list"
+            guard(self.config, command, args)
+            if command == "+record-list":
+                offset = int(args[args.index("--offset") + 1])
+                page = current[offset : offset + 200]
+                columns = ["model_id", "来源车系ID", "车系名称", "车系图片URL", "图片数", FIELD]
+                return {
+                    "rev": 1,
+                    "fields": columns,
+                    "record_id_list": [r["record_id"] for r in page],
+                    "data": [[r["fields"].get(c) for c in columns] for r in page],
+                    "has_more": offset + len(page) < len(current),
+                }
+            if command == "+field-list":
+                return {"fields": [{"id": "cover", "name": FIELD, "type": "attachment"}]}
+            if command == "+record-upload-attachment":
+                rid = args[args.index("--record-id") + 1]
+                path = config.parent / args[args.index("--file") + 1]
+                row = next(r for r in current if r["record_id"] == rid)
+                assert not row["fields"].get(FIELD)
+                row["fields"][FIELD] = [
+                    {"name": path.name, "size": path.stat().st_size, "file_token": "new"}
+                ]
+                uploads.append(rid)
+                return {}
+            if command == "+view-list":
+                return {"views": [{"id": "view"}]}
+            if command == "+view-get-visible-fields":
+                return {"visible_fields": list(visible)}
+            if command == "+view-set-visible-fields":
+                visible[:] = body["visible_fields"]
+                return {}
+            raise AssertionError(command)
+
+    monkeypatch.setattr("autohome_catalog.brochure_cover.Client", FakeClient)
+    monkeypatch.setattr(
+        "autohome_catalog.brochure_cover.download",
+        lambda *_: {"file": str(photo), "sha256": digest, "extension": ".png", "size": len(blob)},
+    )
+    first = run(config, root, ["AUT-0-BEV", "AUT-1-BEV"])
+    second = run(config, root, ["AUT-0-BEV", "AUT-1-BEV"])
+    assert first["uploaded"] == 1 and first["skipped"] == 1
+    assert second["uploaded"] == 0 and second["skipped"] == 2
+    assert uploads == ["rec1"]
+    assert visible == ["车系名称", FIELD, "model_id"]
+    assert all(r["fields"]["图片数"] == 15 for r in current)

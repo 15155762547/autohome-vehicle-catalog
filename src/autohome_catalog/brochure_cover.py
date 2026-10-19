@@ -213,6 +213,7 @@ def run(config, root, model_ids=(), roundtrip=False):
         if hashlib.sha256(local.read_bytes()).hexdigest() != receipt["sha256"]:
             raise ValueError("Cover file hash changed before upload")
         client.call(
+            "+record-upload-attachment",
             [
                 "--table-id",
                 tid,
