@@ -21,6 +21,7 @@ autohome-vehicle-catalog/
 │   └── autohome_catalog/
 │       ├── __init__.py  # Python包入口说明
 │       ├── base_utils.py  # 公共分页读取、限量写入、异步等待和回读校验
+│       ├── brochure_cover.py  # 每车型下载并上传一张代表封面、附件回读与断点续跑
 │       ├── category_tables.py  # 按汽车之家分类复制参数、验证关联及归档旧宽表
 │       ├── cli.py  # 采集、导出、写表和图片任务命令
 │       ├── color_sync.py  # 颜色明细备份、图库抽样、迁移、容量回退与关联核验
@@ -55,6 +56,7 @@ autohome-vehicle-catalog/
 │           └── single_select.py  # 历史布尔表恢复三态单选
 └── tests/
     ├── conftest.py  # 隔离测试用挂载盘，避免依赖个人环境
+    ├── test_brochure_cover.py  # 单张封面、图片签名、缓存哈希和原字段保护检查
     ├── test_category_tables.py  # 分类字段类型、数值格式及迁移写入边界检查
     ├── test_colors.py  # 颜色身份、价格、双拼、无资料、分页及迁移边界检查
     ├── test_dealer_prices.py  # 报价、正常无报价、异常响应和更新范围检查
@@ -80,7 +82,7 @@ autohome-vehicle-catalog/
 
 ## 当前工程做什么
 
-Python + Scrapy + Pydantic：采集汽车之家“找新能源”目录的在售及预售车系，按具体配置保存参数，保留源页面、时间和响应哈希。图片只保存原始URL，不下载图片文件或上传附件。
+Python + Scrapy + Pydantic：采集汽车之家“找新能源”目录的在售及预售车系，按具体配置保存参数，保留源页面、时间和响应哈希。图库保存原始URL；另按用户确认，把每车型一张列表封面下载并上传为brochure_cover附件，供飞书画廊或应用展示。
 
 分类布局：车型（models）→ 配置索引 → 28张参数分类表（27个源分类，颜色因单表容量限制分为外观、内饰两表）。2026-10-17目录快照为859在售＋38预售，共897个车系；按动力拆成1010个唯一model_id，共6586款具体配置。分类拆表复用已验收数据，不重新采集。数量是已验收快照，不是实时全站数量。
 
@@ -238,3 +240,19 @@ by_color_id = {row[payload["row_key"]]: row for row in payload["items"]}
 ```
 
 本轮源数据共27543项：14067项提供专属图库链接，13476项未提供。全部提供的URL通过结构与配置／部位身份核对，14个代表链接另做真实HTML页面身份抽样；其余不声称实测。基础色归类有7663项待核对，原厂色名与完整色值均保留，基础色空白不表示缺失源颜色。
+
+## 车型代表封面附件
+
+models的`brochure_cover`是附件类型，每个model_id恰好一张汽车之家车系列表封面，放在车系名称旁边。可供后续画廊或飞书应用选择为封面来源。原有多图JSON、图片数和所有配置关联保持原值；本任务不增加表或视图。
+
+封面按已有且已验收的列表URL下载，检查响应、文件签名、MIME和SHA256；同一URL只下载一次，不随机从多图里选内饰或局部图。封面用于车系展示，不能据此确认某年款、配置、动力或具体颜色。保留原水印和内容。
+
+```bash
+uv run python -m autohome_catalog.brochure_cover \
+  --config "$AUTOHOME_DATA_ROOT/control/feishu.json" \
+  --root "$AUTOHOME_DATA_ROOT/brochure-20261020" --roundtrip
+```
+
+可重复传`--model-id`先跑小样。每次只向空封面单元格上传一个附件；重跑对照文件名中的源图哈希、文件大小和token，已有匹配附件即跳过，不重复追加。发现不同附件则停止，不覆盖人工内容。401／403／429或验证页暂停源站请求，不更换身份绕过。
+
+上传使用飞书原生附件CLI，同表串行。下载缓存、附件下载回验、原表备份、运行JSON与Markdown验收报告都留在外接盘，不提交GitHub。文件缓存放在运行配置同级的`brochure-20261020-files/`目录，满足CLI相对路径要求。
