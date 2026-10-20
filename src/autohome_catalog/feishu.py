@@ -43,6 +43,23 @@ def assert_target(config):
 
 
 def assert_operation(config, command, args):
+    if config.get("_series_merge"):
+        from .series_merge import guard
+
+        return guard(config, command, args)
+    if config.get("model_grain") == "series" and any(
+        config.get(flag)
+        for flag in (
+            "_model_grain_operation",
+            "_categories",
+            "_image_merge",
+            "_image_operation",
+            "_colors",
+        )
+    ):
+        raise ValueError(
+            "Source-series layout is active; do not replay a powertrain-layout migration"
+        )
     if config.get("_brochure_cover"):
         from .brochure_cover import guard
 
@@ -368,6 +385,15 @@ class Client:
                 self.last_failure = {}
             raise RuntimeError(f"{command} failed; inspect {prefix.with_suffix('.response.json')}")
         envelope = json.loads(output)
+        if (
+            command == "+record-list"
+            and "ndjson" in args
+            and envelope.get("manifest_version") == "v1"
+            and envelope.get("format") == "ndjson"
+            and envelope.get("base_token") == self.config["base_token"]
+            and envelope.get("table_id") == args[args.index("--table-id") + 1]
+        ):
+            return envelope
         if envelope.get("ok") is not True or envelope.get("identity") != "user":
             raise ValueError(f"Unconfirmed user response: {command}")
         data = envelope.get("data", {})

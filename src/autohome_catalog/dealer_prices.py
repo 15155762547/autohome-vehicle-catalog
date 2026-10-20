@@ -75,7 +75,13 @@ def records(client):
             "--offset",
             str(offset),
         ]
-        for name in COLUMNS:
+        columns = [
+            "来源车系ID"
+            if name == "model_id" and client.config.get("model_grain") == "series"
+            else name
+            for name in COLUMNS
+        ]
+        for name in columns:
             args += ["--field-id", name]
         data = client.call("+record-list", args)
         if revision is not None and revision != data["rev"]:
@@ -193,7 +199,7 @@ def run(config, root, apply=False):
     for sid, row in current.items():
         old = before[sid]
         if row["record_id"] != old["record_id"] or any(
-            row["fields"].get(k) != old["fields"].get(k) for k in COLUMNS if k != QUOTE
+            row["fields"].get(k) != old["fields"].get(k) for k in old["fields"] if k != QUOTE
         ):
             raise ValueError("Configuration identity changed since backup")
         if sid not in quotes:
@@ -253,7 +259,7 @@ def run(config, root, apply=False):
     (root / "经销商报价交付说明.md").write_text(
         "# 经销商报价补采\n\n"
         + "\n".join(f"- {labels[k]}：{v}" for k, v in result.items())
-        + "\n\n统一北京地区，与单配置试采一致；价格是经销商起报价，不代表最终成交价。正常响应newsprice=0填暂无报价，失败及未处理保留原值。只更新经销商报价列；回读全部配置ID、记录ID、配置名称、model_id及报价，字段定义保持原样。原始响应、时间、地区及SHA256均在本目录保留。\n"
+        + "\n\n统一北京地区，与单配置试采一致；价格是经销商起报价，不代表最终成交价。正常响应newsprice=0填暂无报价，失败及未处理保留原值。只更新经销商报价列；回读全部配置ID、记录ID、配置名称、车型身份及报价，字段定义保持原样。原始响应、时间、地区及SHA256均在本目录保留。\n"
     )
     return result
 

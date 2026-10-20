@@ -231,3 +231,12 @@ def test_full_upload_flow_and_repeat_run_do_not_append(tmp_path, monkeypatch):
     assert uploads == ["rec1"]
     assert visible == ["车系名称", FIELD, "model_id"]
     assert all(r["fields"]["图片数"] == 15 for r in current)
+
+
+def test_series_identity_accepts_existing_cover_without_reuploading_or_accepting_other_series():
+    target = {"model_id": "1", "series_id": "1", "series_key": True}
+    receipt = {"sha256": "a" * 64, "extension": ".png", "size": 12}
+    old = {"name": "AUT-1-PHEV-aaaaaaaaaaaa.png", "size": 12, "file_token": "file"}
+    assert attachment_matches([old], target, receipt)
+    assert not attachment_matches([{**old, "name": "AUT-2-PHEV-aaaaaaaaaaaa.png"}], target, receipt)
+    assert not attachment_matches([{**old, "name": "AUT-1-PHEV-bbbbbbbbbbbb.png"}], target, receipt)

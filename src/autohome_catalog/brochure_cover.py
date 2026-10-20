@@ -46,9 +46,9 @@ def guard(config, command, args):
     raise ValueError(f"Outside model cover operation: {command}")
 
 
-def targets(rows):
+def targets(rows, key_field="model_id"):
     result = {}
-    for key, row in record_index(rows, "model_id").items():
+    for key, row in record_index(rows, key_field).items():
         urls = url_lines(row["fields"].get("车系图片URL"))
         if len(urls) != 1 or urlsplit(urls[0]).hostname not in HOSTS:
             raise ValueError(f"Missing or unapproved listing cover: {key}")
@@ -58,6 +58,7 @@ def targets(rows):
             "url": urls[0],
             "name": row["fields"]["车系名称"],
             "series_id": row["fields"]["来源车系ID"],
+            "series_key": key_field == "来源车系ID",
         }
     return result
 
@@ -137,8 +138,19 @@ def attachment_matches(items, target, receipt):
     if len(items or []) != 1:
         return False
     expected_name = target["model_id"] + "-" + receipt["sha256"][:12] + receipt["extension"]
+    name_matches = items[0].get("name") == expected_name
+    if target.get("series_key"):
+        # Existing covers retain their original filenames after parent consolidation.
+        name_matches = name_matches or bool(
+            re.fullmatch(
+                rf"AUT-{re.escape(str(target['series_id']))}-(BEV|PHEV|EREV|FCEV)-"
+                + receipt["sha256"][:12]
+                + re.escape(receipt["extension"]),
+                items[0].get("name", ""),
+            )
+        )
     return (
-        items[0].get("name") == expected_name
+        name_matches
         and items[0].get("size") == receipt["size"]
         and bool(items[0].get("file_token"))
     )
@@ -161,24 +173,25 @@ def run(config, root, model_ids=(), roundtrip=False):
     client = Client(config)
     client.config["_brochure_cover"] = True
     tid = client.config["tables"]["models"]
+    key_field = client.config.get("key_fields", {}).get("models", "model_id")
     cache = assert_external(config.parent / (root.name + "-files"))
     cache.mkdir(exist_ok=True)
     backup = root / "models-before.json"
     if not backup.exists():
-        save_json(backup, read_records(client, tid, "model_id"))
+        save_json(backup, read_records(client, tid, key_field))
         save_json(root / "fields-before.json", client.call("+field-list", ["--table-id", tid]))
         save_json(root / "views-before.json", client.call("+view-list", ["--table-id", tid]))
-    before = record_index(json.loads(backup.read_text()), "model_id")
-    wanted = targets(list(before.values()))
-    if len(wanted) != 1010:
-        raise ValueError("Expected the accepted 1010-model scope")
+    before = record_index(json.loads(backup.read_text()), key_field)
+    wanted = targets(list(before.values()), key_field)
+    if len(wanted) != client.config.get("expected_series_count", 1010):
+        raise ValueError("Expected the accepted model scope")
     selected = {k: wanted[k] for k in model_ids} if model_ids else wanted
     urls = list(dict.fromkeys(t["url"] for t in selected.values()))
     with ThreadPoolExecutor(max_workers=2) as executor:
         receipts = dict(
             zip(urls, executor.map(lambda url: download(root, cache, url), urls), strict=True)
         )
-    current = record_index(read_records(client, tid, "model_id"), "model_id")
+    current = record_index(read_records(client, tid, key_field), key_field)
     unchanged(before, current)
     fields = client.call("+field-list", ["--table-id", tid])["fields"]
     if not any(f["name"] == FIELD for f in fields):
@@ -188,7 +201,7 @@ def run(config, root, model_ids=(), roundtrip=False):
             {
                 "name": FIELD,
                 "type": "attachment",
-                "description": "每个model_id一张车型代表图，来自汽车之家车系列表封面，用于画廊或应用封面；不作为具体配置或年款细节的证据。",
+                "description": "每个车型一张代表图，来自汽车之家车系列表封面，用于画廊或应用封面；不作为具体配置或年款细节的证据。",
             },
         )
         fields = settled_fields(client, tid, lambda fs: any(f["name"] == FIELD for f in fs))
@@ -242,7 +255,7 @@ def run(config, root, model_ids=(), roundtrip=False):
             ),
             flush=True,
         )
-    after = record_index(read_records(client, tid, "model_id"), "model_id")
+    after = record_index(read_records(client, tid, key_field), key_field)
     unchanged(before, after)
     for key, target in selected.items():
         if not attachment_matches(after[key]["fields"].get(FIELD), target, receipts[target["url"]]):
@@ -303,7 +316,7 @@ def run(config, root, model_ids=(), roundtrip=False):
         save_json(config, current_config)
         (root / "车型封面验收.md").write_text(
             "# 车型代表图验收\n\n"
-            f"- 车型1010行；每行brochure_cover附件恰好1张，全部回读核对名称、大小及file_token。\n"
+            f"- 车型{len(after)}行；每行brochure_cover附件恰好1张，全部回读核对名称、大小及file_token。\n"
             f"- 使用汽车之家列表封面，复用{len(urls)}个源URL；下载检查HTTP状态、图片类型、文件签名与SHA256。\n"
             "- 原图片URL清单、图片数、车型身份、配置关联及其他原值均保持不变。\n"
             "- 封面字段位于车系名称之后；未增加表或视图。\n"
@@ -317,7 +330,7 @@ def main():
     parser = argparse.ArgumentParser(description="每个model_id保存一张brochure_cover图片附件")
     parser.add_argument("--config", type=Path, required=True)
     parser.add_argument("--root", type=Path, required=True)
-    parser.add_argument("--model-id", action="append", default=[])
+    parser.add_argument("--model-id", "--series-id", action="append", default=[])
     parser.add_argument("--roundtrip", action="store_true")
     args = parser.parse_args()
     print(

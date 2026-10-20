@@ -364,9 +364,45 @@ def test_current_image_and_multiselect_imports_do_not_load_legacy_modules():
     import sys
 
     subprocess.run(
-        [sys.executable, "-c",
-         "import sys; import autohome_catalog.image_sync; "
-         "import autohome_catalog.historical_images; import autohome_catalog.multi_select; "
-         "assert not any(n.startswith('autohome_catalog.legacy') for n in sys.modules)"],
-        check=True, capture_output=True, text=True,
+        [
+            sys.executable,
+            "-c",
+            "import sys; import autohome_catalog.image_sync; "
+            "import autohome_catalog.historical_images; import autohome_catalog.multi_select; "
+            "assert not any(n.startswith('autohome_catalog.legacy') for n in sys.modules)",
+        ],
+        check=True,
+        capture_output=True,
+        text=True,
     )
+
+
+def test_native_ndjson_manifest_is_accepted_only_for_the_requested_base_and_table(
+    tmp_path, monkeypatch
+):
+    import json
+    from types import SimpleNamespace
+
+    from autohome_catalog.feishu import Client
+
+    path = tmp_path / "config.json"
+    path.write_text(json.dumps(config()))
+    client = Client(path)
+    manifest = {"manifest_version": "v1", "format": "ndjson", "base_token": "lab", "table_id": "t"}
+    monkeypatch.setattr(
+        "autohome_catalog.feishu.subprocess.run",
+        lambda *a, **k: SimpleNamespace(returncode=0, stdout=json.dumps(manifest)),
+    )
+    args = ["--table-id", "t", "--format", "ndjson"]
+    assert client.call("+record-list", args) == manifest
+    manifest["table_id"] = "other"
+    with pytest.raises(ValueError, match="Unconfirmed"):
+        client.call("+record-list", args)
+
+
+def test_series_layout_refuses_replaying_old_powertrain_migrations():
+    from autohome_catalog.feishu import assert_operation
+
+    c = config() | {"model_grain": "series", "_image_merge": True}
+    with pytest.raises(ValueError, match="Source-series"):
+        assert_operation(c, "+field-create", ["--table-id", "m"])
