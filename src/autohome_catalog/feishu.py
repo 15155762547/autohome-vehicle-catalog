@@ -43,6 +43,10 @@ def assert_target(config):
 
 
 def assert_operation(config, command, args):
+    if config.get("_append_series"):
+        from .append_series import guard
+
+        return guard(config, command, args)
     if config.get("_series_merge"):
         from .series_merge import guard
 

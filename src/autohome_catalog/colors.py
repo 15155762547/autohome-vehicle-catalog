@@ -130,7 +130,8 @@ def compile_colors(source, index):
     for spec, row in source.items():
         fields, parent = row["fields"], index[spec]
         pf = parent["fields"]
-        for name in ["车型全称", "model_id", *RIGHT]:
+        model_key = "来源车系ID" if "来源车系ID" in pf else "model_id"
+        for name in ["车型全称", model_key, *RIGHT]:
             if fields.get(name) != pf.get(name):
                 raise ValueError(f"Parent identity differs: {spec}/{name}")
         if fields.get("对应配置") != [{"id": parent["record_id"]}]:
@@ -155,7 +156,7 @@ def compile_colors(source, index):
                 values = {
                     "颜色项目": f"{side}｜{item.name}",
                     "车型全称": pf["车型全称"],
-                    "model_id": pf["model_id"],
+                    model_key: pf[model_key],
                     "部位": [side],
                     "基础色": labels,
                     "单色／双拼": ["双拼" if "/" in item.value else "单色"],

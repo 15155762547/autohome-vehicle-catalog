@@ -366,3 +366,15 @@ def test_gallery_redirect_does_not_follow_another_identity():
     for target in ["https://evil.test", "https://car.autohome.com.cn/pic/spec-1-3.html"]:
         with pytest.raises(ValueError, match="outside exact"):
             GalleryRedirect().redirect_request(request, None, 302, "redirect", {}, target)
+
+
+def test_series_layout_uses_source_series_id_without_restoring_powertrain_id():
+    src, index = source([item()])
+    for row in [src["1"], index["1"]]:
+        row["fields"].pop("model_id")
+        row["fields"]["来源车系ID"] = "8757"
+    out, _, _ = compile_colors(src, index)
+    assert all(f["来源车系ID"] == "8757" and "model_id" not in f for f in out.values())
+    src["1"]["fields"]["来源车系ID"] = "other"
+    with pytest.raises(ValueError, match="identity"):
+        compile_colors(src, index)
